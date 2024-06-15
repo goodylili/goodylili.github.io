@@ -1,7 +1,7 @@
 name = "archie-zola"
-description = "A zola theme based on Hugo archie."
+description = "Goodnessuc Personal Blog"
 license = "MIT"
-homepage = "https://github.com/XXXMrG/archie-zola"
+homepage = "https://goodnessuc.github.io"
 # The minimum version of Zola required
 min_version = "0.14.0"
 # An optional live demo URL
@@ -15,8 +15,8 @@ demo = "https://archie-zola.netlify.app/"
 
 # The theme author info: you!
 [author]
-name = "Keith"
-homepage = "https://github.com/XXXMrG"
+name = "Goodnessuc"
+homepage = "https://goodnessuc.github.io"
 
 # If this is porting a theme from another static site engine, provide
 # the info of the original author here
