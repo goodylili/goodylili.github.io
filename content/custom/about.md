@@ -1,6 +1,6 @@
 +++
 title = "About"
-date = "2022-05-12"
+date = "2024-06-15"
 path = "about"
 +++
 
