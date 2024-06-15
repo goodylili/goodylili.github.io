@@ -1,17 +1,32 @@
 +++
-title = "About"
-date = "2024-06-15"
+title = "Who Is Goodnessuc?"
+date = "2024-05-08"
 path = "about"
 +++
 
-## Zola at a Glance
 
-Zola is a static site generator (SSG), similar to [Hugo](https://gohugo.io/), [Pelican](https://blog.getpelican.com/), and [Jekyll](https://jekyllrb.com/) (for a comprehensive list of SSGs, please see [Jamstack](https://jamstack.org/generators)). It is written in [Rust](https://www.rust-lang.org/) and uses the [Tera](https://tera.netlify.com/) template engine, which is similar to [Jinja2](https://jinja.palletsprojects.com/en/2.10.x/), [Django templates](https://docs.djangoproject.com/en/2.2/topics/templates/), [Liquid](https://shopify.github.io/liquid/), and [Twig](https://twig.symfony.com/). Content is written in [CommonMark](https://commonmark.org/), a strongly defined, highly compatible specification of [Markdown](https://www.markdownguide.org/).
+Hey, I'm Ukeje Goodness. I'm interested in:
 
-SSGs use dynamic templates to transform content into static HTML pages. Static sites are thus very fast and require no databases, making them easy to host. A comparison between static and dynamic sites, such as WordPress, Drupal, and Django, can be found [here](https://dev.to/ashenmaster/static-vs-dynamic-sites-61f).
+- Software Engineering (Go, Rust, Python, ...)
+- Blockchain Engineering (Ethereum, Cosmos SDK, Move)
+- DevOps Engineering (AWS, GCP)
+- Systems Programming (Dev tooling, Cloud SDKs)
+- Technical Writing
+- Others
+    - Finance and Economics
+    - Game Theory and Probability
+    - Graphic Designs
 
-To get a taste of Zola, please see the quick overview below.
+I'm currently rounding up a Bachelor's in Mechanical Engineering.
 
-## First Steps with Zola
+# Contact & Socials
 
-Unlike some SSGs, Zola makes no assumptions regarding the structure of your site. In this overview, we'll be making a simple blog site.
+Twitter: [@goodylili](https://twitter.com/goodylili) <br />
+Github: [@goodnessuc](https://github.com/goodnessuc) <br />
+Discord: [@goodnessuc](https://discord.gg/goodnessuc) <br />
+Linkedin: [@goodnessuc](https://linkedin.com/in/goodnessuc) <br />
+Youtube: [@goodnessuc](https://youtube.com/@goodnessuc) <br />
+Linktree: [@goodnessuc](https://linktr.ee/goodnessuc) <br />
+
+I always enjoy a good conversation, so feel free to contact me
+or [schedule a meeting anytime](https://calendly.com/goodnessuc) :).
