@@ -1,21 +1,4 @@
-+++
-title = "Debugging Your Go Apps"
-date = "2023-11-21"
-author = "Ukeje Goodness"
-description = "Discover debugging in Go: identifying bugs, tools, best practices, and using Delve and GoLand for effective debugging."
-
-[taxonomies]
-tags = ["Golang", "Framework", "Debugging", "Development", "Technical", "Self-help"]
-+++
-
----
-
-
-
-
-_**[Semaphore](https://semaphoreci.com/blog/debugging-go) made this piece possible. They help product teams deliver software
-with high standards of quality, security, and efficiency.**_
-
+# Debugging Your Go Applications
 
 
 
@@ -37,7 +20,7 @@ Here are some of the common bugs you’ll find in Go applications:
 - Goroutine synchronization issues are concurrency bugs that arise when goroutines aren’t properly synchronized, leading to race conditions, deadlocks, or incorrect data sharing.
 - Resource leaks are caused by a failure to release resources like a database connection or file handles. These problems can cause memory or file descriptor leaks, impacting app performance and scalability.
 - Type conversion errors happen due
-  incorrect type conversios and can introduce subtle bugs, such as data loss or unexpected behavior due to incompatible types.
+incorrect type conversios and can introduce subtle bugs, such as data loss or unexpected behavior due to incompatible types.
 
 Consequentially, here are some strategies for identifying and reproducing bugs in your programs
 
@@ -50,7 +33,7 @@ Consequentially, here are some strategies for identifying and reproducing bugs i
 
 ### Tips for Utilizing Logging and Error Handling for Identifying Bugs
 
-**Logging** is a process of recording information about the execution of a program, including the values of the variables, the sequence of execution, and the time of the events.
+**Logging** is a process of recording information about the execution of a program, including the values of the variables, the sequence of execution, and the time of the events. 
 
 **Error handling** is the process of responding to errors during program execution.
 
@@ -71,21 +54,21 @@ By following these tips, you should be able to identify the bugs in your Go proj
 
 The sequence of actions you take while developing your app is crucial for maintaining high-quality applications.
 
-Here are some best practices you’ll want to have in mind and follow during your app’s development process to get rid of unnecessary bugs
+Here are some best practices you’ll want to have in mind and follow during your app’s development process to get rid of unnecessary bugs 
 
 ### Write Testable Code
 
 Writing testable code forms the foundation for effective debugging. By designing your app with testability in mind, it’s easier to identify and isolate issues.
 
-Embrace unit testing and strive for comprehensive code coverage. Well-designed tests act as a safety net, enabling you to catch errors early on and debug efficiently.
+Embrace unit testing and strive for comprehensive code coverage. Well-designed tests act as a safety net, enabling you to catch errors early on and debug efficiently. 
 
 You can use tools like Go’s built-in testing package or third-party packages like [Testify](https://semaphoreci.com/blog/testify-go) to automate the testing process and ensure codebase stability.
 
 ### Use Panic and Recovery Mechanisms
 
-Go’s panic and recovery mechanisms are potent error handling and debugging tools. You can use panics to abruptly cease program execution and recovery to regain control and handle a panic gracefully.
+Go’s panic and recovery mechanisms are potent error handling and debugging tools. You can use panics to abruptly cease program execution and recovery to regain control and handle a panic gracefully. 
 
-By strategically incorporating panic and recovery in your code, you can capture critical error scenarios, log relevant information and handle failures gracefully.
+By strategically incorporating panic and recovery in your code, you can capture critical error scenarios, log relevant information and handle failures gracefully. 
 Use panic when anticipating unrecoverable errors and recovery from panics to prevent program termination.
 
 Here’s a program that illustrates the usage of panic and recovery:
@@ -130,7 +113,7 @@ The `recoverFromPanic` function uses the `recover` function to catch and handle 
 
 The `performDivision` function demonstrates the usage of a panic. If the second argument `b` is zero, it triggers a panic by calling the `panic` function. Otherwise, the `performDivision` function performs the division operation and. prints the result.
 
-You call the `performDivision` function thrice with different arguments in the main function. The second call triggers a panic due to an error that’s eventually recovered from with the `recoverFromPanic` function.
+You call the `performDivision` function thrice with different arguments in the main function. The second call triggers a panic due to an error that’s eventually recovered from with the `recoverFromPanic` function. 
 
 The program demonstrates how you can use panic and recovery to handle exceptional situations gracefully in Go programs.
 
@@ -140,12 +123,12 @@ Debugging in a controlled environment is essential before deploying your app to 
 
 ## Golang Debugging Tools
 
-<img src="/imgs/the delve logo.png" alt="the delve logo">
+<img src="the delve logo.png" alt="the delve logo">
 
-Go ships with several built-in tools that facilitate efficient debugging, and there are third-party packages for debugging in Go’s ecosystem that provide insight into code execution, help identify issues and optimize performance.
+Go ships with several built-in tools that facilitate efficient debugging, and there are third-party packages for debugging in Go’s ecosystem that provide insight into code execution, help identify issues and optimize performance. 
 One popular Go debugger is Delve. [Delve](https://github.com/go-delve/delve) is a powerful tool that you can use to step through code, set breakpoints, and inspect variables at runtime.
 
-Delve is cross-platform since it provides both CLI and IDE functionality for debugging.
+Delve is cross-platform since it provides both CLI and IDE functionality for debugging. 
 
 Run this command in the terminal of your project’s working directory to install Delve.
 
@@ -222,7 +205,7 @@ You can print the value of the variable with the `print` command followed by the
 (dlv) p x
 ```
 
-Delve will display the value of `x` in the debug console.
+Delve will display the value of `x` in the debug console. 
 
 You can step through the code with the following command with `n` to execute the next line of code and trace the program execution.
 
@@ -240,7 +223,7 @@ Another efficient measure of debugging your Go code is profiling. Profiling allo
 
 Go provides a built-in profiling tool called `pprof` for collecting and analyzing profiling data.
 
-Here's how you can start a profiler on a file creation operation:
+Here's how you can start a profiler on a file creation operation:  
 
 ```go
 
@@ -276,13 +259,13 @@ go tool pprof cpu_profile.prof
 ```
 
 You’ll replace **`<profile-file>`** with the path to the profile snapshot file generated by the program.
-
+	
 
 
 Here's the result of running the command for the program above:
 
 
-<img src="/imgs/profiler.jpg" alt="Profiler Command Output">
+<img src="profiler.jpg" alt="Profiler Command Output">
 
 
 
@@ -294,27 +277,27 @@ By analyzing the profiling data, you can identify performance bottlenecks in you
 
 [GoLand](https://www.jetbrains.com/go/), the integrated development environment (IDE) developed by Jetbrains for Go, offers robust debugging tools for enhancing the debugging process and streamlining development workflows.
 
-With GoLand, you get intelligent code completion, code inspection, and error highlighting, ensuring you write clean and error-free code. The IDE also includes powerful refactoring tools that enable you to restructure your code without introducing bugs.
+With GoLand, you get intelligent code completion, code inspection, and error highlighting, ensuring you write clean and error-free code. The IDE also includes powerful refactoring tools that enable you to restructure your code without introducing bugs. 
 
 
 
-GoLand provides a feature-rich debugger that lets you step through your code, inspect variables, set breakpoints, and more.
+GoLand provides a feature-rich debugger that lets you step through your code, inspect variables, set breakpoints, and more. 
 
 You can easily set breakpoints in the GoLand IDE by clicking on the left-hand gutter next to the line where you want to set a breakpoint. The red dot specifies that you’ve set a break-point.
 
 You can set breakpoints on any line of code with GoLand:
 
-<img src="/imgs/setting breakpoints with Goland.png" alt="setting breakpoints with Goland">
+<img src="setting breakpoints with Goland.png" alt="setting breakpoints with Goland">
 
 After setting a breakpoint, you can start the debugger by clicking the green `Debug` button in the toolbar or the keyboard shortcut for debugging on your operating system. Running the debugger will pause the code execution at the first breakpoint it encounters.
 
-<img src="/imgs/Debugging With Goland.png" alt="Debugging With Goland">
+<img src="Debugging With Goland.png" alt="Debugging With Goland">
 
 Once the program pauses at a breakpoint, you can step through the code to understand its flow and identify issues. GoLand provides multiple options for stepping through code.
 
 Here’s an overview of the commands and their description:
 
-<img src="/imgs/GoLand Debugger Console.png" alt="GoLand Debugger Console">
+<img src="GoLand Debugger Console.png" alt="GoLand Debugger Console">
 
 | Command | Description |
 | --- | --- |
@@ -325,7 +308,7 @@ Here’s an overview of the commands and their description:
 
 Inspecting variables and expressions to understand their dynamics is crucial during your debugging process. GoLand’s debugger provides a Variables view that displays variables' current state, allowing you to examine their values. You can also add expressions to the Watches view to track specific variables.
 
-<img src="/imgs/GoLand debuggers view.png" alt="GoLand debuggers view">
+<img src="GoLand debuggers view.png" alt="GoLand debuggers view">
 
 You can also access built-in tools for error analysis and code navigation.
 
@@ -345,7 +328,7 @@ Here are some of the features and techniques you can use to leverage these tools
 These are just a few examples of the error analysis and code navigation tools available in GoLand. The IDE offers many more features and shortcuts to enhance your coding experience. You can explore the documentation and experiment with the different functionalities to find the ones that best suit your workflow.
 
 
-GoLand is a paid product; however, it is free for students and academic purposes. You can start a free 30-day trial and get a license.
+GoLand is a paid product; however, it is free for students and academic purposes. You can start a free 30-day trial and get a license. 
 
 
 You can also resort to use the Delve extension for VSCode for a wholesome, free development experience.
@@ -355,4 +338,3 @@ You can also resort to use the Delve extension for VSCode for a wholesome, free 
 You’ve learned about debugging in Go, how to identify bugs, debugging tools, best practices for debugging, and how you can debug your Go programs with Delve and GoLand.
 
 Debugging is an essential part of the software development cycle, so ensure you debug your apps before pushing them to production.
-

@@ -14,7 +14,7 @@ _**[LogRocket](logrocket.com) made this piece possible. They provide AI-first se
 you what's wrong.**_
 
 
-![Pavex-Rust](../public/imgs/pavex.png)
+![Pavex-Rust](/imgs/pavex.png)
 
 There are many web frameworks available for developers to choose from — including more than ten popular web frameworks
 in the Rust ecosystem. Each Rust framework is opinionated, following the principles and practices of several developers
@@ -100,7 +100,7 @@ pavex new pavex-tutorial && cd pavex-tutorial
 
 Open the new Pavex project in your code environment of choice. You should see a folder structure similar to this:
 
-![Pavex-Directory](../public/imgs/pavex_dir.png)
+![Pavex-Directory](/imgs/pavex_dir.png)
 
 You can proceed to execute a demo Pavex project with this command:
 
@@ -111,7 +111,7 @@ cargo px run
 
 On executing the command, you should get this as output as the server runs on the default port `8080`:
 
-![Pavex-example](../public/imgs/pavex_example.png)
+![Pavex-example](/imgs/pavex_example.png)
 
 You can send a cURL request to the ping the server like so:
 
@@ -122,7 +122,7 @@ curl -v <http://localhost:8000/api/ping>
 
 Here’s the output you should expect:
 
-![Pavex-output](../public/imgs/pavex_output.png)
+![Pavex-output](/imgs/pavex_output.png)
 
 
 You need to understand how a Pavex project works to build with the framework. At the core of every Pavex project is

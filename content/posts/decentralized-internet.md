@@ -10,7 +10,7 @@ tags = ["web3", "opinion editorial", "crypto", "futuristic"]
 
 ---
 
-![Decentralized Heaven.](../public/imgs/d1.png)
+![Decentralized Heaven.](/imgs/d1.png)
 
 
 Existential crisis, internal strife, self-destruction, whatever you choose to call it, the upshot is that the decentralized web (Web 3.0) is poised to take on mature responsibilities in its infancy.
@@ -27,7 +27,7 @@ In this publication, I overview the web3.0 chaos and significant transformations
 
 ## Interoperability: The Architectural Chaos
 
-![Interoperability](../public/imgs/interop.png)
+![Interoperability](/imgs/interop.png)
 
 > [The future will be multi-chain, but it will not be cross-chain: there are fundamental limits to the security of bridges that hop across multiple "zones of sovereignty"](https://twitter.com/VitalikButerin/status/1479501366192132099?ref_src=twsrc%5Etfw) - Vitalik Buterin.
 >
@@ -54,7 +54,7 @@ Numerous blockchain projects embrace interoperability, such as the Octopus netwo
 
 ## Open-source: The Structural Chaos
 
-![OpenSource](../public/imgs/opensource.png)
+![OpenSource](/imgs/opensource.png)
 
 > [If you're treating the built-on-open-source-contributors global blockchain as something you pay gas fees to, you don't fully understand the network of code AND people you are involved with](https://fission.codes/blog/a-new-open-source-deal-for-web3/#:~:text=If%20you%27re%20treating%20the%20built%2Don%2Dopen%2Dsource%2Dcontributors%20global%20blockchain%20as%20something%20you%20just%20pay%20gas%20fees%20to%2C%20you%20don%27t%20fully%20understand%20the%20network%20of%20code%20AND%20people%20you%20are%20involved%20with.) - fission.
 >
@@ -73,7 +73,7 @@ Open source projects should also be governed in a decentralized fashion employin
 
 ## Economics & Incentives: The Financial Chaos
 
-![Finance](../public/imgs/finance.png)
+![Finance](/imgs/finance.png)
 
 > [I wrote it once before; I’ll repeat it here. In crypto, you vote with your money. If you keep voting for low energy scams, rich quick schemes, or low effort forks, you will only get more of those](https://andrecronje.medium.com/not-so-smart-contracts-8c9ab4368d21#:~:text=In%20crypto%2C%20you%20vote%20with%20your%20money.%20If%20you%20keep%20voting%20for%20low%20energy%20scams%2C%20get%20rich%20quick%20schemes%2C%20or%20low%20effort%20forks%2C%20you%20will%20only%20get%20more%20of%20those) - Andre Cronje.
 >
@@ -90,7 +90,7 @@ Also, the token economy would be more potent if regulated, especially by the gov
 
 ## The After Rant
 
-![reaction.gif](../public/imgs/reaction.gif)
+![reaction.gif](/imgs/reaction.gif)
 
 The current state of the decentralized web isn't appealing. It seems like a temporary hype or the latest scam. However, the same was acclaimed in the early days of the internet; in essence,  maybe web3.0 needs time.
 
