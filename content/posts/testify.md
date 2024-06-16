@@ -22,7 +22,7 @@ Testify is a popular testing toolkit for Go that provides a set of utilities and
 
 ## Getting Started With the Testify Package
 
-<img src="/imgs/testify github stats preview.jpeg" alt="testify github stats preview">
+<img src="/screenshot/testify github stats preview.jpeg" alt="testify github stats preview">
 
 
 Getting started with the `testify` package is easy. You’ll need to install the package in your Go project and write the tests in your Go test files.
@@ -120,7 +120,7 @@ Similarly, the `TestMyFunction2` test function calls the  `MyFunction` and uses 
 
 Both test functions should pass since the `MyFunction` function returns the same result as the edge case in both scenarios.
 
-<img src="/imgs/result of assertions with Testify.png" alt="result of assertions with Testify">
+<img src="/screenshot/result of assertions with Testify.png" alt="result of assertions with Testify">
 
 
 ## **Mocks with Testify**
@@ -182,7 +182,7 @@ The **`assert.Equal`** function verifies that the **`actualArea`** variable equa
 
 Finally, the function calls the **`AssertExpectations`** method of the mock object to verify that the test made the expected function call during the test. If the function wasn’t called with the expected input values, the test fails.
 
-<img src="/imgs/result of mocking with testify.png" alt="result of mocking with testify">
+<img src="/screenshot/result of mocking with testify.png" alt="result of mocking with testify">
 
 ## Test Suites with Testify
 
@@ -241,7 +241,7 @@ func TestMySuite(t *testing.T) {
 
 The `run` function takes in the testing instance and an instance of the test suite struct and runs the methods that implement the struct.
 
-<img src="/imgs/result of test suites with testify.jpg" alt="result of test suites with testify">
+<img src="/screenshot/result of test suites with testify.jpg" alt="result of test suites with testify">
 
 ## Test Hooks With Testify
 
