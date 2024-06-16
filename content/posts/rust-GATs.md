@@ -158,7 +158,7 @@ before removing the elements from the vector.
 
 Here’s the output from running the program:
 
-![Rust-gats-output](/imgs/Rust-gats-output.png)
+![Rust-gats-output](public/imgs/Rust-gats-output.png)
 
 ## Enabling more efficient code generation
 

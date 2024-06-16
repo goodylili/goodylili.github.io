@@ -10,7 +10,7 @@ tags = ["web3", "opinion editorial", "crypto", "futuristic"]
 
 ---
 
-![Decentralized Heaven.](/imgs/d1.png)
+![Decentralized Heaven.](public/imgs/d1.png)
 
 
 Existential crisis, internal strife, self-destruction, whatever you choose to call it, the upshot is that the decentralized web (Web 3.0) is poised to take on mature responsibilities in its infancy.
@@ -27,7 +27,7 @@ In this publication, I overview the web3.0 chaos and significant transformations
 
 ## Interoperability: The Architectural Chaos
 
-![Interoperability](/imgs/interop.png)
+![Interoperability](public/imgs/interop.png)
 
 > [The future will be multi-chain, but it will not be cross-chain: there are fundamental limits to the security of bridges that hop across multiple "zones of sovereignty"](https://twitter.com/VitalikButerin/status/1479501366192132099?ref_src=twsrc%5Etfw) - Vitalik Buterin.
 >
@@ -54,7 +54,7 @@ Numerous blockchain projects embrace interoperability, such as the Octopus netwo
 
 ## Open-source: The Structural Chaos
 
-![OpenSource](/imgs/opensource.png)
+![OpenSource](public/imgs/opensource.png)
 
 > [If you're treating the built-on-open-source-contributors global blockchain as something you pay gas fees to, you don't fully understand the network of code AND people you are involved with](https://fission.codes/blog/a-new-open-source-deal-for-web3/#:~:text=If%20you%27re%20treating%20the%20built%2Don%2Dopen%2Dsource%2Dcontributors%20global%20blockchain%20as%20something%20you%20just%20pay%20gas%20fees%20to%2C%20you%20don%27t%20fully%20understand%20the%20network%20of%20code%20AND%20people%20you%20are%20involved%20with.) - fission.
 >
@@ -90,7 +90,7 @@ Also, the token economy would be more potent if regulated, especially by the gov
 
 ## The After Rant
 
-![reaction.gif](/imgs/reaction.gif)
+![reaction.gif](public/imgs/reaction.gif)
 
 The current state of the decentralized web isn't appealing. It seems like a temporary hype or the latest scam. However, the same was acclaimed in the early days of the internet; in essence,  maybe web3.0 needs time.
 
