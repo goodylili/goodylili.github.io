@@ -19,7 +19,7 @@ you what's wrong.**_
 
 Generic associated types in Rust can help us address some of the language’s limitations and improve performance.
 
-![Rust-GATs](/imgs/Rust-Generic-Associated-Types.png)
+![Rust-GATs](public/imgs/Rust-Generic-Associated-Types.png)
 
 Before GATs, Rust had associated types that enabled type association with traits. However, these were not directly tied
 to the generic parameters of the implementing type. GATs enhance this concept by allowing associated types to depend on
