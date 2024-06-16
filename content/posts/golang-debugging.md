@@ -140,7 +140,7 @@ Debugging in a controlled environment is essential before deploying your app to 
 
 ## Golang Debugging Tools
 
-<img src="public/imgs/the delve logo.png" alt="the delve logo">
+<img src="../public/imgs/the delve logo.png" alt="the delve logo">
 
 Go ships with several built-in tools that facilitate efficient debugging, and there are third-party packages for debugging in Go’s ecosystem that provide insight into code execution, help identify issues and optimize performance.
 One popular Go debugger is Delve. [Delve](https://github.com/go-delve/delve) is a powerful tool that you can use to step through code, set breakpoints, and inspect variables at runtime.
@@ -282,7 +282,7 @@ You’ll replace **`<profile-file>`** with the path to the profile snapshot file
 Here's the result of running the command for the program above:
 
 
-<img src="public/imgs/profiler.jpg" alt="Profiler Command Output">
+<img src="../public/imgs/profiler.jpg" alt="Profiler Command Output">
 
 
 
@@ -304,17 +304,17 @@ You can easily set breakpoints in the GoLand IDE by clicking on the left-hand gu
 
 You can set breakpoints on any line of code with GoLand:
 
-<img src="public/imgs/setting breakpoints with Goland.png" alt="setting breakpoints with Goland">
+<img src="../public/imgs/setting breakpoints with Goland.png" alt="setting breakpoints with Goland">
 
 After setting a breakpoint, you can start the debugger by clicking the green `Debug` button in the toolbar or the keyboard shortcut for debugging on your operating system. Running the debugger will pause the code execution at the first breakpoint it encounters.
 
-<img src="public/imgs/Debugging With Goland.png" alt="Debugging With Goland">
+<img src="../public/imgs/Debugging With Goland.png" alt="Debugging With Goland">
 
 Once the program pauses at a breakpoint, you can step through the code to understand its flow and identify issues. GoLand provides multiple options for stepping through code.
 
 Here’s an overview of the commands and their description:
 
-<img src="public/imgs/GoLand Debugger Console.png" alt="GoLand Debugger Console">
+<img src="../public/imgs/GoLand Debugger Console.png" alt="GoLand Debugger Console">
 
 | Command | Description |
 | --- | --- |
@@ -325,7 +325,7 @@ Here’s an overview of the commands and their description:
 
 Inspecting variables and expressions to understand their dynamics is crucial during your debugging process. GoLand’s debugger provides a Variables view that displays variables' current state, allowing you to examine their values. You can also add expressions to the Watches view to track specific variables.
 
-<img src="public/imgs/GoLand debuggers view.png" alt="GoLand debuggers view">
+<img src="../public/imgs/GoLand debuggers view.png" alt="GoLand debuggers view">
 
 You can also access built-in tools for error analysis and code navigation.
 
