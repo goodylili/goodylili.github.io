@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Web Development in Rust with Pavex
+            
+        </title>
+
+        
+            <meta property="og:title" content="Web Development in Rust with Pavex" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="The Pavex Rust web framework is an exciting project that provides high performance, great usability, and speed." />
+        
+    
+
+    
+        
+            <meta name="description" content="The Pavex Rust web framework is an exciting project that provides high performance, great usability, and speed." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodnessuc.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodnessuc.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodnessuc.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodnessuc.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodnessuc.github.io>Goodnessuc</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodnessuc.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Web Development in Rust with Pavex</h1>
+            <div class="meta">
+                
+                on  2024-05-10
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><em><strong><a href="//goodnessuc.github.io/posts/pavex/logrocket.com">LogRocket</a> made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.</strong></em></p>
+<p><img src="/imgs/pavex.png" alt="Pavex-Rust" /></p>
+<p>There are many web frameworks available for developers to choose from — including more than ten popular web frameworks
+in the Rust ecosystem. Each Rust framework is opinionated, following the principles and practices of several developers
+to optimize and ensure they follow great web development methods.</p>
+<p>In 2022, Luca Palmieri set out to build the Pavex Rust framework with the aim of achieving great ergonomics, high
+performance, great usability, and speed on top of the popular Hyper framework. Today, Pavex is in beta and ready to use
+with these features all coming into play, plus more features like better error messages.</p>
+<h2 id="what-is-pavex">What is Pavex?</h2>
+<p>Pavex is a new and upcoming Rust framework designed to expand the horizon for Rust web development. It aims to do so by
+offering a more abstract, ergonomic, and performant development experience.</p>
+<p>The Pavex web framework for Rust ensures compile-time safety and better error messaging reducing the learning curve
+associated with handling compile-time errors and framework overhead. Its architecture is focused on minimizing
+user-facing content to provide a clean API and developer-friendly approach.</p>
+<h2 id="getting-started-with-pavex">Getting started with Pavex</h2>
+<p>Since Pavex is Rust-based, you’ll need the Rust toolchain (Rustup and Cargo specifically). Head on to the Rust
+installation page to install if you don’t have Rust.</p>
+<p>You’ll also need to have <code>cargo-px</code> and a <code>cargo</code>  subcommand. You can install <code>cargo-px</code> with the directives from its
+documentation page.</p>
+<p>You’d need to have all these tools available in your <code>PATH</code>, so ensure you do that while installing. You can run this
+command to verify your installation.</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>rustup --version &amp;&amp; \\
+</span><span>cargo --version &amp;&amp; \\
+</span><span>cargo px --version
+</span></code></pre>
+<p>Next, you need to install Rust’s <code>nightly</code> toolchain. You can add it to your toolchain with this command:</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>rustup toolchain install nightly
+</span><span>
+</span></code></pre>
+<p>After installing <code>nightly</code>, add the <code>rust-docs-json</code> component to the build:</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>rustup component add --toolchain nightly rust-docs-json
+</span><span>
+</span></code></pre>
+<p>Finally, you need to install and activate the Pavex CLI tool. Execute this command to install Pavex:</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span># shell
+</span><span>curl --proto &#39;=https&#39; --tlsv1.2 -LsSf &lt;https://pavex.dev/releases/download/latest/pavex_cli-installer.sh&gt; | sh
+</span><span> 
+</span><span># powershell
+</span><span>irm &lt;https://pavex.dev/releases/download/latest/pavex_cli-installer.ps1&gt; | iex
+</span></code></pre>
+<p>You can execute this command to verify the installation:</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>pavex --version
+</span><span>
+</span></code></pre>
+<p>Pavex is in beta, so you need to activate Pavex with an activation key:</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>pavex self activate
+</span><span>
+</span></code></pre>
+<p>You can retrieve an activation from the Pavex Discord server’s <code>#activation</code> channel after you’ve joined the beta on
+Pavex.dev.</p>
+<p>Enter the activation key, and then you can proceed to create a new Pavex project with this command:</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>pavex new pavex-tutorial &amp;&amp; cd pavex-tutorial
+</span><span>
+</span></code></pre>
+<p>Open the new Pavex project in your code environment of choice. You should see a folder structure similar to this:</p>
+<p><img src="/imgs/pavex_dir.png" alt="Pavex-Directory" /></p>
+<p>You can proceed to execute a demo Pavex project with this command:</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>cargo px run
+</span><span>
+</span></code></pre>
+<p>On executing the command, you should get this as output as the server runs on the default port <code>8080</code>:</p>
+<p><img src="/imgs/pavex_example.png" alt="Pavex-example" /></p>
+<p>You can send a cURL request to the ping the server like so:</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>curl -v &lt;http://localhost:8000/api/ping&gt;
+</span><span>
+</span></code></pre>
+<p>Here’s the output you should expect:</p>
+<p><img src="/imgs/pavex_output.png" alt="Pavex-output" /></p>
+<p>You need to understand how a Pavex project works to build with the framework. At the core of every Pavex project is
+the <code>Blueprint</code> type. You’ll use the <code>Blueprint</code> type to define routes, middleware, error handlers and other functions.</p>
+<p>Check the <code>pavex_tutorial/src/blueprint.rs</code> file for the <code>Blueprint</code> of your <code>pavex_tutorial</code> project. Here’s what you
+should expect to see:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">blueprint</span><span>() -&gt; Blueprint { 
+</span><span>    </span><span style="color:#a626a4;">let mut</span><span> bp </span><span style="color:#a626a4;">= </span><span>Blueprint::new();
+</span><span>    ApiKit::new().</span><span style="color:#0184bc;">register</span><span>(</span><span style="color:#a626a4;">&amp;mut</span><span> bp);
+</span><span>
+</span><span>    </span><span style="color:#0184bc;">add_telemetry_middleware</span><span>(</span><span style="color:#a626a4;">&amp;mut</span><span> bp);
+</span><span>    bp
+</span><span>}
+</span></code></pre>
+<p>The <code>blueprint</code> function contains all the routes, constructors and error handlers. Pavex requires the <code>blueprint</code>
+function to run.</p>
+<h2 id="creating-your-first-pavex-route">Creating your first Pavex route</h2>
+<p>Routing with Pavex is simple and intuitive compared to many other Rust web frameworks.
+You’ll register routes, middleware, etc, in the <code>register</code> function after writing the handler functions like this:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a0a1a7;">//routes/mod.rs
+</span><span>
+</span><span style="color:#a626a4;">pub mod </span><span>status;
+</span><span>
+</span><span style="color:#a626a4;">pub mod </span><span>hello;
+</span><span>
+</span><span style="color:#a626a4;">use </span><span>pavex::blueprint::{router::</span><span style="color:#c18401;">GET</span><span>, Blueprint};
+</span><span style="color:#a626a4;">use </span><span>pavex::f;
+</span><span>
+</span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">register</span><span>(</span><span style="color:#e45649;">bp</span><span>: </span><span style="color:#a626a4;">&amp;mut</span><span> Blueprint) {
+</span><span>    bp.</span><span style="color:#0184bc;">route</span><span>(</span><span style="color:#c18401;">GET</span><span>, </span><span style="color:#50a14f;">&quot;/api/ping&quot;</span><span>, f!(</span><span style="color:#e45649;">self</span><span>::status::ping));
+</span><span>    bp.</span><span style="color:#0184bc;">route</span><span>(</span><span style="color:#c18401;">GET</span><span>, </span><span style="color:#50a14f;">&quot;/api/hello/:name&quot;</span><span>, f!(</span><span style="color:#e45649;">self</span><span>::hello::hello));
+</span><span>}
+</span></code></pre>
+<p>Above, we registered the GET request handler function named <code>hello</code> with the <code>/api/hello/:name</code> route. Then, here’s how
+you can extract and use path parameters with Pavex:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a0a1a7;">// routes/hello.rs
+</span><span>
+</span><span style="color:#a626a4;">use </span><span>pavex::request::path::PathParams;
+</span><span style="color:#a626a4;">use </span><span>pavex::response::Response;
+</span><span>
+</span><span>#[</span><span style="color:#e45649;">PathParams</span><span>]
+</span><span style="color:#a626a4;">pub struct </span><span>HelloParameters {
+</span><span>    </span><span style="color:#a626a4;">pub </span><span style="color:#e45649;">name</span><span>: String,
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">hello</span><span>(</span><span style="color:#e45649;">params</span><span>: PathParams&lt;HelloParameters&gt;) -&gt; Response {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> HelloParameters { name } </span><span style="color:#a626a4;">=</span><span> params.</span><span style="color:#c18401;">0</span><span>;
+</span><span>    Response::ok()
+</span><span>        .</span><span style="color:#0184bc;">set_typed_body</span><span>(format!(</span><span style="color:#50a14f;">&quot;Hello, </span><span style="color:#c18401;">{name}</span><span style="color:#50a14f;">!&quot;</span><span>))
+</span><span>}
+</span></code></pre>
+<p>You can use a struct to model the objects you’re expecting from a request. The <code>HelloParameters</code> struct is the struct
+for the <code>name</code> parameter from the request. The <code>hello</code> function retrieves the path parameter and writes a string with
+the path parameter to the client as a response.</p>
+<h2 id="handling-request-data-with-pavex">Handling request data with Pavex</h2>
+<p>Handling request data of all sorts with Pavex is also very intuitive. You can use the <code>serde</code> and <code>serde_json</code> crates
+with Pavex for JSON operations. Pavex also provides a <code>JsonBody</code> function for parsing the body of an incoming request as
+JSON.</p>
+<p>Here’s the full list of imports you’ll need to handle request JSON request data:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">use </span><span>pavex::http::{StatusCode, HeaderValue};
+</span><span style="color:#a626a4;">use </span><span>pavex::request::body::JsonBody;
+</span><span style="color:#a626a4;">use </span><span>pavex::response::Response;
+</span><span style="color:#a626a4;">use </span><span>serde::{Serialize, Deserialize};
+</span><span style="color:#a626a4;">use </span><span>serde_json::to_string;
+</span></code></pre>
+<p>Next, here’s a <code>User</code> struct for the JSON operation. The <code>#[derive(Serialize, Deserialize)]</code> macro adds serialization
+and deserialization functionality via the <code>serde</code> crate:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#[</span><span style="color:#e45649;">derive</span><span>(Serialize, Deserialize)]
+</span><span style="color:#a626a4;">pub struct </span><span>User {
+</span><span>    </span><span style="color:#a626a4;">pub </span><span style="color:#e45649;">id</span><span>: </span><span style="color:#a626a4;">u32</span><span>,
+</span><span>    </span><span style="color:#a626a4;">pub </span><span style="color:#e45649;">name</span><span>: String,
+</span><span>    </span><span style="color:#a626a4;">pub </span><span style="color:#e45649;">email</span><span>: String,
+</span><span>}
+</span></code></pre>
+<p>Then, here’s how you can deserialize a JSON payload into the <code>User</code> struct:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span> </span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">create_user</span><span>(</span><span style="color:#e45649;">body</span><span>: JsonBody&lt;User&gt;) -&gt; Response {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> user </span><span style="color:#a626a4;">=</span><span> body.</span><span style="color:#c18401;">0</span><span>; </span><span style="color:#a0a1a7;">// Deserialization happens here
+</span><span>    </span><span style="color:#a626a4;">let</span><span> saved_user </span><span style="color:#a626a4;">=</span><span> User { id: </span><span style="color:#c18401;">1</span><span>, </span><span style="color:#a626a4;">..</span><span>user };
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// other actions 
+</span><span>}
+</span></code></pre>
+<p>The <code>create_user</code> function is a request handler that handles POST requests for creating a new user. It accepts
+JSON-encoded data from the request body and deserializes it to retrieve the data in a struct-like manner.
+Pavex’s <code>JsonBody&lt;T&gt;</code> extractor deserializes the JSON from the request body.</p>
+<p>Here’s how you can register the <code>create_user</code> handler function in the <code>register</code> function.</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">register</span><span>(</span><span style="color:#e45649;">bp</span><span>: </span><span style="color:#a626a4;">&amp;mut</span><span> Blueprint) {
+</span><span>    bp.</span><span style="color:#0184bc;">route</span><span>(</span><span style="color:#c18401;">POST</span><span>, </span><span style="color:#50a14f;">&quot;/api/users&quot;</span><span>, f!(</span><span style="color:#e45649;">self</span><span>::json::create_user));
+</span><span>}
+</span></code></pre>
+<p>The <code>create_user</code> function’s functionality is now accessible via the <code>/api/users</code> route, and you can make requests to
+it.</p>
+<h2 id="responding-to-requests">Responding to requests</h2>
+<p>You can respond to client requests using Pavex’s <code>Response</code> object. Here’s how you can implement a GET request handler
+function:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">use </span><span>pavex::response::Response;
+</span><span>
+</span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">get_user</span><span>() -&gt; Response {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> user </span><span style="color:#a626a4;">=</span><span> User {
+</span><span>        id: </span><span style="color:#c18401;">1</span><span>,
+</span><span>        name: </span><span style="color:#50a14f;">&quot;Jane Doe&quot;</span><span>.</span><span style="color:#0184bc;">to_string</span><span>(),
+</span><span>        email: </span><span style="color:#50a14f;">&quot;jane.doe@example.com&quot;</span><span>.</span><span style="color:#0184bc;">to_string</span><span>(),
+</span><span>    };
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Serialize the user struct to a JSON string
+</span><span>    </span><span style="color:#a626a4;">match </span><span style="color:#0184bc;">to_string</span><span>(</span><span style="color:#a626a4;">&amp;</span><span>user) {
+</span><span>        Ok(json) </span><span style="color:#a626a4;">=&gt;</span><span> json,
+</span><span>        Err(</span><span style="color:#a626a4;">_</span><span>) </span><span style="color:#a626a4;">=&gt; return </span><span>Response::new(StatusCode::</span><span style="color:#c18401;">INTERNAL_SERVER_ERROR</span><span>),
+</span><span>    };
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">let mut</span><span> response </span><span style="color:#a626a4;">= </span><span>Response::new(StatusCode::</span><span style="color:#c18401;">OK</span><span>);
+</span><span>    response.</span><span style="color:#0184bc;">headers_mut</span><span>().</span><span style="color:#0184bc;">insert</span><span>(</span><span style="color:#50a14f;">&quot;Content-Type&quot;</span><span>, HeaderValue::from_static(</span><span style="color:#50a14f;">&quot;application/json&quot;</span><span>));
+</span><span>    response.</span><span style="color:#0184bc;">body</span><span>();
+</span><span>    response
+</span><span>}
+</span><span>
+</span><span>
+</span></code></pre>
+<p>The <code>get_user</code> function creates a <code>User</code> struct instance, serializes the struct to a JSON string and handles associated
+errors. Then, it sets the response content type to <code>application/json</code> and writes the serialized struct as a response to
+the client.</p>
+<h2 id="using-middlewares-with-pavex">Using middlewares with Pavex</h2>
+<p>Pavex middleware simplify adding pre- and post-processing steps to your handler functions.
+Here’s an example of how you can use middleware in your Pavex projects:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a0a1a7;">// src/middleware.rs
+</span><span>
+</span><span style="color:#a626a4;">use </span><span>pavex::middleware::Next;
+</span><span style="color:#a626a4;">use </span><span>pavex::response::Response;
+</span><span style="color:#a626a4;">use </span><span>std::future::IntoFuture;
+</span><span>
+</span><span style="color:#a626a4;">pub</span><span> async </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">logging_middleware</span><span>&lt;C&gt;(</span><span style="color:#e45649;">next</span><span>: Next&lt;C&gt;) -&gt; Response
+</span><span>    </span><span style="color:#a626a4;">where
+</span><span>        C: IntoFuture&lt;Output=Response&gt;,
+</span><span>{
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Before handling the request&quot;</span><span>);
+</span><span>    </span><span style="color:#a626a4;">let</span><span> response </span><span style="color:#a626a4;">=</span><span> next.await;
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;After handling the request&quot;</span><span>);
+</span><span>    response
+</span><span>}
+</span><span>
+</span><span>
+</span></code></pre>
+<p>The <code>logging_middleware</code> function uses the <code>Next</code> objects to help with proceeding with the request flow. The function
+logs a message before and after execution of the next handler function in the chain.</p>
+<p>Here’s an example of how you can register the middleware in the <code>register</code> function:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a0a1a7;">// routes/mod.rs
+</span><span>
+</span><span style="color:#a626a4;">pub mod </span><span>status;
+</span><span style="color:#a626a4;">pub mod </span><span>hello;
+</span><span style="color:#a626a4;">pub mod </span><span>json;
+</span><span style="color:#a626a4;">pub mod </span><span>middleware;
+</span><span>
+</span><span style="color:#a626a4;">use </span><span>pavex::blueprint::{router::</span><span style="color:#c18401;">GET</span><span>, Blueprint};
+</span><span style="color:#a626a4;">use </span><span>pavex::blueprint::router::</span><span style="color:#c18401;">POST</span><span>;
+</span><span style="color:#a626a4;">use </span><span>pavex::f;
+</span><span>
+</span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">register</span><span>(</span><span style="color:#e45649;">bp</span><span>: </span><span style="color:#a626a4;">&amp;mut</span><span> Blueprint) {
+</span><span>    bp.</span><span style="color:#0184bc;">wrap</span><span>(f!(</span><span style="color:#e45649;">self</span><span>::middleware::logging_middleware));
+</span><span>    bp.</span><span style="color:#0184bc;">route</span><span>(</span><span style="color:#c18401;">GET</span><span>, </span><span style="color:#50a14f;">&quot;/api/ping&quot;</span><span>, f!(</span><span style="color:#e45649;">self</span><span>::status::ping));
+</span><span>    bp.</span><span style="color:#0184bc;">route</span><span>(</span><span style="color:#c18401;">GET</span><span>, </span><span style="color:#50a14f;">&quot;/api/hello/:name&quot;</span><span>, f!(</span><span style="color:#e45649;">self</span><span>::hello::hello));
+</span><span>    bp.</span><span style="color:#0184bc;">route</span><span>(</span><span style="color:#c18401;">POST</span><span>, </span><span style="color:#50a14f;">&quot;/api/users&quot;</span><span>, f!(</span><span style="color:#e45649;">self</span><span>::json::create_user));
+</span><span>    bp.</span><span style="color:#0184bc;">route</span><span>(</span><span style="color:#c18401;">GET</span><span>, </span><span style="color:#50a14f;">&quot;/api/users/:id&quot;</span><span>, f!(</span><span style="color:#e45649;">self</span><span>::json::get_user));
+</span><span>}
+</span></code></pre>
+<p>The <code>wrap</code> function register a wrapping middleware. The <code>logging_middleware</code> function now wraps the handler functions
+you’ve specified.</p>
+<h2 id="comparing-pavex-to-existing-rust-frameworks">Comparing Pavex to existing Rust frameworks</h2>
+<p>Although it’s new, we’ve seen that Pavex provides most of the features you’ll need in a Rust web framework, including
+async/await support, middleware, concurrency, and much more.</p>
+<p>Pavex is an exciting framework with better documentation, error handling, and semantics than other popular existing web
+frameworks for Rust. It’s designed for building small- to enterprise-grade applications without trade-offs.</p>
+<p>Here’s how Pavex currently compares to the Actix Web, Rocket, Axum, and warp Rust web frameworks:</p>
+<table><thead><tr><th>Features</th><th>Pavex</th><th>Actix</th><th>Rocket</th><th>Axum</th><th>warp</th></tr></thead><tbody>
+<tr><td>Async/await support</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Middleware</td><td>Extensive support with built-in middleware and support for custom middleware</td><td>Extensive, with support for custom middleware</td><td>Built-in support for various middleware functionalities</td><td>Utilizes the tower ecosystem for middleware</td><td>Uses filters for middleware-like functionality</td></tr>
+<tr><td>WebSockets support</td><td>No</td><td>Comprehensive support</td><td>Supported with specific syntax and features</td><td>Supported, and integrated with async programming model</td><td>Supported, designed for asynchronous communication</td></tr>
+<tr><td>Concurrency &amp; Performance</td><td>Built on Tokio, optimized for async execution</td><td>High performance, designed for concurrency</td><td>Performance-focused, with specific features for concurrency</td><td>Built on Tokio, optimized for async execution</td><td>Leverages async execution for performance</td></tr>
+<tr><td>Cookie and session management</td><td>Not yet</td><td>Full-featured support</td><td>Comprehensive handling capabilities</td><td>Through extractors and middleware</td><td>Via filters and custom implementations</td></tr>
+<tr><td>Community and ecosystem</td><td>Few beta testers at the moment</td><td>Large, with extensive resources</td><td>Well-established, with comprehensive documentation</td><td>Growing benefits from Tokio ecosystem</td><td>Active part of the Tokio ecosystem</td></tr>
+</tbody></table>
+<p>Choosing a Rust web framework should be based on your project’s specifications and needs. You can use this comparison
+table as a guide to choose a framework after evaluating the project’s specifications.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Pavex is still very new (in closed beta), and before the project is open to the public, you can expect that more
+features will roll out. However, keep in mind that it’s not meant to be an open source framework — Palmieri intends to
+add a usage price to the project, although the pricing plan is not yet finalized.</p>
+<p>In this article, we learned about the Pavex framework and how you can use it for Rust web development. Pavex is an
+exciting project for many Rust devs especially in terms of the fact that it improves on the functionality of many
+existing frameworks. It has great development experience — you should try it out when it’s live.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodnessuc.github.io/tags/rust/>Rust</a></li>
+                        
+                            <li><a href=//goodnessuc.github.io/tags/web-development/>Web development</a></li>
+                        
+                            <li><a href=//goodnessuc.github.io/tags/framework/>Framework</a></li>
+                        
+                            <li><a href=//goodnessuc.github.io/tags/technical/>Technical</a></li>
+                        
+                            <li><a href=//goodnessuc.github.io/tags/apis/>APIs</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodnessuc&#x2F; title=GitHub>
+            <i data-feather=github></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;x.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=mailto:ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;goodnessuc&#x2F; title=LinkedIn>
+            <i data-feather=LinkedIn></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2024 © goodnessuc 😇 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>
