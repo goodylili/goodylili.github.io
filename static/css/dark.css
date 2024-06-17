@@ -1,6 +1,6 @@
 body {
     color: white;
-    background-color: #202124;
+    background-color: rgba(0, 0, 0, 0.96);
 }
 
 ::-moz-selection {
@@ -27,7 +27,7 @@ code {
 }
 
 pre {
-    background-color: #272822;
+    background-color: #000000;
     line-height: 1.4;
     overflow-x: auto;
     padding: 1em;
