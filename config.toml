@@ -3,7 +3,7 @@ base_url = "//goodnessuc.github.io"
 
 # The site title and description; used in feeds by default.
 title = "Goodnessuc"
-description = "Highlights of Personal Blogs, Papers and Project Demos from [GitHub](https://github.com/goodnessuc/)"
+description = "Highlights of Personal Blogs, Papers and Project Demos from [GitHub](https://github.com/goodnessuc/)."
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
