@@ -1,5 +1,5 @@
 +++
-title = "Who Is Goodnessuc?"
+title = "Who Is goodylili?"
 date = "2024-05-08"
 path = "about"
 +++
@@ -22,11 +22,11 @@ I'm currently rounding up a Bachelor's in Mechanical Engineering.
 # Contact & Socials
 
 Twitter: [@goodylili](https://twitter.com/goodylili) <br />
-Github: [@goodnessuc](https://github.com/goodnessuc) <br />
-Discord: [@goodnessuc](https://discord.gg/goodnessuc) <br />
-Linkedin: [@goodnessuc](https://linkedin.com/in/goodnessuc) <br />
-Youtube: [@goodnessuc](https://youtube.com/@goodnessuc) <br />
-Linktree: [@goodnessuc](https://linktr.ee/goodnessuc) <br />
+Github: [@goodylili](https://github.com/goodylili) <br />
+Discord: [@goodylili](https://discord.gg/goodylili) <br />
+Linkedin: [@goodylili](https://linkedin.com/in/goodylili) <br />
+Youtube: [@goodylili](https://youtube.com/@goodylili) <br />
+Linktree: [@goodylili](https://linktr.ee/goodylili) <br />
 
 I always enjoy a good conversation, so feel free to contact me
-or [schedule a meeting anytime](https://calendly.com/goodnessuc) :).
+or [schedule a meeting anytime](https://calendly.com/goodylili) :).
