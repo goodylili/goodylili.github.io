@@ -1,9 +1,9 @@
 # The URL the site will be built for
-base_url = "//goodnessuc.github.io"
+base_url = "//goodylili.github.io"
 
 # The site title and description; used in feeds by default.
-title = "Goodnessuc"
-description = "Highlights of Personal Blogs, Papers and Project Demos from [GitHub](https://github.com/goodnessuc/)."
+title = "goodylili"
+description = "Highlights of Personal Blogs, Papers and Project Demos from [GitHub](https://github.com/goodylili/)."
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -32,7 +32,7 @@ useCDN = false
 
 favicon = "/icon/favicon.png"
 
-copyright = "goodnessuc 😇"
+copyright = "goodylili 😇"
 
 [extra.translations]
 languages = [{name = "en", url = "/"}]
@@ -56,7 +56,7 @@ menus = [
 [[extra.social]]
 icon = "github"
 name = "GitHub"
-url = "https://github.com/goodnessuc/"
+url = "https://github.com/goodylili/"
 
 [[extra.social]]
 icon = "twitter"
@@ -71,4 +71,4 @@ url = "mailto:ukejegoodness599@gmail.com"
 [[extra.social]]
 icon = "LinkedIn"
 name = "LinkedIn"
-url = "https://www.linkedin.com/in/goodnessuc/"
+url = "https://www.linkedin.com/in/goodylili/"
