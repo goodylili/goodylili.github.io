@@ -42,33 +42,39 @@ Imagine the early stages of Go project setup. Typically, you’d have to create 
 
 To use `gonew`, you’ll need Go installed on your device. After installing Go, you can initialize your project like so:
 
-
+```go
     go mod init
+```
 
 You’ll need to set your `$GOPATH` environment variable, which Go uses to identify the desired path to your workspace.  Here’s how you can set your `$``GOPATH` on UNIX-based systems:
 
-
-    export GOPATH=$HOME/path_to_your_workspace
+```go
+export GOPATH=$HOME/path_to_your_workspace
+```
 
 Then, you can install `gonew` with a simple `go install` command. Run this command to install the `gonew` command line tool:
 
+```go
+go install golang.org/x/tools/cmd/gonew@latest
+```
 
-    go install golang.org/x/tools/cmd/gonew@latest
-## Getting started with `g``onew`
+## Getting started with `gonew`
 
-After installing `g``onew`, you can use and access the `gonew` command. You can use this command to create a new module like so:
+After installing `gonew`, you can use and access the `gonew` command. You can use this command to create a new module like so:
 
-
-    gonew [options] srcmod dstmod
+```go
+gonew [options] srcmod dstmod
+```
 
 The `srcmod` argument specifies the path to the template module you want to copy. The `dstmod` argument is the path of the new module you’re creating.
 
 For example, you can use the `gonew` command to create a new module named `myproject` by copying the template module `golang.org/x/example/helloserver`:
 
+```go
+ gonew golang.org/x/example/helloserver myproject
+```
 
-    gonew golang.org/x/example/helloserver myproject
-
-`g``onew` supports additional options that you can use to customize processes. These include:
+`gonew` supports additional options that you can use to customize processes. These include:
 
 
 - `dir` specifies the directory where the new module will be created. If this option is not specified, the new module will be created in the current directory
@@ -76,8 +82,9 @@ For example, you can use the `gonew` command to create a new module named `mypro
 
 See an example of these in action below:
 
-    
-    gonew -dir /my/projects/dir -v golang.org/x/example/helloserver myproject
+```go
+gonew -dir /my/projects/dir -v golang.org/x/example/helloserver myproject
+```
 
 This updated command will create a new Go module named `myproject` in the directory `/my/projects/dir`. The `-v` option will print more information about creating the new module.
 
@@ -114,15 +121,15 @@ Go has built-in functionality for dependency management. However, `gonew` takes 
 There are many benefits of using `gonew` to streamline Go application development. For example, you can use `gonew` to:
 
 
-- **Sav****e** ******t****ime**: Creating a new Go project from scratch can be time-consuming, especially if you must manually create all the necessary files and directories. `gonew` can automate this process so that you can get started on your code faster
-- **Creat****e** **a** **c****onsistent** **p****roject** **s****tructure**: `gonew` creates projects with a consistent structure. This can make your code easier to maintain and understand, especially for large or complex projects
-- **Provid****e** **a** **s****tarting** **p****oint for** **custom c****ode and** **f****eatures:** `gonew` creates projects with empty files, which means you can add your code and features without worrying about overwriting existing code. This gives you a blank slate that you can customize further as needed
+- **Save time**: Creating a new Go project from scratch can be time-consuming, especially if you must manually create all the necessary files and directories. `gonew` can automate this process so that you can get started on your code faster
+- **Create a consistent project structure**: `gonew` creates projects with a consistent structure. This can make your code easier to maintain and understand, especially for large or complex projects
+- **Provide a starting point for custom code and features:** `gonew` creates projects with empty files, which means you can add your code and features without worrying about overwriting existing code. This gives you a blank slate that you can customize further as needed
 
 Automating these aspects of Go project setup with `gonew` allows you to focus less on configuration and more on coding. This can enhance productivity while still ensuring your project follows best practices from the very beginning.
 
 ## Typical use cases for `gonew`
 
-`g``onew` is handy for both new and experienced Go developers. 
+`gonew` is handy for both new and experienced Go developers. 
 
 [Frontend developers just getting started with Go](https://blog.logrocket.com/getting-started-with-go-for-frontend-developers/) can enjoy a simplified setup process that saves time by automating the creation of necessary files and structures. This also provides a great way to learn about structuring Go projects. 
 
@@ -133,10 +140,10 @@ For more complex projects, features like tailored templates and integrated depen
 Some typical use cases for `gonew` include:
 
 
-- **C****ommand-line** **a****pps**: [C](https://blog.logrocket.com/using-cobra-build-cli-accounting-app/)[reat](https://blog.logrocket.com/using-cobra-build-cli-accounting-app/)[ing a](https://blog.logrocket.com/using-cobra-build-cli-accounting-app/) [command-line application](https://blog.logrocket.com/using-cobra-build-cli-accounting-app/) is a great way to get started with Go development
-- **W****eb** **a****pps**: You can use `gonew` to [create a simple web application](https://blog.logrocket.com/build-web-app-go-copper/) quickly
-- **N****ew** **l****ibraries**: Using `gonew` to create new libraries for other Go apps is a great way to interoperate your code with other necessary functionalities
-- **T****est** **s****uites**: You can use `gonew` to [create test suites for your application](https://blog.logrocket.com/a-deep-dive-into-unit-testing-in-go/) to ensure your code's quality
+- **Command-line apps**: [C](https://blog.logrocket.com/using-cobra-build-cli-accounting-app/)[reat](https://blog.logrocket.com/using-cobra-build-cli-accounting-app/)[ing a](https://blog.logrocket.com/using-cobra-build-cli-accounting-app/) [command-line application](https://blog.logrocket.com/using-cobra-build-cli-accounting-app/) is a great way to get started with Go development
+- **Web apps**: You can use `gonew` to [create a simple web application](https://blog.logrocket.com/build-web-app-go-copper/) quickly
+- **New libraries**: Using `gonew` to create new libraries for other Go apps is a great way to interoperate your code with other necessary functionalities
+- **Test suites**: You can use `gonew` to [create test suites for your application](https://blog.logrocket.com/a-deep-dive-into-unit-testing-in-go/) to ensure your code's quality
 
 No matter what kind of Go application you want to develop, Go can help you establish a well-organized foundation and write quality code throughout your whole project.
 
@@ -147,10 +154,10 @@ No matter what kind of Go application you want to develop, Go can help you estab
 Here’s a list of potential improvements that could benefit Go developers using `gonew`:
 
 
-- **Allow** **c****ustom** **p****roject** **s****tructure****s****:** Currently, `gonew` creates projects with a fixed structure. This limitation can impede users who want to customize the structure to their project specifications
-- **Support** **m****ore features:** Gonew only supports a few sets of features. It would be helpful if `gonew` supported more features, such as unit testing, continuous integration, and deployment
+- **Allow custom project structures:** Currently, `gonew` creates projects with a fixed structure. This limitation can impede users who want to customize the structure to their project specifications
+- **Support more features:** Gonew only supports a few sets of features. It would be helpful if `gonew` supported more features, such as unit testing, continuous integration, and deployment
 
-You can contribute to `g``onew` by proposing your ideas for functionalities you want to see and use.
+You can contribute to `gonew` by proposing your ideas for functionalities you want to see and use.
 
 ## Conclusion
 

@@ -1,3 +1,19 @@
+
++++
+title = "Plotting Rust Projects using Plotly"
+date = "2023-04-26"
+author = "Ukeje Goodness"
+description = "Create customizable charts and graphs in your Rust project using the Plotly package for data-intensive projects."
+[taxonomies]
+tags = ["Rust", "development", "Tools", "Technical", "data"]
++++
+---
+
+_**[LogRocket](logrocket.com) made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.**_
+
+
+
 # Plotting Rust projects using Plotly
 [Plotly](https://igiagkiozis.github.io/plotly/content/plotly_rs.html) is a powerful data visualization tool that you can use to create stunning graphs, charts, and other visualizations for your Rust projects. Plotly is an open source package built on the popular [Plotly.js](https://plotly.com/javascript/) library that provides a high-level interface for creating interactive plots.
 
@@ -74,7 +90,7 @@ Here’s the resulting graph when you run the program:
 
 With Plotly, you can create a variety of plot types, from line charts to scatter plots and bar charts.
 
-**Plotting** **l****ine** **c****harts** **w****ith Plotly**
+**Plotting line charts with Plotly**
 You’ll need the `Plot`, `Scatter`, and `Title` modules to plot a line chart with Plotly. Here’s how to plot a line chart with two vectors holding the X and Y values:
 
 
@@ -111,7 +127,7 @@ The `set_layout` method customizes the plot layout, and the `show` method render
 ![](/static/img/pixel.gif)
 
 
-**Plotting** **s****catter** **p****lots** **w****ith Plotly**
+**Plotting scatter plots with Plotly**
 
 Creating a scatter plot with Plotly is similar to creating a line chart. You’ll need to define the data, create a scatter trace, create a plot layout, and add the trace to the plot layout:
 
@@ -153,7 +169,7 @@ The `layout` variable is an instance of the plot layout, and the `title`, `x_axi
 ![](https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679854117715_image.png)
 
 
-**Plotting** **b****ar** **c****harts** **w****ith Plotly**
+**Plotting bar charts with Plotly**
 You’ll need the `Bar` module to plot bar charts with Plotly. You’ll start by defining data for the bar chart and creating a bar trace before creating the plot layout and adding the `trace` layout:
 
 
@@ -197,7 +213,7 @@ Customizing plots allows you to create visualizations that effectively communica
 
 In the follow sections, we’ll cover a few of the many customizations you can make to your Plotly plots.
 
-**Adjusting** **p****lot** **t****itles,** **a****xis** **l****abels, and** **l****egends**
+**Adjusting plot titles, axis labels, and legends**
 The titles, axis labels, and legends of your plot are essential to propagating information in your visualizations.
 
 Here’s how you can add plot titles, axis labels, and legends to a line chart with Plotly:
@@ -237,7 +253,7 @@ When running the function, you’ll see the axis, legend, and plot all labeled a
 
 
 
-**Changing** **c****olors and** **l****ine** **s****tyles**
+**Changing colors and line styles**
 Colors add variance and spice to plots. Plotly provides [many colors](https://docs.rs/plotly/0.6.0/plotly/common/color/enum.NamedColor.html) and line styles for customizing your plots. You’ll need the `NamedColor` module to work with colors in Plotly.
 
 Here’s how to create a scatter plot with two traces and specify colors with Plotly:
@@ -276,7 +292,7 @@ You can use `DashType` to specify a dash type line style for your plot. The firs
 ![User-uploaded image: Untitled+5.png](https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679853270160_Untitled+5.png)
 
 
-**Adding** **a****nnotations and** **s****hapes**
+**Adding annotations and shapes**
 You can create shapes with Plotly for extra customization on your plots. The process of adding annotations and shapes is similar; you just need to specify the coordinates.
 
 Here’s how you can add annotations to your plots:

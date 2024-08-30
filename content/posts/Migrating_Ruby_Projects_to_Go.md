@@ -1,3 +1,21 @@
++++
+title = "Migrating Ruby projects to Go"
+date = "2023-08-03"
+author = "Ukeje Goodness"
+description = "Migrate your Ruby projects to Go to leverage Go’s powerful features and unlock significant improvements in performance and scalability."
+[taxonomies]
+tags = ["Go", "Ruby", "beginner", "Technical", "guides"]
++++
+---
+
+_**[LogRocket](logrocket.com) made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.**_
+
+
+
+
+
+
 # Migrating Ruby Projects to Go
 Ruby is a dynamic, interpreted language popular for its expressiveness and developer-friendly syntax. However, it may not be the best choice regarding performance and scalability. As your Ruby project grows in complexity and workload size, you may encounter performance bottlenecks and other limitations.
 

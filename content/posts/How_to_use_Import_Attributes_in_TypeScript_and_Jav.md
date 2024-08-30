@@ -197,10 +197,10 @@ Furthermore, while import attributes do provide some security improvements to yo
 You may also encounter some of these pitfalls while working with `import` attributes:
 
 
-- **Error** **f****inding** **m****odule**: This is where TypeScript cannot find the module, either because it doesn’t exist or is incorrectly specified
-- **Error** **f****rom** **i****mporting** **t****ype as** **v****alue**: This may lead to runtime errors
-- **Duplicate** **i****dentifier** **e****rror**: This is where two imported modules export items with the same name
-- **Type** **m****ismatch** **errors**: This can happen if you assign the wrong type to a variable
+- **Error finding module**: This is where TypeScript cannot find the module, either because it doesn’t exist or is incorrectly specified
+- **Error from importing type as value**: This may lead to runtime errors
+- **Duplicate identifier error**: This is where two imported modules export items with the same name
+- **Type mismatch errors**: This can happen if you assign the wrong type to a variable
 
 There are various ways to resolve each of these errors that are not specific to import attributes. You can read about [resolving common TypeScript module problems](https://blog.logrocket.com/common-typescript-module-problems-how-to-solve/) or [resolving errors during runtime type-checking](https://blog.logrocket.com/methods-for-typescript-runtime-type-checking/), but we won’t go into detail about solutions in this article.
 
