@@ -46,12 +46,7 @@ Here are some critical Warp features as [listed in the project’s README](https
 
 Warp is primarily backend-focused, but it indirectly impacts frontend app operation via great server-side performance and the modern architecture shift. Rust’s ability to compile to WebAssembly also positions warp-built backends for tighter integrations with Wasm-based frontend code for performance-critical tasks.
 
-Further reading:
 
-- [Getting started with WebAssembly and Rust](https://blog.logrocket.com/getting-started-with-webassembly-and-rust/)
-- [A practical guide to async in Rust](https://blog.logrocket.com/a-practical-guide-to-async-in-rust/)
-- [Write a simple web service in Rust using hyper](https://blog.logrocket.com/a-minimal-web-service-in-rust-using-hyper/)
-- [Building a REST API in Rust with warp](https://blog.logrocket.com/building-rest-api-rust-warp/)
 ## Why choose warp?
 
 When you’re evaluating web frameworks for a project’s development, you’ll need to consider several factors, from the type of product to the features of the frameworks in consideration relative to what you’re trying to achieve.
@@ -268,10 +263,6 @@ You should also follow best practices for deploying your warp app such as the fo
 
 This should help your deployment process go smoothly and without any errors. 
 
-Further reading:
-
-- [Developing an effective CI/CD pipeline for frontend apps](https://blog.logrocket.com/best-practices-ci-cd-pipeline-frontend/)
-## Comparing warp to other popular Rust web frameworks
 
 There are many other Rust web frameworks that provide similar features to warp’s. The most popular Rust frameworks are Actix Web and Rocket.
 
@@ -297,11 +288,6 @@ Here’s a table that compares Warp, Actix Web, and Rocket based on elementary w
 
 You can use this table as a guide when evaluating which framework best suits your project’s requirements. Make sure you prioritize your project’s specification as you select a web framework.
 
-Further reading:
-
-- [Exploring the top Rust web frameworks](https://blog.logrocket.com/top-rust-web-frameworks/)
-- [Building a REST API in Rust with Rhai and Actix Web](https://blog.logrocket.com/building-rest-api-rust-rhai-actix-web/)
-- [How to create a web app in Rust with Rocket and Diesel](https://blog.logrocket.com/create-web-app-rust-rocket-diesel/)
 ## Conclusion
 
 In this warp adoption guide, you’ve gained insights into the warp framework and its features to see why you should consider using it in your projects. We also looked at deployment options, best practices, a comparison of warp and other Rust web frameworks, and more.

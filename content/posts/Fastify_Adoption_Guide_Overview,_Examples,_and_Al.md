@@ -43,10 +43,6 @@ its performance to stay updated with the trend in server-side app development.
 Fastify leverages plugins to extend its core functionality. You build your application by registering plugins that
 provide specific functionalities. These plugins can define routes, handle server decorations, or add custom logic.
 
-<h4 style="color: #bebebe;"><em>Further reading:</em></h4>
-
-- [Fastify-vite: Serving Vite apps with SSR and client-side hydration](https://blog.logrocket.com/fastify-vite-serving-vite-ssr-hydration/)
-
 ## Why you should choose Fastify
 
 As usual, there are multiple factors you should consider when choosing a server-side framework for your application.
@@ -374,10 +370,6 @@ There are also multiple popular organizations already using Fastify across multi
 You can check out [this page](https://fastify.dev/organisations/) for a comprehensive overview of organizations using
 Fastify.
 
-<h4 style="color: #bebebe;"><em>Further reading:</em></h4>
-
-- [How to build a blazingly fast API with Fastify](https://blog.logrocket.com/how-to-build-a-blazingly-fast-api-with-fastify/)
-- [Using WebSockets with Fastify](https://blog.logrocket.com/using-websockets-with-fastify/)
 
 ## Deploying your Fastify Project
 
@@ -427,11 +419,6 @@ enterprise-grade applications.
 
 Now, you can make a choice for your project based on this table and bring your project to life.
 
-<h4 style="color: #bebebe;"><em>Further reading:</em></h4>
-
-- [Forget Express.js — opt for these alternatives instead](https://blog.logrocket.com/node-js-alternative-frameworks-express-js/)
-- [NestJS vs. Express.js](https://blog.logrocket.com/nestjs-vs-express-js/)
-- [Comparing top Node.js frameworks for frontend developers #Fastify](https://blog.logrocket.com/comparing-top-node-js-frameworks-frontend-developers/#fastify)
 
 ## Conclusion
 
