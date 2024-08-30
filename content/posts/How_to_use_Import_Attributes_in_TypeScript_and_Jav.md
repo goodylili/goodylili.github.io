@@ -1,3 +1,20 @@
++++
+title = "How to Use Import Attributes in JavaScript and TypeScript"
+date = "2024-01-03"
+author = "Ukeje Goodness"
+description = "Import attributes are gaining traction in JavaScript and TypeScript. Let’s explore how they improve app efficiency, stability, and security."
+[taxonomies]
+tags = ["JavaScript", "TypeScript", "Releases", "Technical", "Programming", "Tutorial"]
++++
+---
+
+_**[LogRocket](logrocket.com) made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.**_
+
+
+
+
+
 # How to use Import Attributes in TypeScript and JavaScript
 `import` is a fundamental keyword in JavaScript and TypeScript that enables you to include code from external modules, promoting code organization and reusability. Import attributes are gaining traction in both JavaScript and TypeScript, marking a new era in developing sophisticated, high-quality web apps.
 

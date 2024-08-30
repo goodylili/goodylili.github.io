@@ -1,3 +1,19 @@
++++
+title = "Using gonew to streamline Go  application  development"
+date = "2023-10-04"
+author = "Ukeje Goodness"
+description = "Initialization tools like gonew shine during rapid development cycles by streamlining setup so you can spend more time coding."
+[taxonomies]
+tags = ["Go", "development", "Tools", "Technical", "best-practices"]
++++
+---
+
+_**[LogRocket](logrocket.com) made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.**_
+
+
+
+
 # Streamlining Go Application Development With Gonew
 In a dynamic industry like software development, there is a constant demand for tools that increase development efficiency. Initialization tools like `gonew` shine during rapid development cycles since they promise a smooth ride through project initialization and setup.
 

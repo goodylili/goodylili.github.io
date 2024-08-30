@@ -1,4 +1,19 @@
++++
+title = "Fastify Adoption Guide"
+date = "2024-08-06"
+author = "Ukeje Goodness"
+description = "In this adoption guide, we’ll discuss some reasons to choose Fastify, key features, compare Fastify to some popular alternatives, and more"
+[taxonomies]
+tags = ["JavaScript", "Web development", "Framework", "Technical", "APIs"]
++++
+---
+
+_**[LogRocket](logrocket.com) made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.**_
+
+
 # Fastify Adoption Guide: Overview, Examples, and Alternatives
+
 As your frontend applications receive increasing demand, they require fast and responsive backends to deliver the optimal user experiences. You’ll need a framework that plays nicely with the frontend tooling and frameworks you’re building with.
 
 There are many backend frameworks to choose from across the various server-side languages. If you’re looking to use JavaScript, especially on your app’s frontend, you can consider using Fastify.

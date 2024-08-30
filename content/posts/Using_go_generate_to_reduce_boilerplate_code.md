@@ -1,3 +1,17 @@
++++
+title = "Using go generate to reduce boilerplate code"
+date = "2023-03-28"
+author = "Ukeje Goodness"
+description = "Use the go generate command line tool to simplify code generation and improve code maintainability and reusability."
+[taxonomies]
+tags = ["Go", "development", "Tools", "Technical", "best-practices"]
++++
+---
+
+_**[LogRocket](logrocket.com) made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.**_
+
+
 # Using `go generate` to reduce boilerplate code
 Boilerplate code is a section of code that is repeated in multiple parts of programs throughout a software application with little to no variation. Boilerplate code is usually necessary for application functionality without directly contributing to its primary purpose or functionality.
 
