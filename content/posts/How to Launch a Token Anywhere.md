@@ -21,7 +21,7 @@ Axelar, in its innovative ways, has built an interchain token service that allow
 
 ## What Is Axelar’s Interhain Token Service
 
-![image.png](/screenshot/Axelar/image.png)
+![image.png](/screenshot/image.png)
 
 The Axelar Interchain token service is a no-code, quick-deploy, one-click tool that allows ANYBODY to create and tokenize anything on any of the supported chains powered by the Axelar Network.
 
@@ -41,7 +41,7 @@ Creating and deploying interchain tokens on any chain with Axelar’s interchain
 
 Head to the [mainnet](https://interchain.axelar.dev/) or [testnet](https://testnet.interchain.axelar.dev/) page of the Axelar interchain token service website and connect a wallet to sign the transaction.
 
-![image.png](/screenshot/Axelar/image%201.png)
+![image.png](/screenshot/image%201.png)
 
 You can take existing tokens interchain or deploy new interchain tokens for your project. Select the option that suits your project!
 
@@ -49,11 +49,11 @@ Let’s deploy a new interchain token on Testnet via  Ethereum Sepolia testnet.
 
 When you select “Deploy a new Interchain Token,” enter the token details and fill in the other options like total supply and Salt.
 
-![image.png](/screenshot/Axelar/image%202.png)
+![image.png](/screenshot/image%202.png)
 
 Now, toggle the additional chains you want to deploy your token on:
 
-![Screenshot 2024-08-15 at 10.20.39.jpg](/screenshot/Axelar/Screenshot_2024-08-15_at_10.20.39.jpg)
+![Screenshot 2024-08-15 at 10.20.39.jpg](/screenshot/Screenshot_2024-08-15_at_10.20.39.jpg)
 
 Finally, Click on the “Deploy on X chains” button and sign the transaction on your wallet:
 
@@ -63,17 +63,17 @@ Congratulations! You’ve successfully deployed an interchain token on multiple 
 
 You can view recent transactions and the status of your interchain tokens with the links at the top left of the page:
 
-![Screenshot 2024-08-15 at 10.29.11.jpg](/screenshot/Axelar/Screenshot_2024-08-15_at_10.29.11.jpg)
+![Screenshot 2024-08-15 at 10.29.11.jpg](/screenshot/Screenshot_2024-08-15_at_10.29.11.jpg)
 
 You’ll find a list of all the interchain tokens you’ve deployed and their contract addresses. 
 
-![image.png](/screenshot/Axelar/image%203.png)
+![image.png](/screenshot/image%203.png)
 
 Select one for in-depth information and more configurations.
 
 On the token management page, you can:
 
-![image.png](/screenshot/Axelar/image%204.png)
+![image.png](/screenshot/image%204.png)
 
 → Add the token to your wallet 
 
