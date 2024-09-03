@@ -5,7 +5,7 @@ author = "Ukeje Goodness"
 description = "Learn how you can launch a token on any and multiple blockchains with the Axelar Interchain Token Service"
 
 [taxonomies]
-tags = ["Interoperability", "Web3", "development", "Tools", "No Code", "Tokenization"]
+tags = ["Interoperability", "Web3", "development", "Tools", "No Code", "Tokenization", "Axelar"]
 +++
 
 ---
