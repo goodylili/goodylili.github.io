@@ -3,7 +3,7 @@
 title = "Using LLamaIndex to add Personal Data to LLMs"
 date = "2024-07-23"
 author = "Ukeje Goodness"
-description = "Create customizable charts and graphs in your Rust project using the Plotly package for data-intensive projects."
+description = "Learn how to build and customize LLMs for your projects with LlamaIndex"
 [taxonomies]
 tags = ["Rust", "development", "Tools", "Technical", "data"]
 +++
