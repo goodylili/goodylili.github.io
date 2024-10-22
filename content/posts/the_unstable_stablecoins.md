@@ -52,6 +52,7 @@ In [third-world countries experiencing hyperinflation](https://www.forbes.com/ad
 
 Stablecoins are only as stable as the underlying currencies they’re pegged to. It’s safe to refer to them as mirrored coins instead.
 
+
 ![argentina.jpg](/screenshot/argentina.png)
 
 Argentina's inflation rate 2018-2023 - [Source: Bloomberg](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.bloomberg.com%2Fnews%2Farticles%2F2024-01-11%2Fargentina-inflation-hits-211-in-2023-fastest-in-three-decades&psig=AOvVaw1Q7snPZeNT4-JWXUx3xbHr&ust=1723302356707000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKDhnNiX6IcDFQAAAAAdAAAAABAE)

@@ -10,7 +10,7 @@ tags = ["PoL", "Web3", "Development", "DLMM", "Berachain"]
 
 ---
 
-![poldlmm1.jpg](/screenshot/poldlmm1.png)
+![poldlmm1.jpeg](/screenshot/poldlmm1.jpeg)
 
 
 Proof of Liquidity is a breath of fresh air to the household flywheel of the consensus mechanisms of most proof of stake
