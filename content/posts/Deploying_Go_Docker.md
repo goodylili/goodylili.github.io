@@ -1,6 +1,6 @@
 +++
 title = "How to Deploy Go Apps with Docker"
-date = "2023-11-03"
+date = "2024-11-03"
 author = "Ukeje Goodness"
 description = "Build and Deploy a Golang API with Docker. You'll learn how to do everything!"
 [taxonomies]
