@@ -15,9 +15,10 @@ Hey, I'm Ukeje Goodness. I'm interested in:
 - Others
     - Finance and Economics
     - Game Theory and Probability
-    - Graphic Designs
+    - Cryptography
 
 I'm currently rounding up a Bachelor's in Mechanical Engineering.
+
 
 # Contact & Socials
 
@@ -26,6 +27,7 @@ Github: [@goodylili](https://github.com/goodylili) <br />
 Discord: [@goodylili](https://discord.gg/goodylili) <br />
 Linkedin: [@goodylili](https://linkedin.com/in/goodylili) <br />
 Youtube: [@goodylili](https://youtube.com/@goodylili) <br />
+Newsletter: [@goodylili](https://goodylili.substack.io) <br />
 Linktree: [@goodylili](https://linktr.ee/goodylili) <br />
 
 I always enjoy a good conversation, so feel free to contact me
