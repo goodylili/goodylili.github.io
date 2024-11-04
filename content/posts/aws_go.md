@@ -2,10 +2,9 @@
 title = "Beginner's Guide to Managing Files in Amazon S3 with Go"
 date = "2024-11-04"
 author = "Ukeje Goodness"
-description = "This article assumes that you’re an AWS beginner and walks you through the processes of using S3 for
-storage from your Go apps."
+description = "This article assumes that you’re an AWS beginner and walks you through the processes of using S3 for storage from your Go apps."
 [taxonomies]
-tags = ["Golang", "development", "Go", "API", "Backend", "Postgres", "Docker", "DevOps"]
+tags = ["Golang", "Development", "Go", "AWS", "Backend", "DevOps", "Cloud"]
 +++
 ---
 
