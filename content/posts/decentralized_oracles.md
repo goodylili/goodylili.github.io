@@ -16,7 +16,7 @@ Decentralization and censorship resistance are primitive crypto-values, and some
 
 ## The State of Blockchain Oracles
 
-![flywheel](/screenshot/oracle-flywheel.png)
+![flywheel](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe4e8d210-b113-4a09-84c9-69ccd3d934ae_1536x1054.png)
 
 Source: eOracle Project Documentation
 
@@ -64,8 +64,7 @@ Most decentralized systems usually have mechanisms to detect and mitigate coordi
 
 ## Introducing eOracle: The Programmable Decentralized Oracle
 
-![flywheel](/screenshot/eoracle-architecture.png)
-
+[eoracle architecture](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2441cd3b-5444-4761-8719-7ed191d16020_2304x1296.png)
 Source: eOracle Project Documentation
 
 eOracle is a modular, programmable Oracle solution built for EVM networks. eOracle leverages **EigenLayer** for restaking and crypto-economic security.
