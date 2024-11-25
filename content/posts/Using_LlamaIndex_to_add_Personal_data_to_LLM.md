@@ -30,7 +30,6 @@ You can build many different projects with LlamaIndex, from QA chatbots to docum
 <H3>Drawbacks of using LLamaIndex</H3>
 
 
-
 LlamaIndex is really great software, but there are some drawbacks you may encounter when you try using it to add personal data to LLMs. Two of the most important considerations to keep in mind are:
 
 

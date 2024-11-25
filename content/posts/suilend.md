@@ -28,7 +28,6 @@ The following product from the Suilend team was SpringSui: an LST standard simil
 
 SpringSui allows anyone to create LSTs that are fully fungible and backed by staked Sui coins. Users can easily unstack the LSTs, which are interoperable within Sui’s DeFi ecosystem.
 
-![The SpringSui Architecture. Source: [Suilend Documentation](https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffaad920f-cd02-40fc-a97b-ba9517b98f4c_1860x792.png)
 
 
 SpringSui has become the fastest-growing LST on and off Sui after clinching the [$130m TVL mark](https://defillama.com/protocol/springsui#information) in 23 days. Over 30m+ Sui are staked across the sSui, mSui, and fudSui products.
