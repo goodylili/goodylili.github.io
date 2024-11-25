@@ -9,8 +9,8 @@ tags = ["Rust", "development", "Tools", "Technical", "data"]
 +++
 ---
 
-_**[LogRocket](logrocket.com) made this piece possible. They provide AI-first session replay and analytics that shows
-you what's wrong.**_
+_[LogRocket](logrocket.com) made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong._
 
 
 
@@ -27,7 +27,9 @@ LlamaIndex provides tools for ingesting, processing, and implementing complex qu
 
 You can build many different projects with LlamaIndex, from QA chatbots to document understanding and extraction to autonomous agents that can perform research and execute actions. It’s available to use in Python and TypeScript to help you build AI-composed apps.
 
-<H3>Drawbacks of using LLamaIndex
+<H3>Drawbacks of using LLamaIndex</H3>
+
+
 
 LlamaIndex is really great software, but there are some drawbacks you may encounter when you try using it to add personal data to LLMs. Two of the most important considerations to keep in mind are:
 
@@ -37,7 +39,7 @@ LlamaIndex is really great software, but there are some drawbacks you may encoun
 
 Nonetheless, LlamaIndex is the most popular RAG tool with the most community support, so you should easily find help with navigating these issues.
 
-<H3>Use cases and applications of RAGs like LlamaIndex
+<H3>Use cases and applications of RAGs like LlamaIndex</H3>
 
 You can use LlamaIndex when building applications that use AI for chatbots, data retrieval, multimodal interactions, and many other use cases. Since you can add custom data, you can also use LlamaIndex to improve your product offerings.
 
@@ -49,6 +51,7 @@ Here are some integrations where it makes sense to use LlamaIndex and other RAG 
 - **Internal code generation**: You can train local LLMs to help improve productivity, avoid leaking sensitive data, and prevent the risks of using public LLMs
 
 These are just a few of the many possibilities you can achieve using RAGs like LlamaIndex in development and production.
+
 
 ## Adding your data to LLMs with LlamaIndex
 
@@ -194,7 +197,7 @@ Head over to [the LlamaIndex documentation](https://docs.llamaindex.ai/) to lear
 
 There are other RAG tools you can explore if LlamaIndex doesn't suit your needs. Let’s take a look at two popular alternatives: LangChain and Vellum. 
 
-<H3>LangChain
+<H3>LangChain</H3>
 
 LangChain is an open source framework for building apps with LLMs. It supports various LLM tasks beyond RAGs and offers tools for prompt engineering, AI workflows, customization, scaling, lifecycle management, and more:
 
@@ -204,7 +207,7 @@ LangChain is an open source framework for building apps with LLMs. It supports v
 You can use LangChain to build applications and collaborate through LangSmith, and it’s flexible for handling prompts. LangChain offers more pre-built components than LLamaIndex, although customization and scaling might be challenging since the components are over-engineered.
 
 
-<H3>Vellum
+<H3>Vellum</H3>
 
 Vellum is a dedicated LLM product developer tool that offers scalability and advanced customizations for devs and product managers to build AI-ready apps:
 
