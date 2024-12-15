@@ -26,7 +26,7 @@ It was the first platform on which users could access the complete DeFi suite, w
 
 The following product from the Suilend team was SpringSui: an LST standard similar to Sanctum on Solana with the LST depegging solved based on [SIPs (Sui Improvement proposals) 31](https://forums.sui.io/t/sip-31-fungible-stakedsui-objects/45661).
 
-SpringSui allows anyone to create LSTs that are fully fungible and backed by staked Sui coins. Users can easily unstack the LSTs, which are interoperable within Sui’s DeFi ecosystem.
+SpringSui allows anyone to create LSTs that are fully fungible and backed by staked Sui coins. Users can easily unstake the LSTs, which are interoperable within Sui’s DeFi ecosystem.
 
 
 
