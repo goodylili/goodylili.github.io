@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             EOracle: The Case for Decentralized Oracles
+            
+        </title>
+
+        
+            <meta property="og:title" content="EOracle: The Case for Decentralized Oracles" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="Can oracles be fully decentralized without trading off great functionalities? Find out!" />
+        
+    
+
+    
+        
+            <meta name="description" content="Can oracles be fully decentralized without trading off great functionalities? Find out!" />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">EOracle: The Case for Decentralized Oracles</h1>
+            <div class="meta">
+                
+                on  2024-11-21
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p>Oracles are a big part of the apps on every blockchain’s infrastructure; they’re trust mechanisms for off-chain data that needs verification onchain.</p>
+<p>Decentralization and censorship resistance are primitive crypto-values, and some oracles aren’t upholding them, posing as the weakest link. Can oracles be fully decentralized without trading off great functionalities? Find out!</p>
+<h2 id="the-state-of-blockchain-oracles">The State of Blockchain Oracles</h2>
+<p><img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe4e8d210-b113-4a09-84c9-69ccd3d934ae_1536x1054.png" alt="flywheel" /></p>
+<p>Source: eOracle Project Documentation</p>
+<p>Oracles are too critical to be flawed in aspects of trust and efficiency. You can group the problems with current oracles into two main categories: <strong>problems with centralized oracles</strong> and <strong>issues with validators</strong>.</p>
+<h3 id="the-problem-with-centralized-oracles">The Problem with Centralized Oracles</h3>
+<p>Most oracles are centralized intermediaries that relay off-chain data to blockchain apps, and a lot could go wrong here.</p>
+<p>Relying on one entity or a limited number of entities to fetch and verify data is risky. If these sources fail, the results could be catastrophic and dependent onchain apps, e.g., one <a href="https://cryptobriefing.com/compound-user-liquidated-49-million-price-oracle-blamed/">compromised price feed would cascade liquidations on lending</a> and perpetual trading platforms.</p>
+<p>Also, Centralized oracles are opaque systems, so they can censor data due to regulatory pressure or self-interest, undermining web3’s censorship resistance principles to prove “don’t trust, verify”.</p>
+<h3 id="validator-issues">Validator Issues</h3>
+<p>Decentralized Oracle solutions that rely on validator networks are prone to collusion, Sybil attacks, disputes over data quality, and issues around scalability and performance.</p>
+<p>Validators in a confined set can collectively submit bias feeds to trigger specific outcomes (e.g. liquidations) where the incentives to misreport outweigh the penalties.</p>
+<p>Validator disputes are also counter-productive in cases where they disagree on what constitutes valid data, mainly when relying on external sources (e.g., price APIs or cross-chain data).</p>
+<h2 id="the-case-for-decentralized-oracles"><strong>The Case for Decentralized Oracles</strong></h2>
+<p>Fully decentralized oracles bring security, transparency, and resilient data feeds. They’re the missing piece in every blockchain’s infrastructure. Let’s overview some cases of decentralized oracles.</p>
+<h3 id="eliminating-single-points-of-failure">Eliminating Single Points of Failure</h3>
+<p>Decentralization is a one-way function of distribution. Decentralizing oracles eliminate a single point of failure by distributing the validation and sourcing process across a network of independent validators.</p>
+<h3 id="cryptographic-proofs-and-economic-incentives">Cryptographic Proofs and Economic Incentives</h3>
+<p>Friction and unproductivity are the banes of most consensus mechanisms. Since verifiability is a big part of oracles, having a trusted validator set that provides factual data is a big deal; aligning economic incentives properly does the heavy lifting.</p>
+<h3 id="open-auditable-systems">Open, Auditable Systems</h3>
+<p>Making Oracles open and auditable is a no-brainer and the final piece for verifiability. Users should be able to verify how the data is sourced, validated, and delivered for scrutiny.</p>
+<p>Users can build monitoring systems, rapidly identify errors and fix systemic issues.</p>
+<h3 id="censorship-and-collusion-resistance">Censorship and Collusion Resistance</h3>
+<p>Oracles are too critical to be susceptible to coercion and manipulation. Decentralized oracles should be distributed worldwide to eliminate political points of failure.</p>
+<p>Most decentralized systems usually have mechanisms to detect and mitigate coordinated attacks like validator collusion.</p>
+<h2 id="introducing-eoracle-the-programmable-decentralized-oracle">Introducing eOracle: The Programmable Decentralized Oracle</h2>
+<p><a href="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2441cd3b-5444-4761-8719-7ed191d16020_2304x1296.png">eoracle architecture</a>
+Source: eOracle Project Documentation</p>
+<p>eOracle is a modular, programmable Oracle solution built for EVM networks. eOracle leverages <strong>EigenLayer</strong> for restaking and crypto-economic security.</p>
+<p>eOracle is creating a competitive marketplace for validators and dApps to interact and consume data directly with new primitives.
+eOracle is making oracles open, permissionless and auditable.</p>
+<p>eOracle is bringing multiple systems to solve Oracle's problems, including further decentralisation through reliance on Ethereum’s globally distributed trust network, great validator incentives, and the permissionless marketplace for diverse and high-quality data.</p>
+<p>Validators restake ETH via EigenLayer (instead of a proprietary staking token that would be volatile and hardly as adopted as ETH) to secure the network and validate data.</p>
+<p>eOracle also debuts Oracle Validated Services (OVSs) for anybody to build custom oracles for their use case, configure data sources, aggregation logic and reporting frequencies</p>
+<h2 id="why-eoracle">Why eOracle?</h2>
+<p>Most traditional oracles are <strong>monopolistic gatekeepers</strong> regarding data publicity and validator distribution. eOracle’s permissionless data marketplace allows developers to interact directly with a distributed validator set without costs going over the roof.</p>
+<p>The inclusivity eOracle brings with OVSs would affect rich oracles, especially improving onchain UX through real-world data.</p>
+<p>For more contrast, here’s a  comparison table of eOracle to the most popular oracle by usage: Chainlink</p>
+<table><thead><tr><th>Feature/Aspect</th><th><strong>eOracle</strong></th><th><strong>Chainlink</strong></th></tr></thead><tbody>
+<tr><td><strong>Core Security Model</strong></td><td>Leverages Ethereum validators and EigenLayer for enhanced security and decentralization. ETH-based staking ensures economic stability.</td><td>Decentralized network of independent node operators with a robust reputation system to secure data integrity.</td></tr>
+<tr><td><strong>Customization</strong></td><td>Supports custom <strong>Oracle Validated Services (OVS)</strong> for tailored solutions.</td><td>Offers configurable decentralized oracle services but primarily focuses on standard data feed products.</td></tr>
+<tr><td><strong>Scalability</strong></td><td>Uses EO-Chain for off-chain aggregation and Merkle hashing for low latency.</td><td>Scalability is a challenge as demand increases, leading to potential cost escalations and resource constraints.</td></tr>
+<tr><td><strong>Economic Incentives</strong></td><td>Slashing mechanisms for validators maintain integrity and incentivize honest behavior.</td><td>Relies on LINK-based incentives and penalties, with occasional concerns about node centralization.</td></tr>
+<tr><td><strong>Flexibility in Use</strong></td><td>Highly modular, enabling tailored aggregation logic and data sourcing.</td><td>Wide adoption but focuses primarily on established use cases like price feeds and DeFi.</td></tr>
+</tbody></table>
+<p>The table quickly demonstrates that eOracle would be the solution for projects building critical products that need more flexibility to offer users a great user experience.</p>
+<p>Tailored aggregator logic and data sourcing is the only way to build apps that migrate users from web2 apps to web3 apps without friction; it’s a feature many builders have clamoured for, especially for building social apps that interoperate with off-chain apps.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Oracles are too critical to be half-baked. Centralized oracles are great for some use cases, significantly deterring much friction for non-deterministic data, but vice versa; that is hardly the case.</p>
+<p>You should check out eOracle`s documentation to learn more about their new paradigm of oracles, to learn more about what’s possible.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/web3/>web3</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/opinion-editorial/>opinion editorial</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/crypto/>crypto</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/futuristic/>futuristic</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/infrastructure/>infrastructure</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

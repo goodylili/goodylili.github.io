@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Using go generate to reduce boilerplate code
+            
+        </title>
+
+        
+            <meta property="og:title" content="Using go generate to reduce boilerplate code" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="Use the go generate command line tool to simplify code generation and improve code maintainability and reusability." />
+        
+    
+
+    
+        
+            <meta name="description" content="Use the go generate command line tool to simplify code generation and improve code maintainability and reusability." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Using go generate to reduce boilerplate code</h1>
+            <div class="meta">
+                
+                on  2023-03-28
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><em><strong><a href="//goodylili.github.io/posts/using-go-generate-to-reduce-boilerplate-code/logrocket.com">LogRocket</a> made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.</strong></em></p>
+<h1 id="using-go-generate-to-reduce-boilerplate-code">Using <code>go generate</code> to reduce boilerplate code</h1>
+<p>Boilerplate code is a section of code that is repeated in multiple parts of programs throughout a software application with little to no variation. Boilerplate code is usually necessary for application functionality without directly contributing to its primary purpose or functionality.</p>
+<p>Boilerplate code may include operations like setting up basic file structures, initializing variables, defining functions, or importing libraries or modules. In some cases, packages provide boilerplate code as a starting point for developers to build upon, usually by generation after code behavior configurations.</p>
+<p>Although boilerplate code may be necessary and valuable for application functionality, it can also be wasteful and redundant. For this reason, there are many tools to minimize boilerplate code.</p>
+<p><code>go generate</code> is a command-line tool for the Go programming language that allows for automatic code generation. You can use <code>go generate</code> to generate specific code for your project that is easy to modify, making the tool powerful for reducing boilerplate.</p>
+<p>Jump ahead in this article:</p>
+<ul>
+<li>Getting started with <code>go generate</code></li>
+<li>Generating Go code with <code>go generate</code>
+<ul>
+<li>The Stringer code generator</li>
+</ul>
+</li>
+<li>Best practices for using <code>go generate</code> to reduce boilerplate code</li>
+</ul>
+<h2 id="getting-started-with-go-generate">Getting started with <code>go generate</code></h2>
+<p>The <code>go generate</code> command allows you to run code generators as part of the <code>go build</code> process. Code generators are third-party programs that generate Go code based on specific inputs, such as protobuf files, database schemas, or configuration files. Popular Go packages like <a href="https://blog.logrocket.com/gqlgen-build-faster-graphql-server/">Gqlgen</a> use Go generate to generate code for the build process.</p>
+<p>There are many benefits to using <code>go generate</code> for boilerplate code:</p>
+<ol>
+<li><code>**go generate**</code> simplifies code generation:** You can automate the process with <code>go generate</code> instead of manually running code generators. This method makes it easier to generate code and reduces the chances of errors or typos</li>
+<li><strong>Improves code maintainability and reusability</strong>: By automating code generation, you can ensure that generated code is always up-to-date with the latest changes to your input files, making it easier to maintain your codebase and avoid bugs caused by outdated code. You can also use generated code in multiple projects, making it easier to reuse code and reduce duplication (reducing boilerplate code)</li>
+<li><strong>Enables integration with other tools</strong>: Using <code>go generate</code> for code generation means allowing you to inter-operate with other tools, such as <code>go fmt</code> or <code>go vet</code>, to automate common development tasks</li>
+<li><strong>Generating code from annotations:</strong> You can use <code>go generate</code> to generate code based on annotations in the source code. You can define a custom struct tag to represent a field in a database schema, then use <code>go generate</code> to generate code to convert between the struct and the database schema automatically</li>
+<li><strong>Generating code from external sources:</strong> You can use <code>go generate</code> to generate code from external sources such as API specifications or database schemas. For example, you can use <code>go generate</code> to generate client code for a REST API based on its Swagger definition.</li>
+</ol>
+<p><code>go generate</code> is built into Go’s toolchain, and starting with the tool is easy. You’ll need to add a special code comment to your Go code that specifies generators and their arguments.</p>
+<p>Here’s an example of the special comments you can use with <code>go generate</code>:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">//go:generate protoc --go_out=. myproto.proto
+</span></code></pre>
+<p>The comment specifies that <code>go generate</code> should run the <code>protoc</code> command with the <code>--go_out</code> flag and generate the Go code from the <code>myproto.proto</code> file.</p>
+<p>You can have multiple <code>go:generate</code> comments in a single file; <code>go generate</code> will run the comments in the order they appear in the file.</p>
+<p>After specifying the comments, run <code>go generate</code> in the same directory as your Go file to run the files and generate the code:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">go </span><span style="color:#e45649;">generate
+</span></code></pre>
+<p>You can learn more about the <code>go generate</code> command-line tool by specifying the help command before the generate command:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">go </span><span style="color:#e45649;">help generate
+</span></code></pre>
+<p>The command returns information about <code>go generate</code> and the options and functionalities you can explore with the tool:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_7E0C046686473433B379C243B74EE69C9295AFB8B0740A9F782B24456ADC1238_1677440152649_Untitled+2.png" alt="" /></p>
+<blockquote>
+<p>go generate does not parse the file, so lines that look like directives in comments or multiline strings will be treated as directives.</p>
+</blockquote>
+<h2 id="generating-go-code-with-go-generate">Generating Go code with <code>go generate</code></h2>
+<p>You can use many code generators for your Go programs, each with their own pros and cons.</p>
+<p>Here’s an overview the Stringer generator; one of the most popular code generators in the Go ecosystem.</p>
+<p><strong>The Stringer code generator</strong>
+Stringer is a code generator that automatically creates string methods for Go types. The generated methods are used to convert the values of the type to strings, which can be helpful for debugging and printing output.</p>
+<p>Add this line of comment to your code to use the Stringer generator:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>    </span><span style="color:#a0a1a7;">//go:generate stringer -type=MyType
+</span></code></pre>
+<p>The comment specifies that <code>go generate</code> should run the Stringer generator with the <code>MyType</code> type. After generating, the argument must be executable with the directive to perform an action.</p>
+<p>Here’s an example of how you can use <code>go generate</code> to generate boilerplate code with the <code>stringer</code> code generation tool.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span> </span><span style="color:#50a14f;">`stringer` </span><span style="color:#e45649;">implements a </span><span style="color:#50a14f;">`String()` </span><span style="color:#e45649;">method </span><span style="color:#a626a4;">for </span><span style="color:#e45649;">any </span><span style="color:#a626a4;">type</span><span>, </span><span style="color:#e45649;">allowing you to convert the instance of a custom </span><span style="color:#a626a4;">type </span><span>to </span><span style="color:#a626a4;">a </span><span style="color:#e45649;">string</span><span>.
+</span></code></pre>
+<p>Run this command in the terminal of your current working directory to install the Stringer tool:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">go </span><span style="color:#e45649;">install golang</span><span>.</span><span style="color:#e45649;">org</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">x</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">tools</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">cmd</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">stringer</span><span>@</span><span style="color:#e45649;">latest 
+</span></code></pre>
+<p>Stringer generates Go code to implement the <code>Stringer</code> interface for any type. Here’s an example Stringer interface:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>    </span><span style="color:#a626a4;">type </span><span>Stringer </span><span style="color:#a626a4;">interface </span><span>{
+</span><span>        </span><span style="color:#0184bc;">String</span><span>() </span><span style="color:#a626a4;">string
+</span><span>    }
+</span></code></pre>
+<p>Implementing the interface allows type conversion to string implementation. To use <code>go generate</code> with <code>stringer</code>, you’ll need to define a type that needs a string representation:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>    </span><span style="color:#a626a4;">type </span><span>Color </span><span style="color:#a626a4;">int
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">const </span><span>(
+</span><span>        </span><span style="color:#e45649;">Red </span><span style="color:#a626a4;">Color = </span><span style="color:#c18401;">iota
+</span><span>        </span><span style="color:#e45649;">Green
+</span><span>        </span><span style="color:#e45649;">Blue
+</span><span>    )
+</span></code></pre>
+<p>Create a separate Go file and add this <code>go:generate</code> directive at the top to specify the command that generates the <code>stringer</code> code:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>    </span><span style="color:#a0a1a7;">//go:generate stringer -type=Color
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span></code></pre>
+<p>The directive tells <code>go generate</code> to run the <code>stringer</code> command with the <code>-type</code> flag set to <code>Color</code>.</p>
+<p>Run the <code>go generate</code> command in your working directory to generate the resulting file named <code>colour_string.go</code> in the same directory containing the implementation of the <code>String</code> method for the <code>Colour</code> type:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>    </span><span style="color:#a626a4;">go </span><span style="color:#e45649;">generate </span><span>.</span><span style="color:#a626a4;">/...
+</span></code></pre>
+<p>The command runs all <code>go generate</code> directives in your working directory.</p>
+<p>Here’s the code generated by the <code>stringer</code> tool:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>    </span><span style="color:#a0a1a7;">// Code generated by &quot;stringer -type=Color&quot;; DO NOT EDIT.
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">import </span><span style="color:#50a14f;">&quot;strconv&quot;
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">func </span><span style="color:#e45649;">_</span><span>() {
+</span><span>            </span><span style="color:#a0a1a7;">// An &quot;invalid array index&quot; compiler error signifies that the constant values have changed.
+</span><span>            </span><span style="color:#a0a1a7;">// Re-run the stringer command to generate them again.
+</span><span>            </span><span style="color:#a626a4;">var </span><span style="color:#e45649;">x </span><span>[</span><span style="color:#c18401;">1</span><span>]</span><span style="color:#a626a4;">struct</span><span>{}
+</span><span>            </span><span style="color:#e45649;">_ </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">x</span><span>[</span><span style="color:#e45649;">Red</span><span style="color:#a626a4;">-</span><span style="color:#c18401;">0</span><span>]
+</span><span>            </span><span style="color:#e45649;">_ </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">x</span><span>[</span><span style="color:#e45649;">Green</span><span style="color:#a626a4;">-</span><span style="color:#c18401;">1</span><span>]
+</span><span>            </span><span style="color:#e45649;">_ </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">x</span><span>[</span><span style="color:#e45649;">Blue</span><span style="color:#a626a4;">-</span><span style="color:#c18401;">2</span><span>]
+</span><span>    }
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">_Color_name </span><span style="color:#a626a4;">= </span><span style="color:#50a14f;">&quot;RedGreenBlue&quot;
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">var </span><span style="color:#e45649;">_Color_index </span><span style="color:#a626a4;">= </span><span>[</span><span style="color:#a626a4;">...</span><span>]</span><span style="color:#a626a4;">uint8</span><span>{</span><span style="color:#c18401;">0</span><span>, </span><span style="color:#c18401;">3</span><span>, </span><span style="color:#c18401;">8</span><span>, </span><span style="color:#c18401;">12</span><span>}
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">i </span><span style="color:#a626a4;">Color</span><span>) </span><span style="color:#0184bc;">String</span><span>() </span><span style="color:#a626a4;">string </span><span>{
+</span><span>            </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">i </span><span style="color:#a626a4;">&lt; </span><span style="color:#c18401;">0 </span><span style="color:#a626a4;">|| </span><span style="color:#e45649;">i </span><span style="color:#a626a4;">&gt;= </span><span style="color:#e45649;">Color</span><span>(</span><span style="color:#0184bc;">len</span><span>(</span><span style="color:#e45649;">_Color_index</span><span>)</span><span style="color:#a626a4;">-</span><span style="color:#c18401;">1</span><span>) {
+</span><span>                    </span><span style="color:#a626a4;">return </span><span style="color:#50a14f;">&quot;Color(&quot; </span><span style="color:#a626a4;">+ </span><span style="color:#e45649;">strconv</span><span>.</span><span style="color:#e45649;">FormatInt</span><span>(</span><span style="color:#e45649;">int64</span><span>(</span><span style="color:#e45649;">i</span><span>), </span><span style="color:#c18401;">10</span><span>) </span><span style="color:#a626a4;">+ </span><span style="color:#50a14f;">&quot;)&quot;
+</span><span>            }
+</span><span>            </span><span style="color:#a626a4;">return </span><span style="color:#e45649;">_Color_name</span><span>[</span><span style="color:#e45649;">_Color_index</span><span>[</span><span style="color:#e45649;">i</span><span>]:</span><span style="color:#e45649;">_Color_index</span><span>[</span><span style="color:#e45649;">i</span><span style="color:#a626a4;">+</span><span style="color:#c18401;">1</span><span>]]
+</span><span>    }
+</span></code></pre>
+<p>The program provides the functionality you need to return the string representation of constant values.</p>
+<p>You can now use the <code>String()</code> method to convert a <code>Color</code> value to a string:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>    </span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>        </span><span style="color:#e45649;">c </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">Red
+</span><span>        </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#e45649;">c</span><span>.</span><span style="color:#e45649;">String</span><span>()) </span><span style="color:#a0a1a7;">// Output: &quot;Red&quot;
+</span><span>    }
+</span></code></pre>
+<p>Here’s the result of accessing the <code>Red</code> constant and printing the string representation:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_7E0C046686473433B379C243B74EE69C9295AFB8B0740A9F782B24456ADC1238_1677440123894_Screenshot+2023-02-23+at+17.56.04.jpg" alt="" /></p>
+<p>That’s how you can use <code>go generate</code> and <code>stringer</code> to automate the generation of string methods for custom types to save time and reduce errors.</p>
+<h2 id="best-practices-for-using-go-generate-to-reduce-boilerplate-code">Best practices for using <code>go generate</code> to reduce boilerplate code</h2>
+<p>When using <code>go generate</code> to reduce boilerplate code, it is important that you adhere to best practices for the best output during code generation.</p>
+<p>Here are a few tips you’ll want to consider when using the <code>go generate</code> tool:</p>
+<ol>
+<li>Use <code>go generate</code> with other Go tools like <code>go fmt</code> and <code>go vet</code> to automate common development tasks</li>
+<li>Ensure that the generated code is updated with the latest changes to your input files for easier maintainability</li>
+<li>Document the <code>go generate</code> directive to prevent confusion</li>
+<li>Use separate files for the <code>go generate</code> directive instead of adding the directives to existing files to keep your code organized and easier to modify</li>
+<li>Use <code>go generate</code> for repetitive code like serializers, deserializers, and mock implementations, and avoid using the tool for dynamic code</li>
+<li>Always test the generated code to ensure it works as expected to catch bugs and issues early</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article, you learned about the <code>go generate</code> tool and how you can use it to generate code and reduce boilerplate and redundant code in your projects.</p>
+<p><code>go generate</code> simplifies code generation, improves code maintainability and reusability, and enables integration with other tools. Using <code>go generate</code> with other best practices can reduce boilerplate code and save time while avoiding errors or typos.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/go/>Go</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/development/>development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/tools/>Tools</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/technical/>Technical</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/best-practices/>best-practices</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

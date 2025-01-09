@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             How to Use Import Attributes in JavaScript and TypeScript
+            
+        </title>
+
+        
+            <meta property="og:title" content="How to Use Import Attributes in JavaScript and TypeScript" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="Import attributes are gaining traction in JavaScript and TypeScript. Let’s explore how they improve app efficiency, stability, and security." />
+        
+    
+
+    
+        
+            <meta name="description" content="Import attributes are gaining traction in JavaScript and TypeScript. Let’s explore how they improve app efficiency, stability, and security." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">How to Use Import Attributes in JavaScript and TypeScript</h1>
+            <div class="meta">
+                
+                on  2024-01-03
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><em><strong><a href="//goodylili.github.io/posts/how-to-use-import-attributes-in-typescript-and-jav/logrocket.com">LogRocket</a> made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.</strong></em></p>
+<h1 id="how-to-use-import-attributes-in-typescript-and-javascript">How to use Import Attributes in TypeScript and JavaScript</h1>
+<p><code>import</code> is a fundamental keyword in JavaScript and TypeScript that enables you to include code from external modules, promoting code organization and reusability. Import attributes are gaining traction in both JavaScript and TypeScript, marking a new era in developing sophisticated, high-quality web apps.</p>
+<p>In this guide, we’ll discuss how to leverage import attributes in TypeScript and JavaScript. We’ll explore how import attributes work, why they matter, their impact on efficiency, stability, and security in web apps, and more.</p>
+<h2 id="a-brief-overview-of-import-attributes">A brief overview of import attributes</h2>
+<p>Import attributes are the latest feature addition to JavaScript’s continually evolving module system. They enable you to include additional metadata for specifying import actions and behaviors.</p>
+<p>As the complexity and diversity of web applications increase, managing and loading conditions become crucial for scalability, making import attributes more important now than ever.  JavaScript and TypeScript’s module system fell short at handling these requirements for web applications.</p>
+<p>TypeScript v5.3 builds on its JavaScript foundation by adding import attributes with the usual type safety and tooling benefits inherent to the language. You can follow <a href="https://github.com/tc39/proposal-import-attributes">the TypeScript proposal for import attributes on GitHub</a>.</p>
+<p>Incorporating import attributes in TypeScript and JavaScript projects creates new possibilities for developing efficient, secure, and manageable apps by catering to the sophisticated needs of modern web architectures.</p>
+<h2 id="using-import-attributes-in-typescript">Using import attributes in TypeScript</h2>
+<p>You’ll need to install TypeScript v5.3 to use import attributes. Run this command on your terminal to install TypeScript v5.3 globally:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>npm install -g typescript@5.3
+</span></code></pre>
+<p>Next, run these commands to create and initialize TypeScript configurations in your project with the name <code>ts-import-attributes</code> and enter the directory:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>mkdir ts-import-attributes
+</span><span>cd ts-import-attributes
+</span><span>tsc --init
+</span></code></pre>
+<p>Then, initialize a new Node.js project and install TypeScript in your project as a dependency:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>npm init -y
+</span><span>npm install typescript --save-dev
+</span></code></pre>
+<p>Now, you can initialize your TypeScript project by executing this command:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>npx tsc --init
+</span></code></pre>
+<p>The command above creates a <code>tsconfig.json</code> file in your project. Edit the file to match the following <code>compilerOptions</code> setup:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>// tsconfig.json
+</span><span>
+</span><span>{
+</span><span>  &quot;compilerOptions&quot;: {
+</span><span>    &quot;moduleResolution&quot;: &quot;node&quot;,
+</span><span>    &quot;target&quot;: &quot;es6&quot;,
+</span><span>    &quot;module&quot;: &quot;esnext&quot;,
+</span><span>    &quot;esModuleInterop&quot;: true,
+</span><span>    &quot;forceConsistentCasingInFileNames&quot;: true,
+</span><span>    &quot;strict&quot;: true,
+</span><span>    &quot;skipLibCheck&quot;: true,
+</span><span>    &quot;outDir&quot;: &quot;./dist&quot;,
+</span><span>    &quot;resolveJsonModule&quot;: true,
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>Next, create a <code>config.json</code> file in your project’s directory and add this JSON to the file:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>// config.json
+</span><span>
+</span><span>{
+</span><span>  &quot;appName&quot;: &quot;TS Import Demo&quot;,
+</span><span>  &quot;version&quot;: 1.0
+</span><span>}
+</span></code></pre>
+<p>Finally, add this to your <code>package.json</code> file:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>&quot;type&quot;: &quot;module&quot;,
+</span></code></pre>
+<p>Here’s how you can use import attributes to import the <code>config</code> from the <code>config.json</code> file:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>// index.ts
+</span><span>import config from &#39;./config.json&#39; assert { type: &#39;json&#39; };
+</span><span>
+</span><span>console.log(&quot;The unique feature from config.json is:&quot;, config.uniqueFeature);
+</span></code></pre>
+<p>In this case, the <code>import</code> statement ensures that the <code>config.json</code> file is treated as a JSON file.</p>
+<p>Note that we’re using the <code>assert</code> keyword here, and not the <code>with</code> keyword. Import attributes evolved from import assertions, with the main difference being the keyword.</p>
+<p>Another difference is that runtimes can use attributes to guide the resolution of import paths. In comparison, assertions only assert characteristics after loading modules.</p>
+<p>As an additional note, Node.js doesn’t currently support import attributes in TypeScript. That’s why we’re using the <code>assert</code> keyword in this case. You can learn more about this in the <a href="https://arc.net/l/eakqxewq">TypeScript 5.3 release documentation.</a></p>
+<p>Now, execute this command to compile the program:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>npx tsc
+</span></code></pre>
+<p>The command should transpile your TypeScript program into JavaScript code that looks like this:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>import config from &#39;./config.json&#39; with { type: &#39;json&#39; };
+</span><span>console.log(&quot;The unique feature from config.json is:&quot;, config.uniqueFeature);
+</span></code></pre>
+<p>Notice that the code is transpiled into the <code>with</code>  keyword in JavaScript and the behaviours are the same.</p>
+<p>Since we’re working with the Node.js runtime, execute the compiled JavaScript code with the following <code>node</code> command:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>node dist/index.js
+</span></code></pre>
+<p>Here’s the output you should expect after running the program:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_675D480C677C9D2D5AB48D507E2D66DF7CC79EAB7B497B472D3EDFE5F610CDDD_1703784765834_Screenshot+2023-12-28+at+18.30.40.jpg" alt="" /></p>
+<h2 id="how-import-attributes-work-under-the-hood">How import attributes work under the hood</h2>
+<p>Now that we’ve seen a simple example of import attributes in a TypeScript app, let’s briefly review how they work from a technical standpoint.</p>
+<p>After specifying the import, the TypeScript compiler handles import statements by preserving the attributes for runtime with minimal checks. TypeScript doesn’t process or validate attributes, but it performs basic checks — for example, ensuring you use the <code>with</code> keyword correctly and that attributes are valid expressions.</p>
+<p>The JavaScript runtime or bundler interprets the import attributes depending on the specific features and behaviors they support. Webpack and Rollup already recognize attributes like <code>type:</code> <code>"``json``"</code>. If the import attribute’s format doesn’t match the expectations of the runtime or bundler, it may throw an error.</p>
+<p>As of the time of this writing, many browsers lack support for import attributes. However, transpilers like Babel can handle them during compilation and convert them to runtime checks that browsers understand.</p>
+<h2 id="custom-import-attribute-configurations">Custom import attribute configurations</h2>
+<p>You can <a href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-3.html">customize the behavior of import attributes</a> to configure their usage. Specifically, import attributes have a <code>resolution-mode</code> attribute you can use to specify how modules are resolved. The attribute allows you to specify whether modules are resolved traditionally using the <code>require</code> call or as an ES6 import.</p>
+<p>Here’s an example of an import configured to be resolved with the <code>require</code> keyword:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>import type { SomeType } from &quot;some-module&quot; with { &quot;resolution-mode&quot;: &quot;require&quot; };
+</span></code></pre>
+<p>Here’s one that should be resolved as an ES6 import:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>import type { SomeType } from &quot;some-module&quot; with { &quot;resolution-mode&quot;: &quot;import&quot; };
+</span></code></pre>
+<p>The <code>resolution-mode</code> attribute is supported in all module modes and also works with all other <code>moduleResolution</code> options, such as <code>bundler</code> or <code>node10</code>.</p>
+<p>Currently, the <code>resolution-mode</code> attribute is the only stable way you can customize import attributes, although more customization options may be added in the future. You may also be able to explore other ways to extend or customize features in your projects.</p>
+<h2 id="benefits-of-import-attributes-for-security-and-stability">Benefits of import attributes for security and stability</h2>
+<p>Web apps can benefit from some stability and security feature gains when using import attributes in TypeScript.</p>
+<p>The security improvements that import attributes offer emphasize intentional imports, sub-resource integrity, and compliance with CSPs:</p>
+<ul>
+<li>Since import attributes enforce structured and intentional imports, they help mitigate the risks associated with malicious imports, especially where dependencies are nested or complex</li>
+<li>Ensuring imported modules function as expected helps reduce supply chain attacks</li>
+<li>TypeScript’s explicit import attributes align with CSPs (Content Security Policies) by controlling and limiting content-loading sources</li>
+<li>Integrity checks within import attributes — e.g., Subresource Integrity (SRI) — ensure that externally outsourced content is free from any third-party interference</li>
+<li>With import attributes, TypeScript simplifies codebase auditing by allowing developers to specify specific imports. This clarity helps address potential harm or necessary imports and streamline security reviews</li>
+</ul>
+<p>Meanwhile, the stability benefits of import attributes emphasize better module management and ergonomics with clarity during development:</p>
+<ul>
+<li>Providing strict typing and specific import types helps TypeScript minimize the risk of runtime errors from mismatched module formats and ensure reliable, consistent behavior at runtime</li>
+<li>Reducing uncertainty and debug time associated with dynamic modules enhances the overall development experience</li>
+<li>Specifying exact versions of modules facilitates control over module versions, which is crucial for maintaining compatibility and avoiding issues from module version mismatches</li>
+<li>Streamlining update processes allows efficient dependency management in large projects by making update processes predictable and controllable</li>
+<li>Enhancing the clarity of import attributes in TypeScript enables straightforward updates and modifications with reduced risk of unintended consequences during code refactoring</li>
+</ul>
+<p>In summary, TypeScript’s import attributes feature significantly improves security and stability. They offer a more secure, controlled, and predictable environment for developing and maintaining robust web applications.</p>
+<h2 id="drawbacks-and-common-pitfalls-of-using-import-attributes">Drawbacks and common pitfalls of using <code>import</code> attributes</h2>
+<p>As useful as import attributes are, they have some limitations and tradeoffs. For example, you may face compatibility issues while using import attributes in your new projects since this new feature may not be supported by many development environments.</p>
+<p>In addition, the <code>resolution-mode</code> attribute adds complexity to the module resolution process. You need to understand underlying concepts to take advantage of this feature.</p>
+<p>Furthermore, while import attributes do provide some security improvements to your project, using them improperly may result in some potential security vulnerabilities:</p>
+<ul>
+<li>Incorrectly specifying import attributes may result in security vulnerability and ineffective access especially when the attribute affects the modules’ loading and execution</li>
+<li>Vulnerabilities can spread in cases where the external resources and configurations an import attribute relies on are compromised</li>
+<li>TypeScript doesn’t check the content of the attributes since they’re host-specific, so you’d have to verify imports and handle errors on them manually</li>
+</ul>
+<p>You may also encounter some of these pitfalls while working with <code>import</code> attributes:</p>
+<ul>
+<li><strong>Error finding module</strong>: This is where TypeScript cannot find the module, either because it doesn’t exist or is incorrectly specified</li>
+<li><strong>Error from importing type as value</strong>: This may lead to runtime errors</li>
+<li><strong>Duplicate identifier error</strong>: This is where two imported modules export items with the same name</li>
+<li><strong>Type mismatch errors</strong>: This can happen if you assign the wrong type to a variable</li>
+</ul>
+<p>There are various ways to resolve each of these errors that are not specific to import attributes. You can read about <a href="https://blog.logrocket.com/common-typescript-module-problems-how-to-solve/">resolving common TypeScript module problems</a> or <a href="https://blog.logrocket.com/methods-for-typescript-runtime-type-checking/">resolving errors during runtime type-checking</a>, but we won’t go into detail about solutions in this article.</p>
+<h2 id="alternatives-to-import-attributes">Alternatives to <code>import</code> attributes</h2>
+<p>While import attributes can help improve security and scalability in your TypeScript projects, there may be cases where you want to avoid the limitations and errors associated with them. Instead of using import attributes, you can use a few different methods to achieve similar functionality.</p>
+<p>For example, you can explicitly separate type imports from module imports to differentiate type-only imports from code imports. In addition, depending on your project’s requirements, you might consider leveraging dynamic imports through <code>require</code> statements or organizing your codebase to minimize the need for import attributes.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this tutorial, we saw how the straightforward process of setting up and using import attributes in TypeScript can enhance scalability and security. We covered why import attributes matter, how they work from a technical perspective, and how to configure your TypeScript environment to implement import attributes.</p>
+<p>While import attributes provide many benefits, we also explored some of their drawbacks and common pitfalls. To avoid these issues, we introduced a few alternate methods that can help you achieve similar outcomes.</p>
+<p>Leveraging import attributes can improve your program quality and development experience. I hope this guide is useful as you explore ways to implement them in your projects. Happy coding!</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/javascript/>JavaScript</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/typescript/>TypeScript</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/releases/>Releases</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/technical/>Technical</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/programming/>Programming</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/tutorial/>Tutorial</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

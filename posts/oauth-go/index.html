@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             OAuth Tutorial with Go and the Spotify API
+            
+        </title>
+
+        
+            <meta property="og:title" content="OAuth Tutorial with Go and the Spotify API" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="This article will help you understand OAuth2 so that you can build and integrate external services that allow users to sign up and sign in with their external profiles, such as GitHub, Spotify, Google, e.t.c" />
+        
+    
+
+    
+        
+            <meta name="description" content="This article will help you understand OAuth2 so that you can build and integrate external services that allow users to sign up and sign in with their external profiles, such as GitHub, Spotify, Google, e.t.c" />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">OAuth Tutorial with Go and the Spotify API</h1>
+            <div class="meta">
+                
+                on  2024-10-30
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p>When OAuth was released, it solved a major issue with application security, privacy, and user experience by allowing
+builders access to user data from external apps. OAuth2 has complexities that you’ll need to understand at least at a
+high level to integrate external services requiring OAuth2 in your apps.</p>
+<p>This article will help you understand OAuth2 so that you can build and integrate external services that allow users to
+sign up and sign in with their external profiles, such as GitHub, Spotify, Google, etc.</p>
+<h2 id="understanding-the-oauth-flow"><strong>Understanding the OAuth Flow</strong></h2>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/l6jj1prahmrtnyoemcnb.png" alt="OAuth Flow" /></p>
+<p>OAuth has a set of key components, parameters, and a different flow you’ll need to understand before building; let’s
+review them.</p>
+<h3 id="oauth-concepts-and-parameters">OAuth Concepts and Parameters</h3>
+<ul>
+<li>The <strong>Authorization Server</strong> handles user authentication and grants permissions to the client, in this case, Spotify.</li>
+<li>The <strong>Resource Server</strong> is the server that hosts the data you want to access from the provider, in this case,
+Spotify’s API endpoints.</li>
+<li>The <strong>Client</strong> is the app you’re building to make requests to the authorization and resource servers.</li>
+<li>The <strong>Resource Owner</strong> owns the data you need to access from the OAuth provider.</li>
+<li>The OAuth provider issues a <strong>Client ID and Client Secret</strong> to identify your app. The <strong>Client ID</strong> identifies your
+app, while the <strong>Client Secret</strong> is for authentication.</li>
+<li>The <strong>Authorization Code</strong> is a short-lived code that the authorization server issues the client.</li>
+<li>The authorization server also issues an <strong>Access Token</strong> for your client to access the resource.</li>
+<li>The <strong>Refresh Token</strong> is long-lived, so your client can get new tokens from the authorization server when they expire
+without the user needing to authenticate again.</li>
+<li>You’ll provide a <strong>Redirect URI</strong>  to the OAuth provider so the authorization server can redirect the resource owner
+after they’ve authenticated and you’re authorized or they reject the request.</li>
+<li>You’ll specify the <strong><code>Scopes</code></strong> in your request to define the resources you want to access. The OAuth provider would
+notify the resource owner of the scopes before they authenticate.</li>
+<li>You must include a <strong>State Parameter</strong> in your request to maintain the state between the authorization request and
+callback. This step helps prevent <strong>Cross-Site Request Forgery (CSRF)</strong> attacks.</li>
+</ul>
+<h3 id="the-oauth2-authorization-flow">The OAuth2 Authorization Flow</h3>
+<ol>
+<li>When the user tries to give you access to an external resource, you need to direct them to the authorization server
+with a request that includes the parameters to indicate the data you need from the resource server.</li>
+<li>The user reserves the right to grant or deny access. When they do, the authorization server will redirect them to the
+redirect URI with or without the authorization code.</li>
+<li>If the user grants the client access, the client sends the authorization code and credentials to the authorization
+server in exchange for an access token.</li>
+<li>Now, you can use the Access Token to access the user’s resource on the resource server.</li>
+</ol>
+<h2 id="setup-and-prerequisites">Setup and Prerequisites</h2>
+<p>This article requires basic knowledge of Go, but it can also be read in other languages.</p>
+<p>Since we are using the Spotify API for demonstration, you must <a href="https://developer.spotify.com/">set up an account</a> to
+retrieve a Client ID and Client Secret for authorization. Remember to set the callback address to which Spotify will
+redirect users.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9jqiug26stpw9xdvjr0m.png" alt="Spotify Dashboard" /></p>
+<p>Now, initialize a new project and install the <code>oauth2</code> package you’ll use for authorization.</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">go</span><span> mod init
+</span><span style="color:#e45649;">go</span><span> get golang.org/x/oauth2
+</span></code></pre>
+<p>Finally, import these packages into your <code>main.go</code> file. Aside from the <code>oauth2</code> package, every package on the list is
+part of the Go standard library.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#50a14f;">&quot;context&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;encoding/json&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;fmt&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;golang.org/x/oauth2&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;golang.org/x/oauth2/spotify&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;log&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;math/rand&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;net/http&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;time&quot;
+</span><span>)
+</span></code></pre>
+<p>Before you start authorization with Oauth, you’ll need to understand how it all works; let’s get to it.</p>
+<h2 id="implementing-oauth-in-go"><strong>Implementing OAuth in Go</strong></h2>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ozomr1iooqoce3stjomq.png" alt="OAuth Endpoint" /></p>
+<p>Now that you’re all set up, define a struct for the OAuth service. When creating a new service, you’ll initialize OAuth
+configurations with <code>*oauth2.Config</code>.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">type </span><span>OAuthService </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>	</span><span style="color:#e45649;">config </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">oauth2</span><span>.</span><span style="color:#a626a4;">Config
+</span><span>	</span><span style="color:#e45649;">state  </span><span style="color:#a626a4;">string
+</span><span>}
+</span></code></pre>
+<p>The <code>state</code> variable will be the state parameter; you’ll have something secure that you can always verify.</p>
+<p>You can use the <code>rand.Seed</code> function to seed a random 64-it integer randomized by the current time.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">generateRandomState</span><span>() </span><span style="color:#a626a4;">string </span><span>{
+</span><span>	</span><span style="color:#e45649;">rand</span><span>.</span><span style="color:#e45649;">Seed</span><span>(</span><span style="color:#e45649;">time</span><span>.</span><span style="color:#e45649;">Now</span><span>().</span><span style="color:#e45649;">UnixNano</span><span>())
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Sprintf</span><span>(</span><span style="color:#50a14f;">&quot;</span><span style="color:#c18401;">%d</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">rand</span><span>.</span><span style="color:#e45649;">Intn</span><span>(</span><span style="color:#c18401;">100000</span><span>)) 
+</span><span>}
+</span></code></pre>
+<p>Calling <code>rand.Intn(100000)</code> sets the upper limit of the generated random number.</p>
+<p>Now, you can define a function that will initialize a new OAuth service using the necessary parameters.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">NewOAuthService</span><span>() </span><span style="color:#a626a4;">*OAuthService </span><span>{
+</span><span>	</span><span style="color:#a626a4;">return &amp;</span><span style="color:#e45649;">OAuthService</span><span>{
+</span><span>		</span><span style="color:#e45649;">config</span><span>: </span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">oauth2</span><span>.</span><span style="color:#e45649;">Config</span><span>{
+</span><span>			</span><span style="color:#e45649;">ClientID</span><span>:     </span><span style="color:#50a14f;">&quot;your client id&quot;</span><span>,
+</span><span>			</span><span style="color:#e45649;">ClientSecret</span><span>: </span><span style="color:#50a14f;">&quot;&lt;your client secret&quot;</span><span>,
+</span><span>			</span><span style="color:#e45649;">Endpoint</span><span>:     </span><span style="color:#e45649;">spotify</span><span>.</span><span style="color:#e45649;">Endpoint</span><span>,
+</span><span>			</span><span style="color:#e45649;">RedirectURL</span><span>:  </span><span style="color:#50a14f;">&quot;http://localhost:8080/callback/spotify&quot;</span><span>,
+</span><span>			</span><span style="color:#e45649;">Scopes</span><span>:       []</span><span style="color:#a626a4;">string</span><span>{</span><span style="color:#50a14f;">&quot;user-read-email&quot;</span><span>, </span><span style="color:#50a14f;">&quot;user-read-recently-played&quot;</span><span>},
+</span><span>		},
+</span><span>		</span><span style="color:#e45649;">state</span><span>: </span><span style="color:#e45649;">generateRandomState</span><span>(), </span><span style="color:#a0a1a7;">// Use a dynamic state in production
+</span><span>	}
+</span><span>}
+</span></code></pre>
+<p>It’s important to enter the right <code>RedirectURL</code> you provided to the OAuth provider and define only the necessary scopes.</p>
+<p>You’ll need a login function that directs the users to the OAuth provider to initiate the OAuth process.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">o </span><span style="color:#a626a4;">*OAuthService</span><span>) </span><span style="color:#0184bc;">HandleSpotifyLogin</span><span>(</span><span style="color:#e45649;">w http</span><span>.</span><span style="color:#a626a4;">ResponseWriter</span><span>, </span><span style="color:#e45649;">r </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#a626a4;">Request</span><span>) {
+</span><span>	</span><span style="color:#e45649;">url </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">o</span><span>.</span><span style="color:#e45649;">config</span><span>.</span><span style="color:#e45649;">AuthCodeURL</span><span>(</span><span style="color:#e45649;">o</span><span>.</span><span style="color:#e45649;">state</span><span>)
+</span><span>	</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Redirect</span><span>(</span><span style="color:#e45649;">w</span><span>, </span><span style="color:#e45649;">r</span><span>, </span><span style="color:#e45649;">url</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusTemporaryRedirect</span><span>)
+</span><span>}
+</span></code></pre>
+<p>Here, <code>AuthCodeURL</code> generates the URL and appends the state parameter before temporarily redirecting the user.</p>
+<p>Now, you’ll need a function that handles callbacks from the OAuth provider. After extracting and validating state
+parameters, the function should redirect users to your app.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">o </span><span style="color:#a626a4;">*OAuthService</span><span>) </span><span style="color:#0184bc;">HandleCallback</span><span>(</span><span style="color:#e45649;">w http</span><span>.</span><span style="color:#a626a4;">ResponseWriter</span><span>, </span><span style="color:#e45649;">r </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#a626a4;">Request</span><span>) {
+</span><span>	</span><span style="color:#e45649;">state </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">r</span><span>.</span><span style="color:#e45649;">URL</span><span>.</span><span style="color:#e45649;">Query</span><span>().</span><span style="color:#e45649;">Get</span><span>(</span><span style="color:#50a14f;">&quot;state&quot;</span><span>)
+</span><span>	</span><span style="color:#e45649;">code </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">r</span><span>.</span><span style="color:#e45649;">URL</span><span>.</span><span style="color:#e45649;">Query</span><span>().</span><span style="color:#e45649;">Get</span><span>(</span><span style="color:#50a14f;">&quot;code&quot;</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">state </span><span style="color:#a626a4;">!= </span><span style="color:#e45649;">o</span><span>.</span><span style="color:#e45649;">state </span><span>{
+</span><span>		</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">w</span><span>, </span><span style="color:#50a14f;">&quot;Invalid state&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusBadRequest</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">token</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">o</span><span>.</span><span style="color:#e45649;">config</span><span>.</span><span style="color:#e45649;">Exchange</span><span>(</span><span style="color:#e45649;">context</span><span>.</span><span style="color:#e45649;">Background</span><span>(), </span><span style="color:#e45649;">code</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">w</span><span>, </span><span style="color:#50a14f;">&quot;Failed to exchange token&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusInternalServerError</span><span>)
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Token exchange error:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">client </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">o</span><span>.</span><span style="color:#e45649;">config</span><span>.</span><span style="color:#e45649;">Client</span><span>(</span><span style="color:#e45649;">context</span><span>.</span><span style="color:#e45649;">Background</span><span>(), </span><span style="color:#e45649;">token</span><span>)
+</span><span>	</span><span style="color:#e45649;">userInfo</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">getSpotifyUserInfo</span><span>(</span><span style="color:#e45649;">client</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">w</span><span>, </span><span style="color:#50a14f;">&quot;Failed to get user info&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusInternalServerError</span><span>)
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;User info error:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return
+</span><span>	}
+</span><span>	</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Fprintf</span><span>(</span><span style="color:#e45649;">w</span><span>, </span><span style="color:#50a14f;">&quot;Logged in successfully! User: </span><span style="color:#c18401;">%s</span><span style="color:#0997b3;">\n</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">userInfo</span><span>.</span><span style="color:#e45649;">Name</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#e45649;">playlistID </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;37i9dQZF1EVHGWrwldPRtj&quot; </span><span style="color:#a0a1a7;">// Replace with the actual playlist ID you want to fetch
+</span><span>	</span><span style="color:#e45649;">tracks</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">getPlaylistTracks</span><span>(</span><span style="color:#e45649;">client</span><span>, </span><span style="color:#e45649;">playlistID</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">w</span><span>, </span><span style="color:#50a14f;">&quot;Failed to get playlist tracks&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusInternalServerError</span><span>)
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Playlist tracks error:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">for </span><span style="color:#e45649;">_</span><span>, </span><span style="color:#e45649;">trackItem </span><span style="color:#a626a4;">:= range </span><span style="color:#e45649;">tracks </span><span>{
+</span><span>		</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Fprintf</span><span>(</span><span style="color:#e45649;">w</span><span>, </span><span style="color:#50a14f;">&quot;Track: </span><span style="color:#c18401;">%s</span><span style="color:#50a14f;"> by </span><span style="color:#c18401;">%s</span><span style="color:#50a14f;"> (Album: </span><span style="color:#c18401;">%s</span><span style="color:#50a14f;">)</span><span style="color:#0997b3;">\n</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">trackItem</span><span>.</span><span style="color:#e45649;">Track</span><span>.</span><span style="color:#e45649;">Name</span><span>, </span><span style="color:#e45649;">trackItem</span><span>.</span><span style="color:#e45649;">Track</span><span>.</span><span style="color:#e45649;">Artists</span><span>[</span><span style="color:#c18401;">0</span><span>].</span><span style="color:#e45649;">Name</span><span>, </span><span style="color:#e45649;">trackItem</span><span>.</span><span style="color:#e45649;">Track</span><span>.</span><span style="color:#e45649;">Album</span><span>.</span><span style="color:#e45649;">Name</span><span>)
+</span><span>	}
+</span><span>}
+</span></code></pre>
+<p>First, the <code>HandleCallback</code> extracts the <code>code</code> and <code>state</code> parameters and validates the state. The <code>Exchange</code> method
+requests for an access token with the <code>code</code> parameter.</p>
+<p>Finally, the <code>Client</code> function returns an HTTP client with the access token. The token will auto-refresh as necessary.
+You can now request the OAuth provider API from the client instance, as I have done with the <code>getSpotifyUserInfo</code>
+function call.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">getSpotifyUserInfo</span><span>(</span><span style="color:#e45649;">client </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#a626a4;">Client</span><span>) (</span><span style="color:#a626a4;">string</span><span>, </span><span style="color:#a626a4;">error</span><span>) {
+</span><span>	</span><span style="color:#e45649;">resp</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">client</span><span>.</span><span style="color:#e45649;">Get</span><span>(</span><span style="color:#50a14f;">&quot;https://api.spotify.com/v1/me&quot;</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#50a14f;">&quot;&quot;</span><span>, </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;failed to get user info: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">defer </span><span style="color:#e45649;">resp</span><span>.</span><span style="color:#e45649;">Body</span><span>.</span><span style="color:#e45649;">Close</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">resp</span><span>.</span><span style="color:#e45649;">StatusCode </span><span style="color:#a626a4;">!= </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusOK </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#50a14f;">&quot;&quot;</span><span>, </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error response from Spotify: </span><span style="color:#c18401;">%s</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">resp</span><span>.</span><span style="color:#e45649;">Status</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">var </span><span style="color:#e45649;">user </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>		</span><span style="color:#e45649;">Name </span><span style="color:#a626a4;">string </span><span style="color:#50a14f;">`json:&quot;display_name&quot;`
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">json</span><span>.</span><span style="color:#e45649;">NewDecoder</span><span>(</span><span style="color:#e45649;">resp</span><span>.</span><span style="color:#e45649;">Body</span><span>).</span><span style="color:#e45649;">Decode</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">user</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#50a14f;">&quot;&quot;</span><span>, </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;failed to decode user info: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">user</span><span>.</span><span style="color:#e45649;">Name</span><span>, </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>The <code>getSpotifyUserInfo</code> function accepts an HTTP client instance and makes a <code>GET</code> request to a Spotify API endpoint
+that requires OAuth for access. The client from the <code>HandleCallback</code> function is the sauce that makes the request valid.</p>
+<p>Finally, you need to call the OAuth service, register the routes and start a server.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>	</span><span style="color:#e45649;">oauthService </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">NewOAuthService</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">HandleFunc</span><span>(</span><span style="color:#50a14f;">&quot;/login/spotify&quot;</span><span>, </span><span style="color:#e45649;">oauthService</span><span>.</span><span style="color:#e45649;">HandleSpotifyLogin</span><span>)
+</span><span>	</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">HandleFunc</span><span>(</span><span style="color:#50a14f;">&quot;/callback/spotify&quot;</span><span>, </span><span style="color:#e45649;">oauthService</span><span>.</span><span style="color:#e45649;">HandleCallback</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Server is running on http://localhost:8080&quot;</span><span>)
+</span><span>	</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Fatal</span><span>(</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">ListenAndServe</span><span>(</span><span style="color:#50a14f;">&quot;:8080&quot;</span><span>, </span><span style="color:#c18401;">nil</span><span>))
+</span><span>}
+</span></code></pre>
+<p>When running this program and following through with the authentication process, you should get a message with your
+username displayed on the browser.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hget484xwxrdk7smskh3.png" alt="Browser Output" /></p>
+<h2 id="best-practices-to-consider">Best Practices to Consider</h2>
+<p>When implementing an OAuth provider, follow this safety and great UX practices.</p>
+<ul>
+<li>Use and enforce HTTPS to protect tokens from attackers.</li>
+<li>Use secure storage solutions if you’re storing tokens.</li>
+<li>Implement token expiration and automatic refreshes for good UX.</li>
+<li>Minimize scopes and permissions to what’s necessary.</li>
+<li>Do not store tokens in local storage for web apps.</li>
+<li>Rotate, and Invalidate Tokens When compromised or the user has logged out.</li>
+<li>Implement CSRF Protection with state parameters.</li>
+</ul>
+<p>The data you get from OAuth providers is sensitive, so they specifically require OAuth on those endpoints. Security
+first!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Now that you know the basics of OAuth and how to implement OAuth providers and best practices, the next step is to build
+the other parts of your apps.</p>
+<p>Use this foundation to explore other features like refresh tokens for sessions with longer lives, and always consider
+the best practices. Happy building.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/go/>Go</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/authentication/>Authentication</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/security/>Security</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/integration/>Integration</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

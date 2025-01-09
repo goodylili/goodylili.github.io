@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Plotting Rust Projects using Plotly
+            
+        </title>
+
+        
+            <meta property="og:title" content="Plotting Rust Projects using Plotly" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="Create customizable charts and graphs in your Rust project using the Plotly package for data-intensive projects." />
+        
+    
+
+    
+        
+            <meta name="description" content="Create customizable charts and graphs in your Rust project using the Plotly package for data-intensive projects." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Plotting Rust Projects using Plotly</h1>
+            <div class="meta">
+                
+                on  2023-04-26
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><em><strong><a href="//goodylili.github.io/posts/plotting-rust-projects-using-plotly/logrocket.com">LogRocket</a> made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.</strong></em></p>
+<h1 id="plotting-rust-projects-using-plotly">Plotting Rust projects using Plotly</h1>
+<p><a href="https://igiagkiozis.github.io/plotly/content/plotly_rs.html">Plotly</a> is a powerful data visualization tool that you can use to create stunning graphs, charts, and other visualizations for your Rust projects. Plotly is an open source package built on the popular <a href="https://plotly.com/javascript/">Plotly.js</a> library that provides a high-level interface for creating interactive plots.</p>
+<p>Plotly is handy for working on data-intensive projects, helping you create beautiful and informative visualizations for easier communication. The library is easy to use with its high-level interface that eases the process of creating complex visualizations with just a few lines of code. With zero to no knowledge, you can use Plotly easily in your Rust projects. In this article, we’ll cover how to start plotting using the Plotly package.</p>
+<p><em>Jump ahead:</em></p>
+<ul>
+<li>Getting started with Plotly</li>
+<li>Creating basic plots with Plotly
+<ul>
+<li>Line charts</li>
+<li>Scatter plots</li>
+<li>Bar charts</li>
+</ul>
+</li>
+<li>Customizing Plotly plots
+<ul>
+<li>Adjusting plot titles, axis labels, and legends</li>
+<li>Adding annotations and shapes</li>
+</ul>
+</li>
+<li>Plotly vs. Vegalite</li>
+</ul>
+<h2 id="getting-started-with-plotly">Getting started with Plotly</h2>
+<p>You’ll need to set up a Rust project to use Plotly. You can use <code>Cargo</code> to create a new Rust project with the <code>new</code> command:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>cargo new plotly-tutorial
+</span></code></pre>
+<p>The command creates a new Rust project in the specified directory containing the necessary files to run your project.</p>
+<p>After creating your Rust project, you’ll need to install Plotly as a dependency. Run this command to install it:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>cargo install plotly
+</span></code></pre>
+<p>You’ll also need to add Plotly to your project’s dependencies in your <code>Cargo.toml</code> file. The latest version at the time of writing is <code>0.6.0</code>:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>[dependencies]
+</span><span>plotly = &quot;0.6.0&quot;
+</span></code></pre>
+<p>After installing and adding Plotly to your app's dependencies, import it with the <code>use</code> directive. Here’s how you can import Plotly functions in your Rust files:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use plotly::common::{Mode, Title};
+</span><span>use plotly::layout::{Axis, Layout};
+</span><span>use plotly::{Plot, Scatter};
+</span></code></pre>
+<p>The code imports functions from the <code>common</code>, <code>layout</code>, <code>Plot</code>, and <code>Plotly</code> modules in the Plotly package.</p>
+<p>Here’s how you can create a simple scatter plot with Plotly:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>fn main() {
+</span><span>    let trace = Scatter::new(vec![1,  2, 3], vec![4, 5, 6]).mode(Mode::Markers);
+</span><span>
+</span><span>    let layout = Layout::new().x_axis(Axis::new().title(Title::from(&quot;X Axis&quot;)))
+</span><span>        .y_axis(Axis::new().title(Title::from(&quot;Y Axis&quot;)))
+</span><span>        .title(Title::from(&quot;My Plot&quot;));
+</span><span>
+</span><span>    let mut plot = Plot::new();
+</span><span>    plot.add_trace(trace);
+</span><span>    plot.set_layout(layout);
+</span><span>    plot.show();
+</span><span>
+</span><span>}
+</span></code></pre>
+<p>In the <code>main</code> function, the <code>trace</code> variable creates a new <code>Scatter</code> object with two vectors of data points for the X and Y axes. The <code>mode</code> function calls on the <code>scatter</code> object to display the data points as markers on the plot.</p>
+<p>The <code>Layout::new</code> function creates a new <code>Layout</code> object with the <code>x_axis</code> and <code>y_axis</code> functions that specify the axis and labels. The <code>title</code> function gives the plot a name.</p>
+<p>Finally, the program creates a plot with the objects and adds them with the <code>add_trace</code> and <code>set_layout</code> functions. The <code>show</code> function displays the plot in a new window of your browser.
+Here’s the resulting graph when you run the program:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679853449321_Untitled.png" alt="" /></p>
+<h2 id="creating-basic-plots-with-plotly">Creating basic plots with Plotly</h2>
+<p>With Plotly, you can create a variety of plot types, from line charts to scatter plots and bar charts.</p>
+<p><strong>Plotting line charts with Plotly</strong>
+You’ll need the <code>Plot</code>, <code>Scatter</code>, and <code>Title</code> modules to plot a line chart with Plotly. Here’s how to plot a line chart with two vectors holding the X and Y values:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use plotly::{Plot, Scatter};
+</span><span>use plotly::common::Title;
+</span><span>
+</span><span>fn main() {
+</span><span>    // Create data for the line chart
+</span><span>    let x_values = vec![1, 2, 3, 4, 5];
+</span><span>    let y_values = vec![2, 4, 6, 8, 10];
+</span><span>
+</span><span>    // Create a scatter plot with the data
+</span><span>    let scatter = Scatter::new(x_values, y_values).name(&quot;Line Chart&quot;);
+</span><span>
+</span><span>    // Create a plot and add the scatter plot
+</span><span>    let mut plot = Plot::new();
+</span><span>    plot.add_trace(scatter);
+</span><span>
+</span><span>    // Customize the plot layout
+</span><span>    plot.set_layout(plotly::Layout::new().title(Title::from(&quot;My Line Chart&quot;)));
+</span><span>
+</span><span>    // Show the plot in a browser window
+</span><span>    plot.show();
+</span><span>}
+</span></code></pre>
+<p>The <code>x_values</code> and <code>y_values</code> are vectors for the line chart data, and the <code>scatter</code> variable creates a scatter plot with the data. The <code>plot</code> variable is an instance of the <code>new</code> plot; the <code>add_trace</code> method adds the trace to a plot.</p>
+<p>The <code>set_layout</code> method customizes the plot layout, and the <code>show</code> method renders the plot to the browser:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679853798015_Untitled+1.png" alt="" /></p>
+<p><img src="/static/img/pixel.gif" alt="" /></p>
+<p><strong>Plotting scatter plots with Plotly</strong></p>
+<p>Creating a scatter plot with Plotly is similar to creating a line chart. You’ll need to define the data, create a scatter trace, create a plot layout, and add the trace to the plot layout:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use plotly::{Plot, Scatter};
+</span><span>use plotly::common::{Marker, Mode, Title};
+</span><span>use plotly::layout::{Axis, Layout};
+</span><span>
+</span><span>fn main() {
+</span><span>    // Define the data for the scatterplot
+</span><span>    let x_data = vec![1, 2, 3, 4, 5];
+</span><span>    let y_data = vec![2, 4, 1, 3, 5];
+</span><span>
+</span><span>    // Create a Scatter trace
+</span><span>    let trace = Scatter::new(x_data, y_data)
+</span><span>        .mode(Mode::Markers)  // Set the marker mode
+</span><span>        .marker(Marker::new().size(10));  // Set the marker size
+</span><span>
+</span><span>    // Create the plot layout
+</span><span>    let layout = Layout::new()
+</span><span>        .title(Title::new(&quot;My Scatter-plot&quot;))
+</span><span>        .x_axis(Axis::new().title(Title::new(&quot;X-axis&quot;)))
+</span><span>        .y_axis(Axis::new().title(Title::new(&quot;Y-axis&quot;)));
+</span><span>
+</span><span>    // Create the plot and add the trace and layout
+</span><span>    let mut plot = Plot::new();
+</span><span>    plot.add_trace(trace);
+</span><span>    plot.set_layout(layout);
+</span><span>
+</span><span>    // Show the plot in the default browser
+</span><span>    plot.show();
+</span><span>}
+</span></code></pre>
+<p>The <code>x_values</code> and <code>y_values</code> are vectors for the line chart data, and the <code>scatter</code> variable creates a scatter plot with the data. The <code>mode</code> function sets the marker mode, and the <code>maker</code> function sets the marker size.</p>
+<p>The <code>layout</code> variable is an instance of the plot layout, and the <code>title</code>, <code>x_axis</code>, and <code>y_axis</code> functions set the titles for the plot and the x and y axis, respectively:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679854117715_image.png" alt="" /></p>
+<p><strong>Plotting bar charts with Plotly</strong>
+You’ll need the <code>Bar</code> module to plot bar charts with Plotly. You’ll start by defining data for the bar chart and creating a bar trace before creating the plot layout and adding the <code>trace</code> layout:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use plotly::{Plot, Bar};
+</span><span>use plotly::common::{Title};
+</span><span>use plotly::layout::{Axis, Layout};
+</span><span>
+</span><span>fn main() {
+</span><span>    // Define the data for the bar chart
+</span><span>    let x_data = vec![&quot;Apples&quot;, &quot;Oranges&quot;, &quot;Bananas&quot;];
+</span><span>    let y_data = vec![10, 20, 15];
+</span><span>
+</span><span>    // Create a Bar trace
+</span><span>    let trace = Bar::new(x_data, y_data)
+</span><span>        .name(&quot;Fruit sales&quot;);
+</span><span>
+</span><span>    // Create the plot layout
+</span><span>    let layout = Layout::new()
+</span><span>        .title(Title::new(&quot;Fruit Sales&quot;))
+</span><span>        .x_axis(Axis::new().title(Title::new(&quot;Fruit&quot;)))
+</span><span>        .y_axis(Axis::new().title(Title::new(&quot;Sales&quot;)));
+</span><span>
+</span><span>    // Create the plot and add the trace and layout
+</span><span>    let mut plot = Plot::new();
+</span><span>    plot.add_trace(trace);
+</span><span>    plot.set_layout(layout);
+</span><span>
+</span><span>    // Show the plot in the default browser
+</span><span>    plot.show()
+</span><span>}
+</span></code></pre>
+<p>The code plots a bar chart on the browser for fruit sales with the <code>x_data</code> and <code>y_data</code> variables. The <code>trace</code> variable is the bar trace instance, and the <code>name</code> method takes in the name of the bar chart:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679853609692_Untitled+3.png" alt="" /></p>
+<h2 id="customizing-plotly-plots">Customizing Plotly plots</h2>
+<p>Customizing plots allows you to create visualizations that effectively communicate your data insights.</p>
+<p>In the follow sections, we’ll cover a few of the many customizations you can make to your Plotly plots.</p>
+<p><strong>Adjusting plot titles, axis labels, and legends</strong>
+The titles, axis labels, and legends of your plot are essential to propagating information in your visualizations.</p>
+<p>Here’s how you can add plot titles, axis labels, and legends to a line chart with Plotly:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use plotly::{Plot, Scatter};
+</span><span>use plotly::layout::{Layout, Legend, Axis};
+</span><span>use plotly::common::Title;
+</span><span>
+</span><span>fn main() {
+</span><span>    // Create a layout with a custom plot title, an x-axis title, y-axis title, and a legend.
+</span><span>    let layout = Layout::new()
+</span><span>        .title(Title::new(&quot;Sales Data&quot;))
+</span><span>        .x_axis(Axis::new().title(Title::new(&quot;Date&quot;)))
+</span><span>        .y_axis(Axis::new().title(Title::new(&quot;Sales&quot;)))
+</span><span>        .legend(Legend::new());
+</span><span>
+</span><span>    // Create a scatter plot trace with data and a custom name.
+</span><span>    let trace = Scatter::new(vec![1, 2, 3], vec![4, 5, 6])
+</span><span>        .name(&quot;Q1 Sales&quot;);
+</span><span>
+</span><span>    // Create a new plot and add the trace and layout to it.
+</span><span>    let mut plot = Plot::new();
+</span><span>    plot.add_trace(trace);
+</span><span>    plot.set_layout(layout);
+</span><span>
+</span><span>    // Display the plot in the default browser.
+</span><span>    plot.show();
+</span><span>}
+</span></code></pre>
+<p>The <code>layout</code> variable is a new layout instance. The <code>title</code> method takes in the title of the plot. The <code>title</code> function of the y-axis instances takes in the title of the X and Y axis. The <code>legend</code> function takes in an instance of a legend.</p>
+<p>When running the function, you’ll see the axis, legend, and plot all labeled as intended:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679853270216_Untitled+4.png" alt="User-uploaded image: Untitled+4.png" /></p>
+<p><strong>Changing colors and line styles</strong>
+Colors add variance and spice to plots. Plotly provides <a href="https://docs.rs/plotly/0.6.0/plotly/common/color/enum.NamedColor.html">many colors</a> and line styles for customizing your plots. You’ll need the <code>NamedColor</code> module to work with colors in Plotly.</p>
+<p>Here’s how to create a scatter plot with two traces and specify colors with Plotly:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use plotly::common::Mode;
+</span><span>use plotly::{NamedColor, Plot, Scatter};
+</span><span>
+</span><span>fn main() {
+</span><span>    // Define some sample data
+</span><span>    let x_values: Vec&lt;f64&gt; = vec![1.0, 2.0, 3.0, 4.0, 5.0];
+</span><span>    let y_values_1: Vec&lt;f64&gt; = vec![2.0, 4.0, 3.0, 1.0, 5.0];
+</span><span>    let y_values_2: Vec&lt;f64&gt; = vec![4.0, 1.0, 3.0, 2.0, 5.0];
+</span><span>
+</span><span>    // Create a scatter plot with two traces
+</span><span>    let trace1 = Scatter::new(x_values.clone(), y_values_1.clone())
+</span><span>        .mode(Mode::Lines)
+</span><span>        .name(&quot;Trace 1&quot;)
+</span><span>        .line(plotly::common::Line::new().color(NamedColor::Black).width(5 as f64).dash(plotly::common::DashType::LongDashDot));
+</span><span>    let trace2 = Scatter::new(x_values, y_values_2)
+</span><span>        .mode(Mode::Lines)
+</span><span>        .name(&quot;Trace 2&quot;)
+</span><span>        .line(plotly::common::Line::new().color(NamedColor::LightSeaGreen).width(5 as f64).dash(plotly::common::DashType::DashDot));
+</span><span>
+</span><span>    let mut plot = Plot::new();
+</span><span>    plot.add_trace(trace1);
+</span><span>    plot.add_trace(trace2);
+</span><span>    // Show the plot
+</span><span>    plot.show();
+</span><span>}
+</span></code></pre>
+<p>The program creates a scatter plot with two traces. The <code>color</code> function changes the color of a plot. The first trace has the color <code>Black</code> and the second has <code>LightSeaGreen</code>.</p>
+<p>You can use <code>DashType</code> to specify a dash type line style for your plot. The first trace has the <code>LongDashDot</code> line style, and the second has the <code>DashDot</code> line style:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679853270160_Untitled+5.png" alt="User-uploaded image: Untitled+5.png" /></p>
+<p><strong>Adding annotations and shapes</strong>
+You can create shapes with Plotly for extra customization on your plots. The process of adding annotations and shapes is similar; you just need to specify the coordinates.</p>
+<p>Here’s how you can add annotations to your plots:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>// Create some annotations
+</span><span>    let annotations = vec![
+</span><span>        Annotation::new()
+</span><span>            .x(5.0)
+</span><span>            .y(5.0)
+</span><span>            .show_arrow(true)
+</span><span>            .arrow_head(2)
+</span><span>            .ax(20)
+</span><span>            .ay(-80),
+</span><span>    ];
+</span></code></pre>
+<p>The <code>annotations</code> variable is a vector with a field for the annotations. The <code>x</code> and <code>y</code> functions are for the coordinates of the annotation. The <code>show_arrow</code> option shows arrows on the coordinates, and the <code>arrow_head</code> function specifies the arrowhead size. The <code>ax</code> and <code>ay</code> functions set the components of the arrow, respectively.</p>
+<p>To declare a shape, you’ll specify the coordinates and other options like opacity. Here’s how you can add a square to your plot:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>   // Create a shape
+</span><span>    let shape = Shape::new()
+</span><span>        .opacity(0.5)
+</span><span>        .x0(2.0)
+</span><span>        .x1(4.0)
+</span><span>        .y0(1.0)
+</span><span>        .y1(5.0);
+</span></code></pre>
+<p>The <code>x0</code>, <code>x1</code>, <code>y0</code>, and <code>y1</code> variables are coordinates for the shape, and the opacity function sets the shape's opacity.</p>
+<p>You can add annotations and shapes with the <code>annotations</code> and <code>shapes</code> functions:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>let layout = Layout::new()
+</span><span>        .title(Title::new(&quot;Scatter Plot with Annotations and Shapes&quot;))
+</span><span>        .annotations(annotations)
+</span><span>        .shapes(vec![shape]);
+</span></code></pre>
+<p>Here’s the result of adding annotation and shapes to the plot:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_CA48064A3B64E5821D41E49B5AAEB2EF8E9DDA087817B1F8A621F8C827BF6BED_1679853270101_Untitled+6.png" alt="User-uploaded image: Untitled+6.png" /></p>
+<h2 id="plotly-vs-vegalite">Plotly vs. Vegalite</h2>
+<p>Although Plotly is undoubtedly one of the most popular plotting libraries in the Plotly ecosystem, many other libraries are rising through the ranks, one of them being <a href="https://crates.io/crates/vega_lite_3">Vegalite</a>.</p>
+<p>Vegalite allows you to create interactive visualizations declaratively. It is built on the Vega-Lite visualization grammar and offers a high-level API for creating charts.</p>
+<p>One primary benefit of using Vegalite is that it is designed to be highly customizable. You can fine-tune the visual properties of your charts with a wide range of options, from color schemes to axis labels.</p>
+<p>Like Plotly, Vegalite also offers built-in support for interactive features such as hover tooltips, zooming, and panning, all of which allow you to create highly engaging visualizations.</p>
+<p>While Vegalite may be more customizable and faster, Plotly offers a broader range of specialized chart types and a more moderate learning curve.</p>
+<p>Both libraries have their strengths and weaknesses. Vegalite is highly customizable, fast, and easy to use, but it has a steeper learning curve.</p>
+<p>Plotly, on the other hand, is also customizable and fast, but offers a broader range of specialized chart types and has a more moderate learning curve than Vegalite. Ultimately, your choice should depend on your project’s specific needs.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Plotly is a helpful tool when building interact web applications in Rust. In this article, you learned how to use Plotly for plotting a variety of charts, as well as how to customize those plots. You also got an overview of the differences between Plotly and the Vegalite plotting library.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/rust/>Rust</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/development/>development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/tools/>Tools</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/technical/>Technical</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/data/>data</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

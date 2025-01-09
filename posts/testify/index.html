@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Step up Your Go App Testing Game With the Testify Framework
+            
+        </title>
+
+        
+            <meta property="og:title" content="Step up Your Go App Testing Game With the Testify Framework" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="By using Testify in your Go projects, you can write tests that are simple and expressive, thereby ensuring that your code meets requirements with high quality" />
+        
+    
+
+    
+        
+            <meta name="description" content="By using Testify in your Go projects, you can write tests that are simple and expressive, thereby ensuring that your code meets requirements with high quality" />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Step up Your Go App Testing Game With the Testify Framework</h1>
+            <div class="meta">
+                
+                on  2023-05-10
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><em><strong><a href="https://semaphoreci.com/blog/testify-go">Semaphore</a> made this piece possible. They help product teams deliver software
+with high standards of quality, security, and efficiency.</strong></em></p>
+<p>Testing is essential to the software development cycle, ensuring code integrity, reliability, and quality. As the complexity of software systems increases, testing becomes crucial to identify bugs and errors that may lead to system failure.
+Go provides the <code>testing</code> package for testing however, writing tests with the package can be time-consuming and tedious. Fortunately, the Go ecosystem is home to sophisticated third-party packages like <a href="https://github.com/stretchr/testify">Testify</a> that make test-related tasks more intuitive.</p>
+<p>Testify is a popular testing toolkit for Go that provides a set of utilities and assertion functions that simplify testing. Testify extends the built-in <code>testing</code> package, allowing Go developers to write comprehensive tests confidently with features from assertions, mocks, suites, and others.</p>
+<h2 id="getting-started-with-the-testify-package">Getting Started With the Testify Package</h2>
+<img src="/screenshot/testify github stats preview.jpeg" alt="testify github stats preview">
+<p>Getting started with the <code>testify</code> package is easy. You’ll need to install the package in your Go project and write the tests in your Go test files.</p>
+<p>First, initialize a new Go project with the <code>go mod init</code> command.</p>
+<pre data-lang="shell" style="background-color:#fafafa;color:#383a42;" class="language-shell "><code class="language-shell" data-lang="shell"><span>go mod init
+</span></code></pre>
+<p>Next, Run this command in the terminal of your project’s directory to install the <code>testify</code> package using the <strong><code>go get</code></strong> command.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">go </span><span style="color:#e45649;">get github</span><span>.</span><span style="color:#e45649;">com</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">stretchr</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">testify
+</span></code></pre>
+<p>You can set up the Testify package in your Go project by importing the package into your test files.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">import </span><span style="color:#50a14f;">&quot;github.com/stretchr/testify&quot;
+</span></code></pre>
+<p>You’ll need a Go test file to run your tests with the <code>testify</code> package. Typical Go test files end with the <code>_test.go</code> suffix appended to the file name where the functions you’re testing are located.</p>
+<p>Run this command in your project’s working directory to create a Go test file for this tutorial.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#e45649;">touch examples_test</span><span>.</span><span style="color:#a626a4;">go
+</span></code></pre>
+<p>You can run all the tests in your Go project with the <code>test</code> command. Adding the <code>-v</code> flag returns a verbose output of the test.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">go </span><span style="color:#e45649;">test </span><span style="color:#a626a4;">-</span><span style="color:#e45649;">v
+</span></code></pre>
+<p>The <code>testify</code> package provides packages for multiple functionalities. You’ll use packages like <code>assert</code> and <code>mock</code> for assertions and mock testing along with other packages in the <code>testify</code> package.</p>
+<h2 id="assertions-with-testify"><strong>Assertions with Testify</strong></h2>
+<p>Assertions are statements that validate certain conditions to test the behavior of a function or a piece of code. In Testify, the <strong><code>assert</code></strong> package provides various assertion functions for various test cases.</p>
+<p>Here’s a function that adds two numbers and returns the sum and an error type.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span><span>
+</span><span style="color:#a626a4;">import </span><span style="color:#50a14f;">&quot;fmt&quot;
+</span><span>
+</span><span style="color:#a0a1a7;">// MyFunction returns the sum of two integers.
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">MyFunction</span><span>(</span><span style="color:#e45649;">a</span><span>, </span><span style="color:#e45649;">b </span><span style="color:#a626a4;">int</span><span>) (</span><span style="color:#a626a4;">int</span><span>, </span><span style="color:#a626a4;">error</span><span>) {
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">a </span><span style="color:#a626a4;">&lt; </span><span style="color:#c18401;">0 </span><span style="color:#a626a4;">|| </span><span style="color:#e45649;">b </span><span style="color:#a626a4;">&lt; </span><span style="color:#c18401;">0 </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">0</span><span>, </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;both arguments must be non-negative&quot;</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">a </span><span style="color:#a626a4;">+ </span><span style="color:#e45649;">b</span><span>, </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>The <code>MyFunction</code> function takes in two integers. If any of the integers is a negative number on the function call , the function returns 0 and an error with the <code>fmt</code> package’s <code>Errorf</code> function.</p>
+<p>Here’s how you can test the <code>MyFunction</code> function with the <code>testify</code> package’s <code>Equal</code>, <code>NoError</code>, and <code>Error</code> functions.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#50a14f;">&quot;testing&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;github.com/stretchr/testify/assert&quot;
+</span><span>)
+</span><span>
+</span><span style="color:#a0a1a7;">// In your Go test file
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">TestMyFunction</span><span>(</span><span style="color:#e45649;">t </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">testing</span><span>.</span><span style="color:#a626a4;">T</span><span>) {
+</span><span>	</span><span style="color:#a0a1a7;">// Test case 1: Positive inputs
+</span><span>	</span><span style="color:#e45649;">sum</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">MyFunction</span><span>(</span><span style="color:#c18401;">2</span><span>, </span><span style="color:#c18401;">3</span><span>)
+</span><span>	</span><span style="color:#e45649;">assert</span><span>.</span><span style="color:#e45649;">Equal</span><span>(</span><span style="color:#e45649;">t</span><span>, </span><span style="color:#c18401;">5</span><span>, </span><span style="color:#e45649;">sum</span><span>, </span><span style="color:#50a14f;">&quot;Sum of 2 and 3 is 5&quot;</span><span>)
+</span><span>	</span><span style="color:#e45649;">assert</span><span>.</span><span style="color:#e45649;">NoError</span><span>(</span><span style="color:#e45649;">t</span><span>, </span><span style="color:#e45649;">err</span><span>, </span><span style="color:#50a14f;">&quot;There are no errors&quot;</span><span>)
+</span><span>
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// In your Go test file
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">TestMyFunction2</span><span>(</span><span style="color:#e45649;">t </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">testing</span><span>.</span><span style="color:#a626a4;">T</span><span>) {
+</span><span>	</span><span style="color:#a0a1a7;">// Test case 2: One negative input
+</span><span>	</span><span style="color:#e45649;">sum</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">MyFunction</span><span>(</span><span style="color:#a626a4;">-</span><span style="color:#c18401;">2</span><span>, </span><span style="color:#c18401;">3</span><span>)
+</span><span>	</span><span style="color:#e45649;">assert</span><span>.</span><span style="color:#e45649;">Equal</span><span>(</span><span style="color:#e45649;">t</span><span>, </span><span style="color:#c18401;">0</span><span>, </span><span style="color:#e45649;">sum</span><span>, </span><span style="color:#50a14f;">&quot;Sum of -2 and 3 is 0&quot;</span><span>)
+</span><span>	</span><span style="color:#e45649;">assert</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">t</span><span>, </span><span style="color:#e45649;">err</span><span>, </span><span style="color:#50a14f;">&quot;Error is not nil for negative input&quot;</span><span>)
+</span><span>
+</span><span>} 
+</span></code></pre>
+<p>The functions are typical Go test functions that take, in instances of the <code>*testing.T</code> type for the tests.</p>
+<p>The <code>TestMyFunction</code> test function calls the   <code>MyFunction</code> and uses the <code>Equal</code> function of the assert package to assert equality between the result and 5. The <code>NoError</code> function of the <code>assert</code> package asserts that a function returned no errors.<br />
+Similarly, the <code>TestMyFunction2</code> test function calls the  <code>MyFunction</code> and uses the <code>Equal</code> function of the assert package to assert equality between the result and 0. The <code>Error</code> function of the <code>assert</code> package asserts that a function returned errors.</p>
+<p>Both test functions should pass since the <code>MyFunction</code> function returns the same result as the edge case in both scenarios.</p>
+<img src="/screenshot/result of assertions with Testify.png" alt="result of assertions with Testify">
+<h2 id="mocks-with-testify"><strong>Mocks with Testify</strong></h2>
+<p>Mocks are objects that simulate the behavior of real objects. Mocks are useful for testing interactions between different parts of a system. The <strong><code>mock</code></strong> package provides functionality for mock testing in the <code>testify</code> package.</p>
+<p>Here’s how you can create a simple mock object for testing.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#50a14f;">&quot;testing&quot;
+</span><span>
+</span><span>	</span><span style="color:#50a14f;">&quot;github.com/stretchr/testify/assert&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;github.com/stretchr/testify/mock&quot;
+</span><span>)
+</span><span>
+</span><span style="color:#a626a4;">type </span><span>mockCalculateArea </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>	</span><span style="color:#e45649;">mock</span><span>.Mock
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">m </span><span style="color:#a626a4;">*mockCalculateArea</span><span>) </span><span style="color:#0184bc;">calculateArea</span><span>(</span><span style="color:#e45649;">width </span><span style="color:#a626a4;">int</span><span>, </span><span style="color:#e45649;">height </span><span style="color:#a626a4;">int</span><span>) </span><span style="color:#a626a4;">int </span><span>{
+</span><span>	</span><span style="color:#e45649;">args </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">m</span><span>.</span><span style="color:#e45649;">Called</span><span>(</span><span style="color:#e45649;">width</span><span>, </span><span style="color:#e45649;">height</span><span>)
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">args</span><span>.</span><span style="color:#e45649;">Int</span><span>(</span><span style="color:#c18401;">0</span><span>)
+</span><span>} 
+</span></code></pre>
+<p>After importing the <code>mock</code> and <code>assert</code> packages you declared the <code>mockCalculateArea</code> struct that embeds the <code>Mock</code> type from the <code>mock</code> package for the <code>calculateArea</code> function.</p>
+<p>The <code>calculateArea</code> function implements the <code>mockCalculateArea</code> struct. The <code>args</code> variable holds the arguments passed to the mock object (the <code>width</code> and <code>height</code> arguments). Then the <code>Int</code> function takes in zero and extracts the first integer value from the  <strong><code>mock.Arguments</code></strong> object and returns the value as the result of the mock function.</p>
+<p>Here’s how you can create mock objects for your test functions.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// In your Go test file
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">TestCalculateArea</span><span>(</span><span style="color:#e45649;">t </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">testing</span><span>.</span><span style="color:#a626a4;">T</span><span>) {
+</span><span>	</span><span style="color:#a0a1a7;">// Create a mock object for the calculateArea function
+</span><span>	</span><span style="color:#e45649;">mockObj </span><span style="color:#a626a4;">:= </span><span style="color:#0184bc;">new</span><span>(</span><span style="color:#a626a4;">mockCalculateArea</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Set up the expected return value
+</span><span>	</span><span style="color:#e45649;">mockObj</span><span>.</span><span style="color:#e45649;">On</span><span>(</span><span style="color:#50a14f;">&quot;calculateArea&quot;</span><span>, </span><span style="color:#c18401;">5</span><span>, </span><span style="color:#c18401;">10</span><span>).</span><span style="color:#e45649;">Return</span><span>(</span><span style="color:#c18401;">50</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Call the function and check the result
+</span><span>	</span><span style="color:#e45649;">actualArea </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">mockObj</span><span>.</span><span style="color:#e45649;">calculateArea</span><span>(</span><span style="color:#c18401;">5</span><span>, </span><span style="color:#c18401;">10</span><span>)
+</span><span>	</span><span style="color:#e45649;">assert</span><span>.</span><span style="color:#e45649;">Equal</span><span>(</span><span style="color:#e45649;">t</span><span>, </span><span style="color:#c18401;">50</span><span>, </span><span style="color:#e45649;">actualArea</span><span>, </span><span style="color:#50a14f;">&quot;The calculated area is incorrect&quot;</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Verify that the expected function call was made
+</span><span>	</span><span style="color:#e45649;">mockObj</span><span>.</span><span style="color:#e45649;">AssertExpectations</span><span>(</span><span style="color:#e45649;">t</span><span>)
+</span><span>}
+</span></code></pre>
+<p>The <code>TestCalculateArea</code> function uses  the <strong><code>mockCalculateArea</code></strong> mock object to test the <strong><code>calculateArea</code></strong> function. The <code>new</code> function creates a new mock object of the <code>mockCalculateArea</code> type to simulate the behavior of the <strong><code>calculateArea</code></strong> function during the test.</p>
+<p>The  <code>TestCalculateArea</code> function sets the expected return value of the <strong><code>calculateArea</code></strong> function using the <code>On</code> method of the mock object that takes in the expected input values for the function call as arguments (<strong><code>5</code></strong> and <strong><code>10</code></strong> in this case) and the expected return value (<strong><code>50</code></strong> in this case).
+The <code>calculateArea</code> method calls the mock object with the same input values (<strong><code>5</code></strong> and <strong><code>10</code></strong>) as the expected function call. The actual return value of the function is stored in the <strong><code>actualArea</code></strong> variable.</p>
+<p>The <strong><code>assert.Equal</code></strong> function verifies that the <strong><code>actualArea</code></strong> variable equals the expected return value (<strong><code>50</code></strong> in this case). If the actual value doesn’t match the expected value, the test fails, and the message is printed to the console.</p>
+<p>Finally, the function calls the <strong><code>AssertExpectations</code></strong> method of the mock object to verify that the test made the expected function call during the test. If the function wasn’t called with the expected input values, the test fails.</p>
+<img src="/screenshot/result of mocking with testify.png" alt="result of mocking with testify">
+<h2 id="test-suites-with-testify">Test Suites with Testify</h2>
+<p>Test suites are collections of test cases designed to test the functionality of a specific software application, system, or component. Test suites typically include a set of test cases executed concurrently in a predefined order to achieve a specific testing goal.</p>
+<p>You’ll need to define a struct that embeds the <code>Suite</code> type of the <code>suite</code> package to define test suits. The functions for the test suite will implement the struct type that embeds the <code>Suite</code> type.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>    </span><span style="color:#50a14f;">&quot;testing&quot;
+</span><span>
+</span><span>    </span><span style="color:#50a14f;">&quot;github.com/stretchr/testify/suite&quot;
+</span><span>)
+</span><span>
+</span><span style="color:#a0a1a7;">// Define a test suite struct that embeds suite.Suite
+</span><span style="color:#a626a4;">type </span><span>MySuite </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>    </span><span style="color:#e45649;">suite</span><span>.Suite
+</span><span>    </span><span style="color:#e45649;">myVar </span><span style="color:#a626a4;">int
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// Define a SetupTest method that will be called before each test
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">s </span><span style="color:#a626a4;">*MySuite</span><span>) </span><span style="color:#0184bc;">SetupTest</span><span>() {
+</span><span>    </span><span style="color:#e45649;">s</span><span>.</span><span style="color:#e45649;">myVar </span><span style="color:#a626a4;">= </span><span style="color:#c18401;">42
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// Define a TearDownTest method that will be called after each test
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">s </span><span style="color:#a626a4;">*MySuite</span><span>) </span><span style="color:#0184bc;">TearDownTest</span><span>() {
+</span><span>    </span><span style="color:#a0a1a7;">// cleanup code goes here
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// Define individual test functions that will be run by the suite
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">s </span><span style="color:#a626a4;">*MySuite</span><span>) </span><span style="color:#0184bc;">TestSomething</span><span>() {
+</span><span>    </span><span style="color:#a0a1a7;">// use s.Assert() or s.Require() to make assertions
+</span><span>    </span><span style="color:#e45649;">s</span><span>.</span><span style="color:#e45649;">Assert</span><span>().</span><span style="color:#e45649;">Equal</span><span>(</span><span style="color:#c18401;">42</span><span>, </span><span style="color:#e45649;">s</span><span>.</span><span style="color:#e45649;">myVar</span><span>)
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// Define another test function
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">s </span><span style="color:#a626a4;">*MySuite</span><span>) </span><span style="color:#0184bc;">TestSomethingElse</span><span>() {
+</span><span>    </span><span style="color:#e45649;">s</span><span>.</span><span style="color:#e45649;">myVar </span><span style="color:#a626a4;">= </span><span style="color:#c18401;">0
+</span><span>    </span><span style="color:#e45649;">s</span><span>.</span><span style="color:#e45649;">Require</span><span>().</span><span style="color:#e45649;">NotEqual</span><span>(</span><span style="color:#c18401;">42</span><span>, </span><span style="color:#e45649;">s</span><span>.</span><span style="color:#e45649;">myVar</span><span>)
+</span><span>}
+</span></code></pre>
+<p>The <code>MySuite</code> is the struct that embeds the <code>Suite</code> function for the test suite and the methods that implement the <code>MySuite</code> function define various test functions.</p>
+<p>You can run all the test suites with the <code>Run</code> function of the <code>suite</code> package.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// In your Go test file
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">TestMySuite</span><span>(</span><span style="color:#e45649;">t </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">testing</span><span>.</span><span style="color:#a626a4;">T</span><span>) {
+</span><span>    </span><span style="color:#e45649;">suite</span><span>.</span><span style="color:#e45649;">Run</span><span>(</span><span style="color:#e45649;">t</span><span>, </span><span style="color:#0184bc;">new</span><span>(</span><span style="color:#a626a4;">MySuite</span><span>))
+</span><span>}
+</span></code></pre>
+<p>The <code>run</code> function takes in the testing instance and an instance of the test suite struct and runs the methods that implement the struct.</p>
+<img src="/screenshot/result of test suites with testify.jpg" alt="result of test suites with testify">
+<h2 id="test-hooks-with-testify">Test Hooks With Testify</h2>
+<p>Test hooks are special functions that execute before or after running tests. You can use test hooks to set up test fixtures, perform clean-up tasks or customize test behavior.</p>
+<p>Here’s how you can implement test hooks in your Go programs.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>
+</span><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#50a14f;">&quot;testing&quot;
+</span><span>
+</span><span>	</span><span style="color:#50a14f;">&quot;github.com/stretchr/testify/assert&quot;
+</span><span>)
+</span><span>
+</span><span style="color:#a0a1a7;">// In your Go test file
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">TestExample</span><span>(</span><span style="color:#e45649;">t </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">testing</span><span>.</span><span style="color:#a626a4;">T</span><span>) {
+</span><span>	</span><span style="color:#a0a1a7;">// Set up a &quot;before&quot; hook that will run before the test.
+</span><span>	</span><span style="color:#e45649;">t</span><span>.</span><span style="color:#e45649;">Run</span><span>(</span><span style="color:#50a14f;">&quot;before&quot;</span><span>, </span><span style="color:#a626a4;">func</span><span>(</span><span style="color:#e45649;">t </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">testing</span><span>.</span><span style="color:#a626a4;">T</span><span>) {
+</span><span>		</span><span style="color:#a0a1a7;">// Do some setup work here.
+</span><span>	})
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Set up an &quot;after&quot; hook that will run after the test.
+</span><span>	</span><span style="color:#e45649;">t</span><span>.</span><span style="color:#e45649;">Run</span><span>(</span><span style="color:#50a14f;">&quot;after&quot;</span><span>, </span><span style="color:#a626a4;">func</span><span>(</span><span style="color:#e45649;">t </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">testing</span><span>.</span><span style="color:#a626a4;">T</span><span>) {
+</span><span>		</span><span style="color:#a0a1a7;">// Do some cleanup work here.
+</span><span>	})
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Write the actual test code here.
+</span><span>	</span><span style="color:#e45649;">t</span><span>.</span><span style="color:#e45649;">Run</span><span>(</span><span style="color:#50a14f;">&quot;test&quot;</span><span>, </span><span style="color:#a626a4;">func</span><span>(</span><span style="color:#e45649;">t </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">testing</span><span>.</span><span style="color:#a626a4;">T</span><span>) {
+</span><span>		</span><span style="color:#a0a1a7;">// Use assertions to check the expected results.
+</span><span>		</span><span style="color:#e45649;">assert</span><span>.</span><span style="color:#e45649;">Equal</span><span>(</span><span style="color:#e45649;">t</span><span>, </span><span style="color:#c18401;">1</span><span style="color:#a626a4;">+</span><span style="color:#c18401;">1</span><span>, </span><span style="color:#c18401;">2</span><span>, </span><span style="color:#50a14f;">&quot;1+1 must be equal to 2&quot;</span><span>)
+</span><span>	})
+</span><span>}
+</span></code></pre>
+<p>The <code>TestExample</code> function is the test function containing three nested test functions <code>before</code>, <code>after</code> and <code>tests</code> created with the <code>Run</code> method of the test instance that creates subtests that you can run independently from other tests.</p>
+<p>The <strong><code>before</code></strong> and <strong><code>after</code></strong> functions are test hooks that get executed before and after the <strong><code>test</code></strong> function, respectively. You can perform any operations inside these functions. In the <strong><code>test</code></strong> function, the Testify <strong><code>assert</code></strong> package makes assertions on the expected behavior of the code. In the previous example, we used the <strong><code>assert.Equal</code></strong> method to check that 1+1 equals 2.</p>
+<h2 id="tdd-vs-bdd-with-testify">TDD vs. BDD with Testify</h2>
+<p>Recently, two popular testing methodologies have garnered popularity, namely Test Driven Development (TDD) and Behavior Driven Development (BDD). TDD and BDD are both used to ensure that software meets certain requirements and functions as intended.</p>
+<p>TDD is a development approach where you write tests before writing the actual code. The idea behind TDD is to write small, testable units of code that meet the requirements of the software. After writing the tests, you write code that passes the tests.</p>
+<p>TDD is all about writing tests that drive the development of the code. This approach ensures that the code meets the requirements and is of high quality.</p>
+<p>BDD, on the other hand, is a development approach focused on the behavior of the software. With BDD, you write tests that describe the expected behavior of the software. The tests are usually written in a specific syntax called Gherkin, designed to be effortlessly intuitive for both technical and non-technical stakeholders. BDD is all about describing the behavior of the software in a way that is understandable to everyone involved.</p>
+<h3 id="how-testify-supports-tdd-and-bdd"><strong>How Testify Supports TDD and BDD</strong></h3>
+<p>Testify supports both TDD and BDD testing methodologies. The suite of testing tools that the Testify package provides makes it easy to write tests that meet the requirements of the software.</p>
+<p>For TDD, Testify provides tools for writing unit tests. These tools include assertions, mocks, and test suites. With Testify, developers can write tests that ensure that their code meets the requirements and behaves as expected.</p>
+<p>For BDD, Testify provides a Gherkin-style syntax for writing tests, designed for easy readability by both technical and non-technical stakeholders. Testify's BDD tools also include assertions, mocks, and test suites. With Testify, you can write tests that describe the expected behavior of your software in a way that’s understandable for everyone involved.</p>
+<table><thead><tr><th>Topic</th><th>TDD with Testify</th><th>BDD with Testify</th></tr></thead><tbody>
+<tr><td>Golang Testify Package</td><td>Provides various testing functions and assertions for writing tests in Go</td><td>Supports both TDD and BDD methodologies by providing assertion functions and the suite.Suite interface for  defining test suites</td></tr>
+<tr><td>Purpose</td><td>Emphasizes on testing the functionality</td><td>Focuses on testing the behavior</td></tr>
+<tr><td>Test Structure</td><td>You write test cases for each function</td><td>You write test cases for each behavior/scenario</td></tr>
+<tr><td>Syntax</td><td>Uses assertions for checking the expected results</td><td>Uses natural language statements (Given-When-Then format) for describing test cases</td></tr>
+<tr><td>User Involvement</td><td>Primarily for developers</td><td>Involves developers, testers, and business stakeholders</td></tr>
+<tr><td>Collaboration</td><td>Minimal Collaboration</td><td>Engages collaboration between developers, testers, and business stakeholders</td></tr>
+<tr><td>Test Documentation</td><td>Requires use of documentation to explain the code logic</td><td>You  create Documentation using natural language to describe code behaviour</td></tr>
+</tbody></table>
+<p>The table serves as a comparison between both methodologies and isn’t exhaustive. Testify provides functionality for both TDD and BDD and you can use the package for any of the approaches.</p>
+<h2 id="benefits-of-using-testify">Benefits of Using Testify</h2>
+<p>Most Go developers choose to Testify for testing their applications due to the many benefits, features, and functionalities that the package provides.
+Here’s an overview of the benefits you access when using the Testify package.</p>
+<ol>
+<li>It allows you to define subtests for testing different scenarios within a single test function. Subtests make it easy to group related test cases together and improve test organization.</li>
+<li>The library provides functionality for colorful and readable output formatting that can make it easier to identify and fix test failures. Outputs like helpful error messages, stack traces, and logs are all presented in an easy-to-read format.</li>
+<li>Testify provides a wide range of assertion functions that you can use to write concise and clear test cases. The assertion functions writing tests that are both simple and expressive easy, reducing the amount of boilerplate code.</li>
+<li>It includes a <strong><code>mock</code></strong> package for creating mock objects and functions for testing. The <code>mock</code> package is especially useful when testing code that has external dependencies, as it allows you to isolate the code from its dependencies. The <strong><code>mock</code></strong> package is easy to use, and the package can help you save a significant amount of time when writing tests.</li>
+</ol>
+<h2 id="testify-vs-goconvey">Testify vs GoConvey</h2>
+<p>To fully understand the benefits of using the Testify package, you can compare the package to <a href="https://www.makeuseof.com/go-testing-packages-improved-productivity/">other popular testing packages</a> like the GoConvey package.
+<a href="https://github.com/smartystreets/goconvey">The GoConvey package</a> is a testing framework that provides high-level API for defining test suites and test cases, including  a web-based user interface for viewing and analyzing test results</p>
+<p>Here’s a comparison table comparing the Testify and GoConvey packages.</p>
+<table><thead><tr><th>Feature/Benefit</th><th>Testify</th><th>GoConvey</th></tr></thead><tbody>
+<tr><td>Assertion Functions</td><td>Testify provides a wide range of assertion functions that you can use to write concise and clear test cases. These include functions like assert.Equal, assert.NotEqual, assert.True, assert.False, and many more.</td><td>GoConvey also provides a range of assertion functions like So, ShouldBeEqual, ShouldNotBeEmpty, and others, but the list of assertion functions isn’t as extensive as Testify.</td></tr>
+<tr><td>Mocking</td><td>Testify provides a mock package that you can use to create mock objects and functions for testing.</td><td>GoConvey does not provide built-in mocking capabilities.</td></tr>
+<tr><td>Suite Setup and Teardown</td><td>Testify allows for set up and tear down test suite fixtures, which can save you time and reduce code duplication.</td><td>GoConvey does not have built-in support for test suite setup and teardown.</td></tr>
+<tr><td>Output Formatting</td><td>Testify provides colorful and readable output formatting that’s useful for identifying and fixing test failures.</td><td>GoConvey's output is less visually appealing and can be harder to read.</td></tr>
+</tbody></table>
+<p>Testify provides many benefits beyond the standard Go testing package, including a wide range of assertion functions, built-in mocking, test suite setup and teardown, subtests, and better output formatting. While GoConvey also provides some of these features, Testify has a more extensive list of assertion functions and built-in mocking capabilities, making the package a more powerful testing tool.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>You’ve learned the importance of testing and the limitations of using the standard Go <code>testing</code> package and explored Testify's assertion functions, mock testing functionalities, and test suites, learned about TDD and BDD and how Testify supports the testing methodologies, compared Testify and GoConvey packages and highlighted the advantages of using Testify.</p>
+<p>On using Testify in your Go projects, you can write tests that are simple and expressive, thereby ensuring that your code meets the requirements with high quality.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/golang/>Golang</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/framework/>Framework</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/testing/>Testing</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/development/>Development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/technical/>Technical</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/self-help/>Self-help</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

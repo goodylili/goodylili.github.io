@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Now, You Understand Blockchain Interoperability
+            
+        </title>
+
+        
+            <meta property="og:title" content="Now, You Understand Blockchain Interoperability" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="This article is your last stop. You’ll finally understand blockchain interoperability, learn its fundamentals, and how different stacks work and compare." />
+        
+    
+
+    
+        
+            <meta name="description" content="This article is your last stop. You’ll finally understand blockchain interoperability, learn its fundamentals, and how different stacks work and compare." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Now, You Understand Blockchain Interoperability</h1>
+            <div class="meta">
+                
+                on  2024-11-01
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p>Interoperability has been a big deal for some time, just as it was in the early days of networking and many other technologies.</p>
+<p>Still, unlike traditional technologies, permissionlessness makes it hard to standardize, and now, there’s a colony of approaches, each with its pros and cons for interoperability on different layers.</p>
+<p>This article is your last stop. You’ll finally understand blockchain interoperability, learn its fundamentals, and how different stacks work and compare.</p>
+<h2 id="state-of-the-blockchain-interoperability-problem">State of The Blockchain Interoperability Problem</h2>
+<p>Blockchains are trust-optimized systems. From a high-level overview, the problem is simple: Different networks have different architectures and run on different tech stacks, consensus mechanisms and protocols that cannot communicate directly. There’s also:</p>
+<ul>
+<li><strong>Different Consensus Mechanisms</strong>: Blockchains validate their transactions differently to achieve consensus, which can be challenging, especially with trusted data from third-party chains.</li>
+<li><strong>Different Data Structures</strong>: Bitcoin's Unspent Transaction Output (UTXO) model contrasts Ethereum's account-based model and Sui’s object model, so supporting the same data on other chains would be generic.</li>
+<li><strong>Smart Contract Compatibility</strong>: The different virtual machines execute smart contracts based on the primitives they’re built on. Executing smart contracts is a big part of blockchain interoperability, and since there’s no standard environment, there are limits.</li>
+<li><strong>Token Standards</strong>: ERC-20 on Ethereum and CW-20 on Cosmos are far from similar, and wrapping and pegging are risky.</li>
+</ul>
+<p>...and many other issues.</p>
+<p>Many projects are building solutions to these issues, from bridges to sidechains, relay chains with shared security, atomic swaps, interoperability protocols, and networks of networks.</p>
+<p>You can classify the systems of an interoperability solution into four layers/components.</p>
+<ol>
+<li><strong>The Fundamental Technical Layers</strong>: Messaging, Transport, and Consensus Layers.</li>
+<li><strong>Security and Validation Components</strong>: Relayers, Validators, Oracles, and Verifiers.</li>
+<li><strong>Cross-Chain Operations</strong>: Wrapped Tokens, Multisig Wallets, and Cross-Chain Liquidity.</li>
+<li><strong>Innovative Mechanisms</strong>: Zero-Knowledge Proofs, State Synchronization, and Event Listeners.</li>
+</ol>
+<p>The different interoperability solutions have different components. Bridges, Interoperability Protocols, and cross-chain messaging protocols are the most prominent interoperability solutions. Let’s overview how each of these works to achieve cross-chain operations, down to their implementation aspects like <strong>light clients, relayers, validator networks, liquidity pools</strong>, and <strong>messaging frameworks</strong>.</p>
+<h2 id="bridges">Bridges</h2>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/w9icuxn5wtgc93la99lo.png" alt="Bridges" /></p>
+<p>Bridges are interoperability solutions that connect <strong>L1&lt;&gt;L2</strong> and <strong>L2&lt;&gt;L2 and L1&lt;&gt;L1</strong> communication, usually running on similar virtual machines, e.g. EVM chains.</p>
+<p>There are two types of bridges: trusted bridges and trust-minimized bridges.</p>
+<ol>
+<li>Trusted Bridges rely on centralized parties to verify and execute the operation, e.g. (Axelar and IBC).</li>
+<li>Trust-minimized bridges, such as the Optimism to ETH official bridge, use on-chain mechanisms like fraud and validity proofs to verify transactions.</li>
+</ol>
+<p>Most bridges use smart contracts on <strong>the Lock-and-Release or Burn-and-Mint Mechanism</strong>, where the bridge locks or burns the asset on the originating chain and mints or releases the same asset on the corresponding chain. For example, Circle CCTP uses the burn-and-mint mechanism, while Orbiter Finance uses lock-and-release.</p>
+<p><strong>Relayers</strong> are the intermediaries between the chains. They confirm the asset's status on the originating chain and update the bridge’s smart contract on the destination chain. Relayers usually run nodes on both chains to verify state changes or initiate transactions.</p>
+<p>Trust-minimized bridges like Axelar also use a validator set for verifiability and more security. The number and security of the validators impact the bridge’s security.</p>
+<h2 id="interoperability-protocols">Interoperability Protocols</h2>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/85ui4qbwhlkhxzhpgm37.png" alt="Interop Protocols" /></p>
+<p>Interoperability protocols provide a shared protocol layer for blockchains to connect to multiple blockchains and communicate natively, regardless of their primitive features.</p>
+<p>Most interoperability protocols are networks of networks, e.g. Polkadot and Cosmos. Cosmos uses <strong>IBC</strong> (Inter-Blockchain Communication), while Polkadot relies on a <strong>relay chain</strong> and <strong>parachains</strong>.</p>
+<p>Interoperability protocols use light clients that run on every chain in the network to verify the state of another chain. These light clients hold a simplified version of the chain’s state and verify block headers to confirm transactions.</p>
+<p>On Polkadot, a relay chain connects multiple parachains (independent chains) and handles consensus, security and messaging. <strong>Collators</strong> in parachains gather transactions and produce blocks, while <strong>validators</strong> on the relay chain finalize the blocks.</p>
+<p>Cosmos’s IBC Protocol uses a handshake mechanism to establish secure communication between blockchains. Each chain must have IBC modules set with light clients</p>
+<h2 id="cross-chain-messaging-protocols">Cross-Chain Messaging Protocols</h2>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lzinlrdsqifnbj4zhgpf.png" alt="Crosschain Messaging" /></p>
+<p>Cross-chain messaging protocols are great for secure messaging across blockchains with different virtual machines. They’d usually allow smart contract calls, data exchange and complex cross-chain apps.</p>
+<p>Popular solutions in this category are Axelar, LayerZero, Wormhole, Union, and Hyperlane. Axelar provides secure cross-chain messaging and transaction interoperability through a decentralized validator network, and Wormhole uses a guardian network to observe, validate, and relay messages.</p>
+<p>These cross-chain messaging protocols transmit data between chains through standard messaging formats that contain instructions (e.g. to execute a smart contract on another chain) or any data.</p>
+<p>Some protocols use external validators or Oracle-based verification systems to confirm the state of the source and destination chains. They also use protocol-specific relayers and messaging agents to send messages and submit validity proofs to contracts on the destination chain.</p>
+<p>Also, messaging contracts on each chain process incoming messages to determine whether they’re valid before executing them after the validators and guardians have signed them.</p>
+<h2 id="comparing-interoperability-solutions">Comparing Interoperability Solutions</h2>
+<p>Interoperability solutions vary in architecture, security models, core components implementation and many other aspects.</p>
+<p>Here’s a table that overviews the three categories with more insight into their aspects.</p>
+<table><thead><tr><th><strong>Aspect</strong></th><th><strong>Bridges</strong></th><th><strong>Interoperability Protocols</strong></th><th><strong>Cross-Chain Messaging</strong></th></tr></thead><tbody>
+<tr><td><strong>Examples</strong></td><td>Circle CCTP, Orbiter Finance, Optimism Bridge</td><td>Cosmos (IBC), Polkadot (Relay Chain)</td><td>Wormhole, LayerZero, Axelar, Hyperlane</td></tr>
+<tr><td><strong>Architecture</strong></td><td>Point-to-point connections between chains; Lock-and-Release or Burn-and-Mint pattern</td><td>Hub-and-spoke or network-of-networks with shared security</td><td>Universal messaging layer with standardized formats</td></tr>
+<tr><td><strong>Security Model</strong></td><td>Trusted (centralized) or Trust-minimized (on-chain verification)</td><td>Shared security model with validator networks</td><td>Hybrid model with guardian networks/oracle systems</td></tr>
+<tr><td><strong>Core Components</strong></td><td>Smart contracts, Relayers, Token wrapping mechanisms</td><td>Light,  clients, Relay chain/hub, Protocol modules</td><td>Messaging contracts, Validator networks, Standard interfaces</td></tr>
+<tr><td><strong>Scalability</strong></td><td>n² relationship (linear growth with new chains)</td><td>n relationship (efficient with new chains)</td><td>Highly scalable, minimal additional infrastructure</td></tr>
+<tr><td><strong>Implementation</strong></td><td>Medium effort, high maintenance per bridge</td><td>High initial effort, lower subsequent integration</td><td>Medium effort, low maintenance</td></tr>
+<tr><td><strong>Best Use Cases</strong></td><td>Direct asset transfers, simple cross-chain transactions</td><td>Ecosystem-wide connectivity, complex applications</td><td>Universal messaging, cross-ecosystem applications</td></tr>
+<tr><td><strong>Limitations</strong></td><td>Limited scalability, higher security risks</td><td>Protocol lock-in, high initial setup cost</td><td>Message complexity, reliance on external networks</td></tr>
+</tbody></table>
+<p>The wheel is the best of its kind, so nobody is trying to reinvent it; in the same vein, every interoperability solution has its strong foot and Achilles heel.</p>
+<p>Bridges are great! but they cannot transfer messages using interoperability protocols and cross-chain messaging apps.</p>
+<p>Interoperability and cross-chain messaging protocols have bridges, and they can send messages and perform more complex operations, such as executing smart contracts and managing governance across chains.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Now, You Understand Blockchain Interoperability. If you’re building a project, you should overview these features and choose the best for your app, or use a bridge aggregator like LIFI if you’re building DeFi apps.</p>
+<p>Interoperability is just getting started. We’re seeing features like restaking and tokenization take-off powered by interoperability between chains. I think with great interoperability, chains can focus on their strengths, and everyone wins.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/blockchain/>Blockchain</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/interoperability/>Interoperability</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/security/>Security</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/bridges/>Bridges</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

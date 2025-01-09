@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Warp Adoption Guide
+            
+        </title>
+
+        
+            <meta property="og:title" content="Warp Adoption Guide" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="The warp web framework for Rust offers many enticing features. Let’s see when and why you should consider using warp in your projects." />
+        
+    
+
+    
+        
+            <meta name="description" content="The warp web framework for Rust offers many enticing features. Let’s see when and why you should consider using warp in your projects." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Warp Adoption Guide</h1>
+            <div class="meta">
+                
+                on  2024-03-06
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><em><strong><a href="//goodylili.github.io/posts/warp-adoption-guide/logrocket.com">LogRocket</a> made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.</strong></em></p>
+<h1 id="warp-adoption-guide">Warp Adoption Guide</h1>
+<p>As web apps evolve, the need for sophisticated, lightweight, performant backend systems grows. Developers especially
+need options that can handle asynchronous operations, such as warp, a web framework for Rust.</p>
+<p>You can use warp to build backend systems that seamlessly complement and enhance frontend UX. It’s a particularly useful
+option if your application needs real-time updates and robust API integrations, as well as if scalability is one of your
+development objectives.</p>
+<p>In this article, we’ll discuss warp and its features to better understand when and why you should (or shouldn’t) use
+this web server framework in your Rust projects. We’ll also explore relevant details such as warp’s use cases,
+deployment options, and alternatives.</p>
+<h2 id="what-is-warp">What is warp?</h2>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_D829B7D9729F8F0FA3BCCA9C0D818BCCA7FED67E8ABAD6C46D08620B9F6BA5B1_1707150642479_Warp+Adoption+Guide+Cover.jpeg" alt="" /></p>
+<p><a href="http://github.com/seanmonstar/warp">w</a><a href="http://github.com/seanmonstar/warp">arp</a> <a href="http://github.com/seanmonstar/warp"></a>
+is a widespread Rust web server framework that is popular for its speed, efficiency, simplicity, and support for async
+operations. It’s a superset of the Hyper HTTP library that provides immense flexibility with easy-to-use middleware and
+tools for custom integrations.</p>
+<p>Additionally, warp is built around filters to define a web server’s behaviors and allow easy endpoint composition for
+web services. You can combine and compose these filters to create the desired endpoints for the RESTful APIs or any web
+service you’re building.</p>
+<p>warp provides built-in filters for tasks like path routing parameter extraction and other features. It also includes
+support for HTTP/1, HTTP/2, and asynchronous processing via its reliance on the Hyper library.</p>
+<p>Here are some critical Warp features
+as <a href="https://github.com/seanmonstar/warp/blob/master/README.md">listed in the project’s README</a>:</p>
+<ul>
+<li>Path routing and parameter extraction</li>
+<li>Header requirements and extraction</li>
+<li>Query string deserialization</li>
+<li>JSON and form bodies</li>
+<li>Multipart form data</li>
+<li>Static files and directories</li>
+<li>WebSockets</li>
+<li>Access logging</li>
+<li>Gzip, Deflate, and Brotli compression</li>
+</ul>
+<p>Warp is primarily backend-focused, but it indirectly impacts frontend app operation via great server-side performance
+and the modern architecture shift. Rust’s ability to compile to WebAssembly also positions warp-built backends for
+tighter integrations with Wasm-based frontend code for performance-critical tasks.</p>
+<h2 id="why-choose-warp">Why choose warp?</h2>
+<p>When you’re evaluating web frameworks for a project’s development, you’ll need to consider several factors, from the
+type of product to the features of the frameworks in consideration relative to what you’re trying to achieve.</p>
+<p>Here’s an in-depth overview of reasons why you should choose Warp:</p>
+<ul>
+<li><strong>Performance</strong>: You should choose warp over other frameworks because of its speed and composability. warp offers
+notable benefits for performance and scalability through Rust’s built-in async/await syntax for handling concurrent
+requests safely without the risks associated with thread blocking.</li>
+<li><strong>Ease of use/DX</strong>: warp is also straightforward to use compared to many Rust-based frameworks, with cleaner syntax.
+Its minimalist API design reduces runtime overhead while leveraging Rust’s memory safety features to mitigate common
+security vulnerabilities.</li>
+<li><strong>Bundle size</strong>: warp's small bundle size makes it perfect for efficient deployment in resource-constrained
+environments like containerized applications or for building microservices and edge computing scenarios. You can
+expect your apps to have faster download times and improved performance with limited storage and bandwidth</li>
+<li><strong>Community &amp; ecosystem</strong>: warp is relatively new, but already has a vibrant community of developers and projects
+using the framework. Its developer community constantly contributes tools to extend the framework’s capabilities and
+add more use cases</li>
+<li><strong>Learning curve</strong>: warp has a steeper learning curve relative to other frameworks, including Hyper. Its focus on
+simplicity, consistency, and best practices throughout the framework makes it easier to pick up and use regardless of
+the developer’s background</li>
+<li><strong>Documentation</strong>: You can
+find <a href="https://docs.rs/warp/latest/warp/">w</a><a href="https://docs.rs/warp/latest/warp/">arp’s documentation</a> <a href="https://docs.rs/warp/latest/warp/">in the</a> <a href="https://docs.rs/warp/latest/warp/">Rust directory</a>.
+The docs provide detailed guides you can use to familiarize yourself with the project. Many tutorials on the warp
+framework are scattered across the web, including code samples and practical use cases for your consumption</li>
+<li><strong>Integrations</strong>: warp plays nicely with multiple libraries and tools in Rust’s ecosystem. Its flexible architecture
+allows you to integrate tools and extensions to supercharge your use cases for your project’s specific requirements</li>
+</ul>
+<p>Despite all these great features, it’s only fair to mention warp’s limitations and when you might want to explore a
+different option. We’ll go over this in the upcoming section.</p>
+<h2 id="when-you-should-not-use-warp">When you should NOT use warp</h2>
+<p>There are some scenarios where you may be better off with another framework. For example:</p>
+<ul>
+<li><strong>Heavy CPU-bound operations</strong>: warp excels in asynchronous I/O tasks, but if your app requires a lot of CPU-bound
+computation, warp may not be the best choice. In these cases, you can use frameworks like Actix or Rocket that provide
+better support</li>
+<li><strong>Legacy systems integration</strong>: If your project relies on legacy systems or synchronous communication with external
+services, warp might not be ideal for your use case</li>
+<li><strong>High-level abstractions</strong>: warp provides a low-level and more explicit approach to building web applications. If you
+prefer a high-level and more abstract approach, you should use frameworks like Rocket</li>
+</ul>
+<p>However, as we’ve seen, warp is a fantastic framework. Let’s discuss some use cases where warp would be an excellent
+choice next.</p>
+<h2 id="use-cases-for-warp">Use cases for warp</h2>
+<p>You can use warp to build a variety of web applications. Here are some use cases where warp shines best:</p>
+<ul>
+<li><strong>RESTful APIs</strong>: warp has an ergonomic routing system, support for request/response handling, and support for JSON
+serialization/deserialization. All these features make it a good choice for building RESTful APIs.</li>
+<li><strong>Real-time apps</strong>: You can build apps that require real-time updates with warp — like dashboards, games, and
+collaborative editing tools — since it supports WebSockets off the bat</li>
+<li><strong>Microservice architecture</strong>: warp is lightweight and performant, and its minimal bundle and asynchronous nature make
+it excellent for building microservices</li>
+<li><strong>Proxy servers and reverse proxies</strong>: You can use warp to build proxy servers and reverse proxies that forward HTTP
+requests to servers based on specified criteria. The built-in routing system simplifies proxy implementation</li>
+<li><strong>IoT backend services</strong>: warp's lightweight design makes it suitable for building the backends of iOT services</li>
+</ul>
+<p>Next, let’s take a look at some of the standout features that make warp so great.</p>
+<h2 id="key-warp-features-to-know">Key warp features to know</h2>
+<p>warp has most of the features you’ll require from a backend framework for your application.
+Here’s an overview of some key warp features with code examples that show how you can implement these features in your
+projects.</p>
+<h2 id="getting-started-with-warp">Getting Started with Warp</h2>
+<p>First, you need to add project dependencies — warp, <code>tokio</code> for asynchronous operations, and <code>serde</code> and <code>serde_json</code>
+for JSON serialization and deserialization operations:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>[dependencies]
+</span><span>warp = &quot;0.3.0&quot;
+</span><span>tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
+</span><span>serde = { version = &quot;1.0&quot;, features = [&quot;derive&quot;] }
+</span><span>serde_json = &quot;1.0&quot; 
+</span></code></pre>
+<p>You also need to import warp in your project’s files like this:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use warp::Filter;
+</span></code></pre>
+<p>The <code>**warp::filter**</code> is a function for creating filters on routes. Filters aid request processing, and they can
+modify, reject or pass along requests based on specified conditions.</p>
+<H3> Path routing and parameter extraction
+<p>Here’s how you can define routes with dynamic path segments with warp:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use warp::Filter;
+</span><span>
+</span><span>#[tokio::main]
+</span><span>async fn main() {
+</span><span>    let hello = warp::path!(&quot;hello&quot; / String)
+</span><span>        .map(|name| format!(&quot;Hello, {}!&quot;, name));
+</span><span>
+</span><span>    warp::serve(hello)
+</span><span>        .run(([127, 0, 0, 1], 3030))
+</span><span>        .await;
+</span><span>}
+</span></code></pre>
+<p>The <code>path!</code> macro creates a route after taking in a string followed by the dynamic segment represented by <code>String</code> in
+the function call. The <code>w``arp.serve</code> function serves the <code>hello</code> route on the specified address <code>127.0.0.1</code> on
+port <code>3030</code> before calling <code>await</code> to wait for the server to start and handle requests asynchronously.</p>
+<p>Here’s the output of the program when you make a request to the server:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_D829B7D9729F8F0FA3BCCA9C0D818BCCA7FED67E8ABAD6C46D08620B9F6BA5B1_1707150737369_Warp+Adoption+Guide.png" alt="" /></p>
+<H3> Accessing headers
+<p>warp eases the process of accessing and extracting headers from requests. Here’s a demo:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use warp::Filter;
+</span><span>
+</span><span>#[tokio::main]
+</span><span>async fn main() {
+</span><span>    let auth = warp::header::&lt;String&gt;(&quot;authorization&quot;);
+</span><span>
+</span><span>    let auth_route = warp::path(&quot;protected&quot;)
+</span><span>        .and(auth)
+</span><span>        .map(|auth_header: String| format!(&quot;Authorized: {}&quot;, auth_header));
+</span><span>
+</span><span>    warp::serve(auth_route)
+</span><span>        .run(([127, 0, 0, 1], 3030))
+</span><span>        .await;
+</span><span>}
+</span></code></pre>
+<p>In the <code>main</code> function, the <code>auth</code> variable accesses the data from the <code>authorization</code> header with the <code>header</code>
+function. Meanwhile, the <code>auth_route</code> variable accesses the data in the protected path with the <code>path</code> function.</p>
+<H3> Query parameter parsing
+<p>Warp allows you to parse query parameters into Rust built-in types with its <code>query</code> module:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use warp::{Filter, query};
+</span><span>use serde::Deserialize;
+</span><span>
+</span><span>#[derive(Debug, Deserialize)]
+</span><span>struct MyQuery {
+</span><span>    key: String,
+</span><span>    value: i32,
+</span><span>}
+</span><span>
+</span><span>#[tokio::main]
+</span><span>async fn main() {
+</span><span>    let query_route = warp::path(&quot;query&quot;)
+</span><span>        .and(query::&lt;MyQuery&gt;())
+</span><span>        .map(|params: MyQuery| format!(&quot;Received query params: {:?}&quot;, params));
+</span><span>
+</span><span>    warp::serve(query_route)
+</span><span>        .run(([127, 0, 0, 1], 3030))
+</span><span>        .await;
+</span><span>}
+</span></code></pre>
+<p>Here, the <code>path</code> function retrieves the query parameter. The <code>and</code> and <code>map</code> functions parse the data from the query
+into the <code>MyQuery</code> struct.</p>
+<H3> Handling JSON payloads
+<p>Handling JSON with warp is similar to handling queries. You can also use Rust’s built-in data types for seamless
+operations:</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>use warp::{Filter, body::json};
+</span><span>use serde::Deserialize;
+</span><span>
+</span><span>#[derive(Debug, Deserialize)]
+</span><span>struct MyData {
+</span><span>    key: String,
+</span><span>    value: i32,
+</span><span>}
+</span><span>
+</span><span>#[tokio::main]
+</span><span>async fn main() {
+</span><span>    let json_route = warp::post()
+</span><span>        .and(warp::path(&quot;json&quot;))
+</span><span>        .and(json())
+</span><span>        .map(|data: MyData| format!(&quot;Received JSON data: {:?}&quot;, data));
+</span><span>
+</span><span>    warp::serve(json_route)
+</span><span>        .run(([127, 0, 0, 1], 3030))
+</span><span>        .await;
+</span><span>} 
+</span></code></pre>
+<p>The <code>json</code> function is a filter that <code>warp::body</code> provides for parsing JSON payloads. In this example, the <code>warp::post</code>
+function specifies that only POSTs requests are allowed through that endpoint.</p>
+<H3> WebSockets
+<p>warp is one of the few frameworks out there that supports WebSockets out of the box. This feature allows you build
+applications that require real-time updates with warp.</p>
+<p>Here’s how you can use WebSockets in your programs with warp:</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span>    </span><span style="color:#a626a4;">use </span><span>warp::Filter;
+</span><span>    
+</span><span>    #[</span><span style="color:#e45649;">tokio</span><span>::</span><span style="color:#e45649;">main</span><span>]
+</span><span>    async </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>        </span><span style="color:#a626a4;">let</span><span> ws_route </span><span style="color:#a626a4;">= </span><span>warp::path(</span><span style="color:#50a14f;">&quot;ws&quot;</span><span>)
+</span><span>            .</span><span style="color:#0184bc;">and</span><span>(warp::ws())
+</span><span>            .</span><span style="color:#0184bc;">map</span><span>(|</span><span style="color:#e45649;">ws</span><span>: warp::ws::Ws| {
+</span><span>                ws.</span><span style="color:#0184bc;">on_upgrade</span><span>(|</span><span style="color:#e45649;">websocket</span><span>| async {
+</span><span>                    </span><span style="color:#a0a1a7;">// Handle websocket connections here
+</span><span>                })
+</span><span>            });
+</span><span>    
+</span><span>        warp::serve(ws_route)
+</span><span>            .</span><span style="color:#0184bc;">run</span><span>(([</span><span style="color:#c18401;">127</span><span>, </span><span style="color:#c18401;">0</span><span>, </span><span style="color:#c18401;">0</span><span>, </span><span style="color:#c18401;">1</span><span>], </span><span style="color:#c18401;">3030</span><span>))
+</span><span>            .await;
+</span><span>    }
+</span></code></pre>
+<p>The <code>ws</code> filter handles the upgrade process while <code>map</code> transforms it using a closure that holds the <code>ws</code> instance. The
+instance <code>on_upgrade</code> method tackles the upgrade with a Websocket instance where you can interact with the connection.</p>
+<h2 id="deploying-your-warp-project">Deploying your warp project</h2>
+<p>Deploying a warp project is just like deploying any other backend project. You have options like
+infrastructure-as-a-service, container-as-a-service, and other deployment models to deploy your application.</p>
+<p>Here are some recommended deployment options that you can explore for your warp application:</p>
+<ol>
+<li><strong>Self-hosted servers</strong>: You can set up your server infrastructure with cloud providers like AWS or GCP to host your
+app. You can use Docker and Kubernetes for containerization and orchestration on self-hosted servers to setup your
+application's deployment in an isolated environment</li>
+<li><strong>Platform-as-a-service</strong>: Deploy your <code>warp</code> application to PaaS providers like Heroku, AWS Elastic Beanstalk, or
+Microsoft Azure App Service. These platforms will abstract infrastructure management to make the deployment process
+easier</li>
+<li><strong>Serverless computing</strong>: You can explore serverless platforms like AWS Lambda, Google Cloud Functions, or Azure
+functions to deploy individual functions of your warp app. Serverless computing options are usually cost-effective
+and easier to scale as size and demand grow</li>
+</ol>
+<p>You should also follow best practices for deploying your warp app such as the following:</p>
+<ul>
+<li>Use reverse proxies like HAproxy to deploy your warp app behind a reverse proxy and handle load balancing, SSL
+termination, and serving static assets</li>
+<li>Use HTTPs to encrypt client-server communication and prevent data theft. Get SSL/TLS certificates from trusted
+certificate authorities or use services that provide free certificates</li>
+<li>Implement good logging practices to track errors, debug information, and relevant user activities in production. Then,
+make data-driven decisions based on the insights from your logs</li>
+<li>Implement and follow best security practices like input validation and sanitization to prevent malicious entries and
+attacks from clients</li>
+<li>Optimize your warp app for performance to reduce latency and optimize the use of resources</li>
+<li>Set up automated deployment pipelines with CI/CD tools like Jenkins, GitLab CICD, or GitHub actions to automate
+testing and build operations and ensure reliability as you make changes</li>
+</ul>
+<p>This should help your deployment process go smoothly and without any errors.</p>
+<p>There are many other Rust web frameworks that provide similar features to warp’s. The most popular Rust frameworks are
+Actix Web and Rocket.</p>
+<p>Actix Web is another asynchronous framework, but unlike Warp, it’s built on the actor model that makes it suitable for
+building highly concurrent applications that scale. Actix supports HTTP/1.x and HTTP2.0 protocols and WebSockets, and it
+can serve static and dynamic assets via OpenSSL or Rustls.</p>
+<p>On the other hand, Rocket is known for its high-level intuitive API that makes it easy to write services with middleware
+components and handlers that are easier to implement.</p>
+<p>Here’s a table that compares Warp, Actix Web, and Rocket based on elementary web framework features:</p>
+<table><thead><tr><th>Features</th><th>Warp</th><th>Actix Web</th><th>Rocket</th></tr></thead><tbody>
+<tr><td>Emphasis</td><td>Simplicity, flexibility, low-level</td><td>Performance, concurrency, full-featured</td><td>Ease of use, expressiveness</td></tr>
+<tr><td>API style</td><td>Functional, composable</td><td>Object-oriented, imperative</td><td>Macro-based, declarative</td></tr>
+<tr><td>Routing</td><td>Dynamic path parameters and filters</td><td>Static, annotation-based</td><td>Static, annotation-based</td></tr>
+<tr><td>Middleware</td><td>Chains of handler functions</td><td>Dedicated middleware system</td><td>Predefined and custom middleware</td></tr>
+<tr><td>Templating</td><td>Supports various engines, no built-in</td><td>No built-in integration with external libraries</td><td>Built-in templating engine</td></tr>
+<tr><td>Database support</td><td>No built-in integration with external libraries</td><td>No built-in integration with external libraries</td><td>ORM integration support</td></tr>
+<tr><td>WebSockets</td><td>Supported through external libraries</td><td>Built-in WebSocket support</td><td>Supported through external libraries</td></tr>
+<tr><td>Authentication</td><td>No built-in integration with external libraries</td><td>Offers basic and custom authentication</td><td>Built-in authentication framework</td></tr>
+<tr><td>Performance</td><td>High, but slightly lower than Actix Web</td><td>Very high, optimized for concurrency</td><td>Average, good for smaller projects</td></tr>
+<tr><td>Community</td><td>Growing, active development</td><td>Large, established community</td><td>Active, friendly community</td></tr>
+<tr><td>Documentation</td><td>Good documentation, community support</td><td>Extensive documentation, tutorials, examples</td><td>Good documentation, active community forum</td></tr>
+</tbody></table>
+<p>You can use this table as a guide when evaluating which framework best suits your project’s requirements. Make sure you
+prioritize your project’s specification as you select a web framework.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this warp adoption guide, you’ve gained insights into the warp framework and its features to see why you should
+consider using it in your projects. We also looked at deployment options, best practices, a comparison of warp and other
+Rust web frameworks, and more.</p>
+<p>As you’ve seen in the guide, warp offers many enticing features. However, at the heart of the development and
+engineering process is identifying your needs and using the right tools. Ensure that you make the best decision for your
+specific application when choosing a framework.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/rust/>Rust</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/web-development/>Web development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/framework/>Framework</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/technical/>Technical</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/apis/>APIs</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

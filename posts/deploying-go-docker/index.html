@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             How to Deploy Go Apps with Docker
+            
+        </title>
+
+        
+            <meta property="og:title" content="How to Deploy Go Apps with Docker" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="Build and Deploy a Golang API with Docker. You&#x27;ll learn how to do everything!" />
+        
+    
+
+    
+        
+            <meta name="description" content="Build and Deploy a Golang API with Docker. You&#x27;ll learn how to do everything!" />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">How to Deploy Go Apps with Docker</h1>
+            <div class="meta">
+                
+                on  2024-11-03
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p>Docker is a containerization platform that simplifies applications’ packaging, distribution, and deployment. You can harness the benefits of Go and Docker to enhance your applications’ efficiency, portability, and security.</p>
+<p>This tutorial is invested in teaching you how you can build and deploy your Go applications with Docker. You’ll learn by building a RESTful API with the Gorilla Mux and GORM packages that you’ll containerize and deploy.</p>
+<h2 id="step-1-setting-up-your-development-environment">Step 1: <strong>Setting Up Your Development Environment</strong></h2>
+<p>You’d need to have Go and Docker installed on your computer to build and containerize your Go apps with Docker.</p>
+<p>Ensure that you have Go and Docker installed on your system. You can download Go from the <a href="https://golang.org/dl/">official Go downloads website</a> and Docker from <a href="https://hub.docker.com/">Docker Hub</a>. Visit the webpage if you haven’t, and follow the installation instructions for your specific operating system.</p>
+<p>This article teaches how to deploy Go apps with Docker and teaches you more about installing and setting up Docker and a Postgres database, including containerizing your Go applications.</p>
+<p>After installation, configure your Go development environment by setting environment variables and paths as needed. Ensure that you have a working Go workspace with the required directory structure.</p>
+<p>Additionally, you can familiarize yourself with Docker's command-line interface (CLI) and basic Docker concepts.</p>
+<p>Create a new directory for this project and run the <code>go mod init</code> command to initialize the directory as a Go project.</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">go</span><span> mod init
+</span></code></pre>
+<p>After initializing the Go project, run this command to add the GORM and Gorilla Mux packages as dependencies to your project.</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">go</span><span> get github.com/gorilla/mux
+</span><span>
+</span><span style="color:#e45649;">go</span><span> get gorm.io/gorm
+</span><span style="color:#e45649;">go</span><span> get gorm.io/driver/postgres
+</span></code></pre>
+<p>You’ll use the Gorilla Mux package for routing. The GORM package provides an interface for you to use Go types for  SQL database operations along with the driver package you installed (in this case, Postgres).</p>
+<h2 id="step-2-building-the-go-application">Step 2: Building the Go Application</h2>
+<p>In this tutorial, you’ll use a popular Go layered architecture style and use interfaces to interact with the various components of our app.</p>
+<p>Here’s the directory structure of the application.</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#0184bc;">.
+</span><span style="color:#e45649;">├──</span><span> Dockerfile
+</span><span style="color:#e45649;">├──</span><span> cmd
+</span><span style="color:#e45649;">│</span><span>   └── server
+</span><span style="color:#e45649;">│</span><span>       └── main.go
+</span><span style="color:#e45649;">└──</span><span> internal
+</span><span>    </span><span style="color:#e45649;">├──</span><span> http
+</span><span>    </span><span style="color:#e45649;">│</span><span>   ├── handlers.go
+</span><span>    </span><span style="color:#e45649;">│</span><span>   └── users.go
+</span><span>    </span><span style="color:#e45649;">├──</span><span> models
+</span><span>    </span><span style="color:#e45649;">│</span><span>   ├── database.go
+</span><span>    </span><span style="color:#e45649;">│</span><span>   ├── migrations.go
+</span><span>    </span><span style="color:#e45649;">│</span><span>   └── users.go
+</span><span>    </span><span style="color:#e45649;">└──</span><span> users
+</span><span>        </span><span style="color:#e45649;">└──</span><span> user.go
+</span><span>
+</span><span style="color:#e45649;">6</span><span> directories, 11 files
+</span></code></pre>
+<ol>
+<li><strong>Dockerfile</strong>: The Dockerfile is the configuration file for building the Docker image. You’ll write the contents of this file based on the API.</li>
+<li><strong>cmd</strong>: The <code>cmd</code> directory usually contains the entry point of your application. The server sub-directory suggests that the API server is the main component of your project. The <code>main.go</code> file in the <code>cmd/server</code> contains the application's entry point.</li>
+<li><strong>internal</strong>: The <code>internal</code> directory helps organize the internal packages of your application. The internal packages shouldn’t be exported, making them an excellent place to hide implementation details.
+<ul>
+<li><strong>http</strong>: This subdirectory will contain HTTP-related code, including route handlers and possibly middleware for your API.
+<ul>
+<li><strong>handlers.go</strong>: You’ll include your HTTP request handlers in this file.</li>
+<li><strong>users.go</strong>: You’ll specify HTTP handlers related to user management here.</li>
+</ul>
+</li>
+<li><strong>models</strong>: This directory will contain database-related code and data models.</li>
+<li><strong>database.go</strong>: This file will contain code for initializing and connecting to the database.</li>
+<li><strong>migrations.go</strong>: This file handles database schema migrations, ensuring that your database schema matches your application's requirements.</li>
+<li><strong>users.go</strong>: This file will have data models or struct definitions related to users interacting with the database.</li>
+<li><strong>users</strong>: This directory will contain user-specific logic.
+<ul>
+<li><strong>user.go</strong>: This file includes functions and structures related to user management that interact with the database implementation. The HTTP implementation interacts with the functions here.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>This project structure appears well-organized, clearly separating concerns between different components. This organization makes it easier to maintain and scale your Go API as it grows.</p>
+<p>This isn’t a Go standard. However, many Go developers and open-source projects use this structure for your applications.</p>
+<h3 id="step-2a-writing-the-database-implementation">Step 2a: Writing the Database Implementation</h3>
+<p>You’ll set up database functionality for your application. You’ll have to define the models using structs,  connect to the database, and set up migrations for your insertion operations on your database.</p>
+<p>Here’s the list of imports you’ll need for the database implementation.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">package </span><span style="color:#e45649;">models
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#a0a1a7;">// imports from the user implementation
+</span><span>	</span><span style="color:#50a14f;">&quot;BetterApp/internal/users&quot;
+</span><span>
+</span><span>	</span><span style="color:#50a14f;">&quot;context&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;gorm.io/gorm&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;fmt&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;gorm.io/driver/postgres&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;gorm.io/gorm/schema&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;os&quot;
+</span><span>)
+</span></code></pre>
+<p>The first task is defining a strut that matches your database schema for your app. GORM provides tags for specifying additional options and constraints on fields.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/models/users.go
+</span><span>
+</span><span style="color:#a626a4;">type </span><span>User </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>	</span><span style="color:#e45649;">gorm</span><span>.Model
+</span><span>	</span><span style="color:#e45649;">Username </span><span style="color:#a626a4;">string </span><span style="color:#50a14f;">`gorm:&quot;unique;not null&quot;`
+</span><span>	</span><span style="color:#e45649;">Email    </span><span style="color:#a626a4;">string </span><span style="color:#50a14f;">`gorm:&quot;unique;not null&quot;`
+</span><span>	</span><span style="color:#e45649;">IsActive </span><span style="color:#a626a4;">bool   </span><span style="color:#50a14f;">`gorm:&quot;not null&quot;`
+</span><span>}
+</span></code></pre>
+<p>The <code>User</code> struct represents the model for working with user data in a database.</p>
+<p>In your <code>database.go</code> file, declare a struct to encapsulate the database connection instance. You’ll use the struct to connect to your database from other parts of the database implementation package.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/models/database.go
+</span><span>
+</span><span style="color:#a626a4;">type </span><span>Database </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>	</span><span style="color:#e45649;">Client </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">gorm</span><span>.</span><span style="color:#a626a4;">DB
+</span><span>}
+</span></code></pre>
+<p>Next, create a database connection function that connects the database implementation to the database program to the database:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/models/database.go
+</span><span>
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">NewDatabase</span><span>() (</span><span style="color:#a626a4;">*Database</span><span>, </span><span style="color:#a626a4;">error</span><span>) {
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Construct a connection string using environment variables for database configuration.
+</span><span>	</span><span style="color:#e45649;">configurations </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Sprintf</span><span>(</span><span style="color:#50a14f;">&quot;host=</span><span style="color:#c18401;">%v</span><span style="color:#50a14f;"> port=</span><span style="color:#c18401;">%v</span><span style="color:#50a14f;"> user=</span><span style="color:#c18401;">%v</span><span style="color:#50a14f;"> password=</span><span style="color:#c18401;">%v</span><span style="color:#50a14f;"> dbname=</span><span style="color:#c18401;">%v</span><span style="color:#50a14f;"> sslmode=</span><span style="color:#c18401;">%v</span><span style="color:#50a14f;">&quot;</span><span>,
+</span><span>		</span><span style="color:#e45649;">os</span><span>.</span><span style="color:#e45649;">Getenv</span><span>(</span><span style="color:#50a14f;">&quot;DB_HOST&quot;</span><span>), </span><span style="color:#e45649;">os</span><span>.</span><span style="color:#e45649;">Getenv</span><span>(</span><span style="color:#50a14f;">&quot;DB_PORT&quot;</span><span>), </span><span style="color:#e45649;">os</span><span>.</span><span style="color:#e45649;">Getenv</span><span>(</span><span style="color:#50a14f;">&quot;DB_USERNAME&quot;</span><span>),
+</span><span>		</span><span style="color:#e45649;">os</span><span>.</span><span style="color:#e45649;">Getenv</span><span>(</span><span style="color:#50a14f;">&quot;DB_PASSWORD&quot;</span><span>), </span><span style="color:#e45649;">os</span><span>.</span><span style="color:#e45649;">Getenv</span><span>(</span><span style="color:#50a14f;">&quot;DB_NAME&quot;</span><span>), </span><span style="color:#e45649;">os</span><span>.</span><span style="color:#e45649;">Getenv</span><span>(</span><span style="color:#50a14f;">&quot;SSL_MODE&quot;</span><span>))
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Open a connection to the database using GORM and PostgreSQL driver.
+</span><span>	</span><span style="color:#e45649;">db</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">gorm</span><span>.</span><span style="color:#e45649;">Open</span><span>(</span><span style="color:#e45649;">postgres</span><span>.</span><span style="color:#e45649;">New</span><span>(</span><span style="color:#e45649;">postgres</span><span>.</span><span style="color:#e45649;">Config</span><span>{
+</span><span>		</span><span style="color:#e45649;">DSN</span><span>:                  </span><span style="color:#e45649;">configurations</span><span>,
+</span><span>		</span><span style="color:#e45649;">PreferSimpleProtocol</span><span>: </span><span style="color:#c18401;">true</span><span>,
+</span><span>	}), </span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">gorm</span><span>.</span><span style="color:#e45649;">Config</span><span>{</span><span style="color:#e45649;">NamingStrategy</span><span>: </span><span style="color:#e45649;">schema</span><span>.</span><span style="color:#e45649;">NamingStrategy</span><span>{
+</span><span>		</span><span style="color:#e45649;">SingularTable</span><span>: </span><span style="color:#c18401;">true</span><span>,
+</span><span>	}})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil</span><span>, </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Enable connection pooling by configuring maximum idle and open connections.
+</span><span>	</span><span style="color:#e45649;">sqlDB</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">db</span><span>.</span><span style="color:#e45649;">DB</span><span>()
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil</span><span>, </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>	</span><span style="color:#e45649;">sqlDB</span><span>.</span><span style="color:#e45649;">SetMaxIdleConns</span><span>(</span><span style="color:#c18401;">10</span><span>)
+</span><span>	</span><span style="color:#e45649;">sqlDB</span><span>.</span><span style="color:#e45649;">SetMaxOpenConns</span><span>(</span><span style="color:#c18401;">100</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Return the Database instance with the established database connection.
+</span><span>	</span><span style="color:#a626a4;">return &amp;</span><span style="color:#e45649;">Database</span><span>{
+</span><span>		</span><span style="color:#e45649;">Client</span><span>: </span><span style="color:#e45649;">db</span><span>,
+</span><span>	}, </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>The <code>NewDatabase</code> function creates a new Database instance and establishes a connection to the database. It returns a pointer to the Database instance, and an error, if any, occurs during the process.</p>
+<p>After a successful database connection, you can set up migration functionality  for your database implementation with the function as thus:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/models/migrations.go
+</span><span>
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">d </span><span style="color:#a626a4;">*Database</span><span>) </span><span style="color:#0184bc;">MigrateDB</span><span>() </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Database Migration in Process...&quot;</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Use GORM AutoMigrate to migrate all the database schemas.
+</span><span>	</span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">d</span><span>.</span><span style="color:#e45649;">Client</span><span>.</span><span style="color:#e45649;">AutoMigrate</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">User</span><span>{})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Database Migration Complete!&quot;</span><span>)
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>The <code>MgrateDB</code> function sets up automatic migrations for the <code>User</code> struct with the database client <code>AutoMigrate</code> function and returns an error if there’s any encountered during the process.</p>
+<h3 id="step-2b-defining-functions-for-the-database-implementation">Step 2b: Defining Functions for the Database Implementation</h3>
+<p>In the <code>users.go</code> file where you defined the struct for your database schema, you can proceed to define the functions for the database implementation.</p>
+<p>Here are the <code>CreateUser</code>, <code>GetUserByID</code>, <code>UpdateUser</code>, and <code>DeleteUser</code> functions responsible for CRUD operations on the database.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/models/users.go
+</span><span>
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">d </span><span style="color:#a626a4;">*Database</span><span>) </span><span style="color:#0184bc;">CreateUser</span><span>(</span><span style="color:#e45649;">ctx context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#e45649;">user </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">users</span><span>.</span><span style="color:#a626a4;">User</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#e45649;">newUser </span><span style="color:#a626a4;">:= &amp;</span><span style="color:#e45649;">User</span><span>{
+</span><span>		</span><span style="color:#e45649;">Username</span><span>: </span><span style="color:#e45649;">user</span><span>.</span><span style="color:#e45649;">Username</span><span>,
+</span><span>		</span><span style="color:#e45649;">Email</span><span>:    </span><span style="color:#e45649;">user</span><span>.</span><span style="color:#e45649;">Email</span><span>,
+</span><span>		</span><span style="color:#e45649;">IsActive</span><span>: </span><span style="color:#c18401;">false</span><span>,
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">d</span><span>.</span><span style="color:#e45649;">Client</span><span>.</span><span style="color:#e45649;">WithContext</span><span>(</span><span style="color:#e45649;">ctx</span><span>).</span><span style="color:#e45649;">Create</span><span>(</span><span style="color:#e45649;">newUser</span><span>).</span><span style="color:#e45649;">Error</span><span>; </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// GetUserByID returns the user with a specified id
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">d </span><span style="color:#a626a4;">*Database</span><span>) </span><span style="color:#0184bc;">GetUserByID</span><span>(</span><span style="color:#e45649;">ctx context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#e45649;">id </span><span style="color:#a626a4;">int64</span><span>) (</span><span style="color:#e45649;">users</span><span>.</span><span style="color:#a626a4;">User</span><span>, </span><span style="color:#a626a4;">error</span><span>) {
+</span><span>	</span><span style="color:#e45649;">user </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">users</span><span>.</span><span style="color:#e45649;">User</span><span>{}
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">d</span><span>.</span><span style="color:#e45649;">Client</span><span>.</span><span style="color:#e45649;">WithContext</span><span>(</span><span style="color:#e45649;">ctx</span><span>).</span><span style="color:#e45649;">Where</span><span>(</span><span style="color:#50a14f;">&quot;id = ?&quot;</span><span>, </span><span style="color:#e45649;">id</span><span>).</span><span style="color:#e45649;">First</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">user</span><span>).</span><span style="color:#e45649;">Error</span><span>; </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">users</span><span>.</span><span style="color:#e45649;">User</span><span>(</span><span style="color:#e45649;">User</span><span>{}), </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">users</span><span>.</span><span style="color:#e45649;">User</span><span>(</span><span style="color:#e45649;">User</span><span>{
+</span><span>		</span><span style="color:#e45649;">Username</span><span>: </span><span style="color:#e45649;">user</span><span>.</span><span style="color:#e45649;">Username</span><span>,
+</span><span>		</span><span style="color:#e45649;">Email</span><span>:    </span><span style="color:#e45649;">user</span><span>.</span><span style="color:#e45649;">Email</span><span>,
+</span><span>		</span><span style="color:#e45649;">IsActive</span><span>: </span><span style="color:#e45649;">user</span><span>.</span><span style="color:#e45649;">IsActive</span><span>,
+</span><span>	}), </span><span style="color:#c18401;">nil
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// UpdateUser updates an existing user in the database
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">d </span><span style="color:#a626a4;">*Database</span><span>) </span><span style="color:#0184bc;">UpdateUser</span><span>(</span><span style="color:#e45649;">ctx context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#e45649;">updatedUser users</span><span>.</span><span style="color:#a626a4;">User</span><span>, </span><span style="color:#e45649;">id </span><span style="color:#a626a4;">uint</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#a0a1a7;">// Check if the user with the specified ID exists
+</span><span>	</span><span style="color:#a626a4;">var </span><span style="color:#e45649;">existingUser </span><span style="color:#a626a4;">User
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">d</span><span>.</span><span style="color:#e45649;">Client</span><span>.</span><span style="color:#e45649;">WithContext</span><span>(</span><span style="color:#e45649;">ctx</span><span>).</span><span style="color:#e45649;">Where</span><span>(</span><span style="color:#50a14f;">&quot;id = ?&quot;</span><span>, </span><span style="color:#e45649;">id</span><span>).</span><span style="color:#e45649;">First</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">existingUser</span><span>).</span><span style="color:#e45649;">Error</span><span>; </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Update the fields of the existing user with the new values
+</span><span>	</span><span style="color:#e45649;">existingUser</span><span>.</span><span style="color:#e45649;">Username </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">updatedUser</span><span>.</span><span style="color:#e45649;">Username
+</span><span>	</span><span style="color:#e45649;">existingUser</span><span>.</span><span style="color:#e45649;">Email </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">updatedUser</span><span>.</span><span style="color:#e45649;">Email
+</span><span>	</span><span style="color:#e45649;">existingUser</span><span>.</span><span style="color:#e45649;">IsActive </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">updatedUser</span><span>.</span><span style="color:#e45649;">IsActive
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Save the updated user back to the database
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">d</span><span>.</span><span style="color:#e45649;">Client</span><span>.</span><span style="color:#e45649;">WithContext</span><span>(</span><span style="color:#e45649;">ctx</span><span>).</span><span style="color:#e45649;">Save</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">existingUser</span><span>).</span><span style="color:#e45649;">Error</span><span>; </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// DeleteUser deletes a user from the database by their ID
+</span><span>
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">d </span><span style="color:#a626a4;">*Database</span><span>) </span><span style="color:#0184bc;">DeleteUser</span><span>(</span><span style="color:#e45649;">ctx context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#e45649;">id </span><span style="color:#a626a4;">uint</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#a0a1a7;">// Check if the user with the specified ID exists
+</span><span>	</span><span style="color:#a626a4;">var </span><span style="color:#e45649;">existingUser </span><span style="color:#a626a4;">User
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">d</span><span>.</span><span style="color:#e45649;">Client</span><span>.</span><span style="color:#e45649;">WithContext</span><span>(</span><span style="color:#e45649;">ctx</span><span>).</span><span style="color:#e45649;">Where</span><span>(</span><span style="color:#50a14f;">&quot;id = ?&quot;</span><span>, </span><span style="color:#e45649;">id</span><span>).</span><span style="color:#e45649;">First</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">existingUser</span><span>).</span><span style="color:#e45649;">Error</span><span>; </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// Delete the user from the database
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">d</span><span>.</span><span style="color:#e45649;">Client</span><span>.</span><span style="color:#e45649;">WithContext</span><span>(</span><span style="color:#e45649;">ctx</span><span>).</span><span style="color:#e45649;">Delete</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">existingUser</span><span>).</span><span style="color:#e45649;">Error</span><span>; </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>Your <code>user</code> implementation will call these functions to access the database functionality.</p>
+<h3 id="step-2c-writing-the-user-implementation">Step 2c: Writing the User Implementation</h3>
+<p>Your <code>user</code> implementation plays a significant role in relaying data from the database to the HTTP implementation.</p>
+<p>You’ll define a struct that matches the struct in the database implementation and add JSON tags to the fields for usage; then, you’ll define functions that call the database functions with the data from the HTTP implementation.</p>
+<p>Here are the imports you’ll need for your user implementation:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">package </span><span style="color:#e45649;">users
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#50a14f;">&quot;context&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;gorm.io/gorm&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;log&quot;
+</span><span>)
+</span></code></pre>
+<p>Here’s the structure with JSON tags. The <code>json:"-"</code> in the <code>gorm.Model</code> field specifies that you want to exclude the field from the JSON operations.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// User -  a representation of the users of the wallet engine
+</span><span style="color:#a626a4;">type </span><span>User </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>	</span><span style="color:#e45649;">gorm</span><span>.Model </span><span style="color:#50a14f;">`json:&quot;-&quot;`
+</span><span>	</span><span style="color:#e45649;">Username   </span><span style="color:#a626a4;">string </span><span style="color:#50a14f;">`json:&quot;username&quot;`  
+</span><span>	</span><span style="color:#e45649;">Email      </span><span style="color:#a626a4;">string </span><span style="color:#50a14f;">`json:&quot;email&quot;`     
+</span><span>	</span><span style="color:#e45649;">IsActive   </span><span style="color:#a626a4;">bool   </span><span style="color:#50a14f;">`json:&quot;is_active&quot;` 
+</span><span>}
+</span></code></pre>
+<p>Next, you’ll declare an interface with methods for the user implementation functions,  a service struct for the user implementation, and a function that initializes the service implementation.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">type </span><span>UserStore </span><span style="color:#a626a4;">interface </span><span>{
+</span><span>	</span><span style="color:#0184bc;">CreateUser</span><span>(</span><span style="color:#e45649;">context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#a626a4;">*User</span><span>) </span><span style="color:#a626a4;">error
+</span><span>	</span><span style="color:#0184bc;">GetUserByID</span><span>(</span><span style="color:#e45649;">context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#a626a4;">int64</span><span>) (</span><span style="color:#a626a4;">User</span><span>, </span><span style="color:#a626a4;">error</span><span>)
+</span><span>	</span><span style="color:#0184bc;">UpdateUser</span><span>(</span><span style="color:#e45649;">context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#a626a4;">User</span><span>, </span><span style="color:#a626a4;">uint</span><span>) </span><span style="color:#a626a4;">error
+</span><span>	</span><span style="color:#0184bc;">DeleteUser</span><span>(</span><span style="color:#e45649;">context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#a626a4;">uint</span><span>) </span><span style="color:#a626a4;">error
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// The UserService struct manages user-related operations outside the user implementation.
+</span><span style="color:#a626a4;">type </span><span>UserService </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>	</span><span style="color:#e45649;">Store </span><span style="color:#a626a4;">UserStore </span><span style="color:#a0a1a7;">// UserStore is an interface that abstracts the database operations.
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// NewService creates a new service
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">NewService</span><span>(</span><span style="color:#e45649;">store </span><span style="color:#a626a4;">UserStore</span><span>) </span><span style="color:#a626a4;">UserService </span><span>{
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">UserService</span><span>{
+</span><span>		</span><span style="color:#e45649;">Store</span><span>: </span><span style="color:#e45649;">store</span><span>,
+</span><span>	}
+</span><span>}
+</span></code></pre>
+<p>The interface and service will help manage user-related operations outside the user implementation.</p>
+<p>Next, you can define methods of the <code>UserService</code> struct implementation that call the database implementation.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>
+</span><span style="color:#a0a1a7;">// CreateUser creates a new user by calling the CreateUser method on the associated UserStore.
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">u </span><span style="color:#a626a4;">*UserService</span><span>) </span><span style="color:#0184bc;">CreateUser</span><span>(</span><span style="color:#e45649;">ctx context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#e45649;">user </span><span style="color:#a626a4;">*User</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">u</span><span>.</span><span style="color:#e45649;">Store</span><span>.</span><span style="color:#e45649;">CreateUser</span><span>(</span><span style="color:#e45649;">ctx</span><span>, </span><span style="color:#e45649;">user</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Printf</span><span>(</span><span style="color:#50a14f;">&quot;Error creating user: </span><span style="color:#c18401;">%v</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// GetUserByID retrieves a user by their ID using the GetUserByID method on the associated UserStore.
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">u </span><span style="color:#a626a4;">*UserService</span><span>) </span><span style="color:#0184bc;">GetUserByID</span><span>(</span><span style="color:#e45649;">ctx context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#e45649;">id </span><span style="color:#a626a4;">int64</span><span>) (</span><span style="color:#a626a4;">User</span><span>, </span><span style="color:#a626a4;">error</span><span>) {
+</span><span>	</span><span style="color:#e45649;">user</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">u</span><span>.</span><span style="color:#e45649;">Store</span><span>.</span><span style="color:#e45649;">GetUserByID</span><span>(</span><span style="color:#e45649;">ctx</span><span>, </span><span style="color:#e45649;">id</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Printf</span><span>(</span><span style="color:#50a14f;">&quot;Error fetching user with ID </span><span style="color:#c18401;">%v</span><span style="color:#50a14f;">: </span><span style="color:#c18401;">%v</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">id</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">user</span><span>, </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">user</span><span>, </span><span style="color:#c18401;">nil
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// UpdateUser updates an existing user by calling the UpdateUser method on the associated UserStore.
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">u </span><span style="color:#a626a4;">*UserService</span><span>) </span><span style="color:#0184bc;">UpdateUser</span><span>(</span><span style="color:#e45649;">ctx context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#e45649;">user </span><span style="color:#a626a4;">User</span><span>, </span><span style="color:#e45649;">id </span><span style="color:#a626a4;">uint</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">u</span><span>.</span><span style="color:#e45649;">Store</span><span>.</span><span style="color:#e45649;">UpdateUser</span><span>(</span><span style="color:#e45649;">ctx</span><span>, </span><span style="color:#e45649;">user</span><span>, </span><span style="color:#e45649;">id</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Printf</span><span>(</span><span style="color:#50a14f;">&quot;Error updating user: </span><span style="color:#c18401;">%v</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// DeleteUser deletes a user by their ID using the DeleteUser method on the associated UserStore.
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">u </span><span style="color:#a626a4;">*UserService</span><span>) </span><span style="color:#0184bc;">DeleteUser</span><span>(</span><span style="color:#e45649;">ctx context</span><span>.</span><span style="color:#a626a4;">Context</span><span>, </span><span style="color:#e45649;">id </span><span style="color:#a626a4;">uint</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">u</span><span>.</span><span style="color:#e45649;">Store</span><span>.</span><span style="color:#e45649;">DeleteUser</span><span>(</span><span style="color:#e45649;">ctx</span><span>, </span><span style="color:#e45649;">id</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Printf</span><span>(</span><span style="color:#50a14f;">&quot;Error deleting user: </span><span style="color:#c18401;">%v</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>The <code>CreateUser</code>, <code>GetUserByID</code>, <code>UpdateUser</code>, and <code>DeleteUser</code> functions are responsible for calling the CRUD operations on the database implementation. The HTTP implementation will call these functions to access the database.</p>
+<h3 id="step-2c-writing-the-http-implementation">Step 2c: Writing the HTTP Implementation</h3>
+<p>The HTTP implementation is part of your application that receives and interacts with incoming requests.</p>
+<p>Here’s the list of imports you’ll need across your HTTP implementation:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">package </span><span style="color:#e45649;">http
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#50a14f;">&quot;BetterApp/internal/users&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;context&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;github.com/gorilla/mux&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;log&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;net/http&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;os&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;os/signal&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;syscall&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;time&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;encoding/json&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;strconv&quot;
+</span><span>)
+</span></code></pre>
+<p>First, declare a struct and include a Router instance, a HTTP instance, and an instance of the user service.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/http/handler.go
+</span><span>
+</span><span style="color:#a626a4;">type </span><span>Handler </span><span style="color:#a626a4;">struct </span><span>{
+</span><span>	</span><span style="color:#e45649;">Router </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">mux</span><span>.</span><span style="color:#a626a4;">Router
+</span><span>	</span><span style="color:#e45649;">Users  users</span><span>.</span><span style="color:#a626a4;">UserService
+</span><span>	</span><span style="color:#e45649;">Server </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#a626a4;">Server
+</span><span>}
+</span></code></pre>
+<p>Then create a function that returns a pointer to the <code>Handler</code> struct, where you can configure the server and handlers.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/http/handler.go
+</span><span>
+</span><span style="color:#a0a1a7;">// NewHandler - returns a pointer to a Handler
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">NewHandler</span><span>(</span><span style="color:#e45649;">users users</span><span>.</span><span style="color:#a626a4;">UserService</span><span>) </span><span style="color:#a626a4;">*Handler </span><span>{
+</span><span>    </span><span style="color:#a0a1a7;">// Print a log message to indicate that we are setting up our handler
+</span><span>    </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;setting up our handler&quot;</span><span>)
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Create a new Handler instance and initialize it
+</span><span>    </span><span style="color:#e45649;">h </span><span style="color:#a626a4;">:= &amp;</span><span style="color:#e45649;">Handler</span><span>{
+</span><span>        </span><span style="color:#e45649;">Users</span><span>: </span><span style="color:#e45649;">users</span><span>, </span><span style="color:#a0a1a7;">// Assign the provided users service to the handler&#39;s Users field
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Create a new HTTP router using the mux package
+</span><span>    </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Router </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">mux</span><span>.</span><span style="color:#e45649;">NewRouter</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Map the routes for this handler (assuming this method exists and sets up routes)
+</span><span>    </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">mapRoutes</span><span>()
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Create an HTTP server instance with specified settings
+</span><span>    </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Server </span><span style="color:#a626a4;">= &amp;</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Server</span><span>{
+</span><span>        </span><span style="color:#e45649;">Addr</span><span>:         </span><span style="color:#50a14f;">&quot;0.0.0.0:8080&quot;</span><span>, </span><span style="color:#a0a1a7;">// Set the server address to listen on
+</span><span>        </span><span style="color:#e45649;">WriteTimeout</span><span>: </span><span style="color:#e45649;">time</span><span>.</span><span style="color:#e45649;">Second </span><span style="color:#a626a4;">* </span><span style="color:#c18401;">15</span><span>, </span><span style="color:#a0a1a7;">// Set the maximum time to write the response
+</span><span>        </span><span style="color:#e45649;">ReadTimeout</span><span>:  </span><span style="color:#e45649;">time</span><span>.</span><span style="color:#e45649;">Second </span><span style="color:#a626a4;">* </span><span style="color:#c18401;">15</span><span>, </span><span style="color:#a0a1a7;">// Set the maximum time to read the request
+</span><span>        </span><span style="color:#e45649;">IdleTimeout</span><span>:  </span><span style="color:#e45649;">time</span><span>.</span><span style="color:#e45649;">Second </span><span style="color:#a626a4;">* </span><span style="color:#c18401;">60</span><span>, </span><span style="color:#a0a1a7;">// Set the maximum idle time
+</span><span>        </span><span style="color:#e45649;">Handler</span><span>:      </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Router</span><span>, </span><span style="color:#a0a1a7;">// Set the router as the handler for incoming requests
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Return the initialized handler
+</span><span>    </span><span style="color:#a626a4;">return </span><span style="color:#e45649;">h
+</span><span>}
+</span></code></pre>
+<p>The <code>NewHandler</code> function sets up and configures an HTTP request handler, making it ready to handle incoming HTTP requests for a specific service while also defining server settings and routes.</p>
+<p>The <code>mapRoutes</code> function you called in the <code>NewHandler</code> function sets up routes by mapping them to their respective handler functions.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/http/handler.go
+</span><span>
+</span><span style="color:#a0a1a7;">// mapRoutes - sets up all the routes for our application
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">h </span><span style="color:#a626a4;">*Handler</span><span>) </span><span style="color:#0184bc;">mapRoutes</span><span>() {
+</span><span>	</span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Router</span><span>.</span><span style="color:#e45649;">HandleFunc</span><span>(</span><span style="color:#50a14f;">&quot;/api/v1/user/create&quot;</span><span>, </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">CreateUser</span><span>).</span><span style="color:#e45649;">Methods</span><span>(</span><span style="color:#50a14f;">&quot;POST&quot;</span><span>)
+</span><span>	</span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Router</span><span>.</span><span style="color:#e45649;">HandleFunc</span><span>(</span><span style="color:#50a14f;">&quot;/api/v1/users/{id}&quot;</span><span>, </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">GetUserByID</span><span>).</span><span style="color:#e45649;">Methods</span><span>(</span><span style="color:#50a14f;">&quot;GET&quot;</span><span>)
+</span><span>	</span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Router</span><span>.</span><span style="color:#e45649;">HandleFunc</span><span>(</span><span style="color:#50a14f;">&quot;/api/v1/users/{id}&quot;</span><span>, </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">UpdateUser</span><span>).</span><span style="color:#e45649;">Methods</span><span>(</span><span style="color:#50a14f;">&quot;PUT&quot;</span><span>)
+</span><span>	</span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Router</span><span>.</span><span style="color:#e45649;">HandleFunc</span><span>(</span><span style="color:#50a14f;">&quot;/api/v1/users/{id}&quot;</span><span>, </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">DeleteUser</span><span>).</span><span style="color:#e45649;">Methods</span><span>(</span><span style="color:#50a14f;">&quot;DELETE&quot;</span><span>)
+</span><span>}
+</span></code></pre>
+<p>Next, define the handler functions and their functionalities.  Here are the <code>CreateUser</code>, <code>GetUserByID</code>, <code>UpdateUser</code> and <code>DeleteUser</code> functions that are responsible for  intercepting HTTP requests and responding based on the operation.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/http/users.go
+</span><span>
+</span><span style="color:#a0a1a7;">// CreateUser decodes a User object from the HTTP request body and then tries to create a new user in the database using the CreateUser method of the UserService interface.
+</span><span style="color:#a0a1a7;">// If the user is successfully created, it encodes and sends the created user as a response.
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">h </span><span style="color:#a626a4;">*Handler</span><span>) </span><span style="color:#0184bc;">CreateUser</span><span>(</span><span style="color:#e45649;">writer http</span><span>.</span><span style="color:#a626a4;">ResponseWriter</span><span>, </span><span style="color:#e45649;">request </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#a626a4;">Request</span><span>) {
+</span><span>    </span><span style="color:#a0a1a7;">// Decode the incoming JSON request body into a User struct
+</span><span>    </span><span style="color:#a626a4;">var </span><span style="color:#e45649;">u users</span><span>.</span><span style="color:#a626a4;">User
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">json</span><span>.</span><span style="color:#e45649;">NewDecoder</span><span>(</span><span style="color:#e45649;">request</span><span>.</span><span style="color:#e45649;">Body</span><span>).</span><span style="color:#e45649;">Decode</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">u</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If decoding fails, respond with a Bad Request status and log the error
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#50a14f;">&quot;Failed to decode request body&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusBadRequest</span><span>)
+</span><span>        </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Failed to decode request body:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Try to create the user using the CreateUser method of UserService
+</span><span>    </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Users</span><span>.</span><span style="color:#e45649;">CreateUser</span><span>(</span><span style="color:#e45649;">request</span><span>.</span><span style="color:#e45649;">Context</span><span>(), </span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">u</span><span>)
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If user creation fails, respond with an Internal Server Error status and log the error
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#50a14f;">&quot;Failed to create user&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusInternalServerError</span><span>)
+</span><span>        </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Failed to create user:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Set the response content type to JSON, set the status to Created, and encode and send the created user as the response
+</span><span>    </span><span style="color:#e45649;">writer</span><span>.</span><span style="color:#e45649;">Header</span><span>().</span><span style="color:#e45649;">Set</span><span>(</span><span style="color:#50a14f;">&quot;Content-Type&quot;</span><span>, </span><span style="color:#50a14f;">&quot;application/json&quot;</span><span>)
+</span><span>    </span><span style="color:#e45649;">writer</span><span>.</span><span style="color:#e45649;">WriteHeader</span><span>(</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusCreated</span><span>)
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">json</span><span>.</span><span style="color:#e45649;">NewEncoder</span><span>(</span><span style="color:#e45649;">writer</span><span>).</span><span style="color:#e45649;">Encode</span><span>(</span><span style="color:#e45649;">u</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If encoding the response fails, log the error (Panicln is used for critical errors)
+</span><span>        </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Panicln</span><span>(</span><span style="color:#50a14f;">&quot;Failed to encode response:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// GetUserByID extracts the id from the URL parameters and then fetches the user with that id from the database using the GetUserByID method of the UserService interface.
+</span><span style="color:#a0a1a7;">// If the user is found, it encodes and sends the user as a response.
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">h </span><span style="color:#a626a4;">*Handler</span><span>) </span><span style="color:#0184bc;">GetUserByID</span><span>(</span><span style="color:#e45649;">writer http</span><span>.</span><span style="color:#a626a4;">ResponseWriter</span><span>, </span><span style="color:#e45649;">request </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#a626a4;">Request</span><span>) {
+</span><span>    </span><span style="color:#a0a1a7;">// Extract the &#39;id&#39; parameter from the URL and convert it to an integer
+</span><span>    </span><span style="color:#e45649;">vars </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">mux</span><span>.</span><span style="color:#e45649;">Vars</span><span>(</span><span style="color:#e45649;">request</span><span>)
+</span><span>    </span><span style="color:#e45649;">id</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">strconv</span><span>.</span><span style="color:#e45649;">ParseInt</span><span>(</span><span style="color:#e45649;">vars</span><span>[</span><span style="color:#50a14f;">&quot;id&quot;</span><span>], </span><span style="color:#c18401;">10</span><span>, </span><span style="color:#c18401;">64</span><span>)
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If parsing the &#39;id&#39; fails, respond with a Bad Request status and the error message
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#e45649;">err</span><span>.</span><span style="color:#e45649;">Error</span><span>(), </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusBadRequest</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Fetch the user with the given &#39;id&#39; using the GetUserByID method of UserService
+</span><span>    </span><span style="color:#e45649;">u</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Users</span><span>.</span><span style="color:#e45649;">GetUserByID</span><span>(</span><span style="color:#e45649;">request</span><span>.</span><span style="color:#e45649;">Context</span><span>(), </span><span style="color:#e45649;">id</span><span>)
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If fetching the user fails, log the error
+</span><span>        </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#e45649;">err</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Encode and send the fetched user as the response
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">json</span><span>.</span><span style="color:#e45649;">NewEncoder</span><span>(</span><span style="color:#e45649;">writer</span><span>).</span><span style="color:#e45649;">Encode</span><span>(</span><span style="color:#e45649;">u</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If encoding the response fails, log the error (Panicln is used for critical errors)
+</span><span>        </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Panicln</span><span>(</span><span style="color:#e45649;">err</span><span>)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// UpdateUser updates a user by ID.
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">h </span><span style="color:#a626a4;">*Handler</span><span>) </span><span style="color:#0184bc;">UpdateUser</span><span>(</span><span style="color:#e45649;">writer http</span><span>.</span><span style="color:#a626a4;">ResponseWriter</span><span>, </span><span style="color:#e45649;">request </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#a626a4;">Request</span><span>) {
+</span><span>    </span><span style="color:#a0a1a7;">// Extract the &#39;id&#39; parameter from the URL and convert it to an integer
+</span><span>    </span><span style="color:#e45649;">vars </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">mux</span><span>.</span><span style="color:#e45649;">Vars</span><span>(</span><span style="color:#e45649;">request</span><span>)
+</span><span>    </span><span style="color:#e45649;">id</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">strconv</span><span>.</span><span style="color:#e45649;">ParseInt</span><span>(</span><span style="color:#e45649;">vars</span><span>[</span><span style="color:#50a14f;">&quot;id&quot;</span><span>], </span><span style="color:#c18401;">10</span><span>, </span><span style="color:#c18401;">64</span><span>)
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If parsing the &#39;id&#39; fails, respond with a Bad Request status and the error message
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#e45649;">err</span><span>.</span><span style="color:#e45649;">Error</span><span>(), </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusBadRequest</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Decode the request body to get the updated user information
+</span><span>    </span><span style="color:#a626a4;">var </span><span style="color:#e45649;">u users</span><span>.</span><span style="color:#a626a4;">User
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">json</span><span>.</span><span style="color:#e45649;">NewDecoder</span><span>(</span><span style="color:#e45649;">request</span><span>.</span><span style="color:#e45649;">Body</span><span>).</span><span style="color:#e45649;">Decode</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">u</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If decoding the request body fails, respond with a Bad Request status
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#50a14f;">&quot;Invalid request body&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusBadRequest</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Update the user using the UpdateUser method of UserService
+</span><span>    </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Users</span><span>.</span><span style="color:#e45649;">UpdateUser</span><span>(</span><span style="color:#e45649;">request</span><span>.</span><span style="color:#e45649;">Context</span><span>(), </span><span style="color:#e45649;">u</span><span>, </span><span style="color:#e45649;">uint</span><span>(</span><span style="color:#e45649;">id</span><span>))
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If updating the user fails, respond with an Internal Server Error status and log the error
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#50a14f;">&quot;Failed to update user&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusInternalServerError</span><span>)
+</span><span>        </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#e45649;">err</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Encode and send the updated user as the response
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">json</span><span>.</span><span style="color:#e45649;">NewEncoder</span><span>(</span><span style="color:#e45649;">writer</span><span>).</span><span style="color:#e45649;">Encode</span><span>(</span><span style="color:#e45649;">u</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If encoding the response fails, respond with an Internal Server Error status and log the error (Panicln is used for critical errors)
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#50a14f;">&quot;Failed to encode response&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusInternalServerError</span><span>)
+</span><span>        </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Panicln</span><span>(</span><span style="color:#e45649;">err</span><span>)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// DeleteUser deletes a user by ID.
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">h </span><span style="color:#a626a4;">*Handler</span><span>) </span><span style="color:#0184bc;">DeleteUser</span><span>(</span><span style="color:#e45649;">writer http</span><span>.</span><span style="color:#a626a4;">ResponseWriter</span><span>, </span><span style="color:#e45649;">request </span><span style="color:#a626a4;">*</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#a626a4;">Request</span><span>) {
+</span><span>    </span><span style="color:#a0a1a7;">// Extract the &#39;id&#39; parameter from the URL and convert it to an integer
+</span><span>    </span><span style="color:#e45649;">vars </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">mux</span><span>.</span><span style="color:#e45649;">Vars</span><span>(</span><span style="color:#e45649;">request</span><span>)
+</span><span>    </span><span style="color:#e45649;">id</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">strconv</span><span>.</span><span style="color:#e45649;">ParseInt</span><span>(</span><span style="color:#e45649;">vars</span><span>[</span><span style="color:#50a14f;">&quot;id&quot;</span><span>], </span><span style="color:#c18401;">10</span><span>, </span><span style="color:#c18401;">64</span><span>)
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If parsing the &#39;id&#39; fails, respond with a Bad Request status and the error message
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#e45649;">err</span><span>.</span><span style="color:#e45649;">Error</span><span>(), </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusBadRequest</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Delete the user using the DeleteUser method of UserService
+</span><span>    </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Users</span><span>.</span><span style="color:#e45649;">DeleteUser</span><span>(</span><span style="color:#e45649;">request</span><span>.</span><span style="color:#e45649;">Context</span><span>(), </span><span style="color:#e45649;">uint</span><span>(</span><span style="color:#e45649;">id</span><span>))
+</span><span>    </span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>        </span><span style="color:#a0a1a7;">// If deleting the user fails, respond with an Internal Server Error status and log the error
+</span><span>        </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">Error</span><span>(</span><span style="color:#e45649;">writer</span><span>, </span><span style="color:#50a14f;">&quot;Failed to delete user&quot;</span><span>, </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusInternalServerError</span><span>)
+</span><span>        </span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#e45649;">err</span><span>)
+</span><span>        </span><span style="color:#a626a4;">return
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Send a success response with a No Content status (204)
+</span><span>    </span><span style="color:#e45649;">writer</span><span>.</span><span style="color:#e45649;">WriteHeader</span><span>(</span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">StatusNoContent</span><span>)
+</span><span>}
+</span></code></pre>
+<p>Now, you can write the functionality for starting the server.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">// internal/http/handler.go
+</span><span>
+</span><span style="color:#a0a1a7;">// Serve - gracefully serves our newly set up handler function
+</span><span style="color:#a626a4;">func </span><span>(</span><span style="color:#e45649;">h </span><span style="color:#a626a4;">*Handler</span><span>) </span><span style="color:#0184bc;">Serve</span><span>() </span><span style="color:#a626a4;">error </span><span>{
+</span><span>		</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">h</span><span>.</span><span style="color:#e45649;">Server</span><span>.</span><span style="color:#e45649;">ListenAndServe</span><span>(); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>			</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#e45649;">err</span><span>)
+</span><span>		}
+</span><span>}
+</span></code></pre>
+<p>The <code>Serve</code> function starts the server on the specified port and returns an error if there’s any during the process.</p>
+<h3 id="step-2d-coupling-the-implementations-and-running-the-application">Step 2d: Coupling the Implementations and Running the Application</h3>
+<p>Import the implementations in your <code>main.go</code> file to couple the implementations and run your app.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>
+</span><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#50a14f;">&quot;BetterApp/internal/http&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;BetterApp/internal/models&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;BetterApp/internal/users&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;fmt&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;log&quot;
+</span><span>)
+</span></code></pre>
+<p>You can declare a <code>Run</code> function that instantiates the startup of your app in the <code>main.go</code> file and then call the function in the <code>main</code> function.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">//cmd/server/main.go
+</span><span>
+</span><span style="color:#a0a1a7;">// Run - is going to be responsible for / the instantiation and startup of our / go application
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">Run</span><span>() </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;starting up the application...&quot;</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// create a database instance variable
+</span><span>	</span><span style="color:#e45649;">store</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">models</span><span>.</span><span style="color:#e45649;">NewDatabase</span><span>()
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Database Connection Failure&quot;</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// initialize the migrations functionality on the new database
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">store</span><span>.</span><span style="color:#e45649;">MigrateDB</span><span>(); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;failed to setup store migrations&quot;</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// set the database instance as the store for the user service implementation
+</span><span>	</span><span style="color:#e45649;">userService </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">users</span><span>.</span><span style="color:#e45649;">NewService</span><span>(</span><span style="color:#e45649;">store</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// initialize a new handler with the user service 
+</span><span>	</span><span style="color:#e45649;">handler </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">http</span><span>.</span><span style="color:#e45649;">NewHandler</span><span>(</span><span style="color:#e45649;">userService</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#a0a1a7;">// call the serve function to start the server
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">handler</span><span>.</span><span style="color:#e45649;">Serve</span><span>(); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;failed to gracefully serve our application&quot;</span><span>)
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">err
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>
+</span><span>}
+</span></code></pre>
+<p>The <code>Run</code> function creates a database instance, initializes migrations functionality, initializes the HTTP and User implementations and starts the server.</p>
+<p>You can call the <code>Run</code> function in the <code>main</code> function to launch your application.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a0a1a7;">//cmd/server/main.go
+</span><span>
+</span><span style="color:#a626a4;">func </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>	</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Go REST API Tutorial&quot;</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">Run</span><span>(); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>}
+</span></code></pre>
+<p>The application should run fine before you consider containerizing it with Docker.</p>
+<h2 id="step3-writing-the-dockerfile">Step3: <strong>Writing the Dockerfile</strong></h2>
+<p>Now that you’ve successfully built and ran the program, you can proceed to containerize it with Docker.</p>
+<p>Your Dockerfile will have two stages, the build and final stage. This approach reduces image size, minimizes security risks by reducing the attack surface, ensures efficient runtime performance, and facilitates reproducibility across different development and deployment stages.</p>
+<p>You’ll also use Alpine Linux as the base image of your Docker images since they’re more efficient and secure with minimalist design results in smaller image sizes, faster builds, and reduced attack surfaces.</p>
+<h3 id="step-3a-the-build-stage">Step 3a: The Build Stage</h3>
+<p>Using the build and final stages in a Dockerfile allows for the efficient creation of Docker images. The build stage starts with a base image containing build tools and dependencies, compiles application artifacts, and generates a potentially large intermediate image.</p>
+<p>Here’s the contents of the Dockerfile for the Build Stage:</p>
+<pre data-lang="docker" style="background-color:#fafafa;color:#383a42;" class="language-docker "><code class="language-docker" data-lang="docker"><span># Build stage
+</span><span>FROM golang:1.20-alpine AS build
+</span><span>
+</span><span># Set the working directory inside the container
+</span><span>WORKDIR /app
+</span><span>
+</span><span># Copy the Go application source code into the container
+</span><span>COPY . .
+</span><span>
+</span><span># Build the Go application
+</span><span>RUN go build -o server ./cmd/server
+</span></code></pre>
+<ol>
+<li><strong><code>FROM golang:1.20-alpine AS build</code></strong>: This line specifies the base image for the build stage. It starts with the official Golang Docker image tagged with version 1.20 and is based on Alpine Linux. The <strong><code>AS build</code></strong> part gives this stage a name, "build" that you can reference later.</li>
+<li><strong><code>WORKDIR /app</code></strong>: This line sets the working directory inside the container to <strong><code>/app</code></strong>. Docker will execute subsequent commands in this directory.</li>
+<li><strong><code>COPY . .</code></strong>: This command copies the contents of the current directory (presumably your Go application source code and other necessary files) into the <strong><code>/app</code></strong> directory inside the container.</li>
+<li><strong><code>RUN go build -o server ./cmd/server</code></strong>: This is the command that builds the Go application. It uses the <strong><code>go build</code></strong> command to compile the Go code in the current directory and output the binary as <strong><code>server</code></strong>. The <strong><code>./cmd/server</code></strong> argument is the location of the application code relative to the <strong><code>/app</code></strong> directory.</li>
+</ol>
+<h3 id="step-3b-the-final-stage">Step 3b: The Final Stage</h3>
+<p>The final stage employs a smaller base image, copies only necessary runtime components, and results in a compact image optimized for production.</p>
+<p>Here are the contents of your Dockerfile for the final stage:</p>
+<pre data-lang="docker" style="background-color:#fafafa;color:#383a42;" class="language-docker "><code class="language-docker" data-lang="docker"><span># Final stage
+</span><span>FROM alpine:latest
+</span><span>
+</span><span># Set the working directory inside the final container
+</span><span>WORKDIR /app
+</span><span>
+</span><span># Copy the binary built in the previous stage
+</span><span>COPY --from=build /app/server .
+</span><span>
+</span><span># Expose the port your application will listen on (adjust as needed)
+</span><span>EXPOSE 8080
+</span><span>
+</span><span># Run your Go application
+</span><span>CMD [&quot;./server&quot;]
+</span></code></pre>
+<ol>
+<li><strong><code>FROM alpine:latest</code></strong>: In the final stage, you can start with an Alpine Linux base image, The <strong><code>latest</code></strong> tag specifies the latest available version of Alpine Linux.</li>
+<li><strong><code>WORKDIR /app</code></strong>: This line sets the working directory inside the container to <strong><code>/app</code></strong>. Docker will execute subsequent commands in this directory.</li>
+<li><strong><code>COPY --from=build /app/server .</code></strong>: This command copies the binary file named <strong><code>server</code></strong> from the previous "build stage" into the <strong><code>/app</code></strong> directory inside the final container. This binary is the compiled Go application that you built in the build stage.</li>
+<li><strong><code>EXPOSE 8080</code></strong>: Here, you specify that your application will listen on port 8080. This is a declaration and does not actually open the port; it's a way to document which port your application expects to use.</li>
+<li><strong><code>CMD ["./server"]</code></strong>: This command will be executed when you run a container based on the image. It specifies running the <strong><code>server</code></strong> binary, which is your Go application. This command starts your application inside the container.</li>
+</ol>
+<h2 id="step-4-building-and-running-the-docker-image">Step 4: Building and Running the Docker Image</h2>
+<p>After Writing the Dockerfile, you can proceed to build and run the file.
+Run this command to build the Docker image from the file  with the <code>build</code> command.</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">docker</span><span> build</span><span style="color:#e45649;"> -t</span><span> betterapp .
+</span></code></pre>
+<p>The <code>-t</code> flag specifies the tag for the Docker image as <code>betterapp</code> and the following dot (.) specifies that you want to build the Dockerfile in the current directory.</p>
+<p>You can run the image with the <code>run</code> command and specify a port mapping from the container to your host machine with the <code>-p</code> flag.</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">docker</span><span> run</span><span style="color:#e45649;"> -p</span><span> 8080:8080 \
+</span><span style="color:#e45649;">  -e</span><span> DB_HOST=ep-silent-dew-52667493-pooler.us-east-2.aws.neon.tech \
+</span><span style="color:#e45649;">  -e</span><span> DB_PORT=5432 \
+</span><span style="color:#e45649;">  -e</span><span> DB_USERNAME=Goodnessuc \
+</span><span style="color:#e45649;">  -e</span><span> DB_PASSWORD=foOEky9F2reG \
+</span><span style="color:#e45649;">  -e</span><span> DB_NAME=neondb \
+</span><span style="color:#e45649;">  -e</span><span> SSL_MODE=require \
+</span><span>  betterapp
+</span></code></pre>
+<p>The subsequent <code>-e</code> flags are for specifying environment variables since for your application.</p>
+<h2 id="step-5-deploying-go-applications-with-docker">Step 5: Deploying Go Applications with Docker</h2>
+<p>Docker Compose is a container orchestration tool that simplifies working with multiple Docker containers. You can use Docker compose to orchestrate your Go apps and their components.</p>
+<p>You’ll use a YAML file to specify the instruction and Docker compose will setup your applications to save you time and complexity.</p>
+<p>First, create a Docker Compose YAML file with the command below and open the file in your editor:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#e45649;">touch docker</span><span style="color:#a626a4;">-</span><span style="color:#e45649;">compose</span><span>.</span><span style="color:#e45649;">yml
+</span></code></pre>
+<p>After creating the Dockerfile, you can start writing the commands and directives for deploying your app:</p>
+<pre data-lang="yaml" style="background-color:#fafafa;color:#383a42;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#e45649;">version</span><span>: </span><span style="color:#50a14f;">&quot;3.8&quot;
+</span><span>
+</span><span style="color:#e45649;">services</span><span>:
+</span><span>  </span><span style="color:#e45649;">db</span><span>:
+</span><span>    </span><span style="color:#e45649;">image</span><span>: </span><span style="color:#50a14f;">postgres:12.2-alpine
+</span><span>    </span><span style="color:#e45649;">container_name</span><span>: </span><span style="color:#50a14f;">&quot;betterapp&quot;
+</span><span>    </span><span style="color:#e45649;">ports</span><span>:
+</span><span>      - </span><span style="color:#50a14f;">&quot;5433:5432&quot;
+</span><span>    </span><span style="color:#e45649;">environment</span><span>:
+</span><span>      - </span><span style="color:#50a14f;">POSTGRES_DB=postgres
+</span><span>      - </span><span style="color:#50a14f;">POSTGRES_USER=postgres
+</span><span>      - </span><span style="color:#50a14f;">POSTGRES_PASSWORD=postgres
+</span><span>    </span><span style="color:#e45649;">networks</span><span>:
+</span><span>      - </span><span style="color:#50a14f;">fullstack
+</span><span>    </span><span style="color:#e45649;">volumes</span><span>:
+</span><span>      - </span><span style="color:#50a14f;">database_postgres:/var/lib/postgresql/data
+</span><span>
+</span><span>  </span><span style="color:#e45649;">api</span><span>:
+</span><span>    </span><span style="color:#e45649;">build</span><span>: </span><span style="color:#c18401;">.
+</span><span>    </span><span style="color:#e45649;">container_name</span><span>: </span><span style="color:#50a14f;">&quot;betterapp-rest-api&quot;
+</span><span>    </span><span style="color:#e45649;">environment</span><span>:
+</span><span>      </span><span style="color:#e45649;">DB_USERNAME</span><span>: </span><span style="color:#50a14f;">&quot;postgres&quot;
+</span><span>      </span><span style="color:#e45649;">DB_PASSWORD</span><span>: </span><span style="color:#50a14f;">&quot;postgres&quot;
+</span><span>      </span><span style="color:#e45649;">DB_DB</span><span>: </span><span style="color:#50a14f;">&quot;postgres&quot;
+</span><span>      </span><span style="color:#e45649;">DB_HOST</span><span>: </span><span style="color:#50a14f;">&quot;db&quot;
+</span><span>      </span><span style="color:#e45649;">DB_TABLE</span><span>: </span><span style="color:#50a14f;">&quot;postgres&quot;
+</span><span>      </span><span style="color:#e45649;">DB_PORT</span><span>: </span><span style="color:#50a14f;">&quot;5432&quot;
+</span><span>      </span><span style="color:#e45649;">SSL_MODE</span><span>: </span><span style="color:#50a14f;">&quot;disable&quot;
+</span><span>    </span><span style="color:#e45649;">ports</span><span>:
+</span><span>      - </span><span style="color:#50a14f;">&quot;8080:8080&quot;
+</span><span>    </span><span style="color:#e45649;">depends_on</span><span>:
+</span><span>      - </span><span style="color:#50a14f;">db
+</span><span>    </span><span style="color:#e45649;">networks</span><span>:
+</span><span>      - </span><span style="color:#50a14f;">fullstack
+</span><span>
+</span><span style="color:#e45649;">volumes</span><span>:
+</span><span>  </span><span style="color:#e45649;">database_postgres</span><span>:
+</span><span>
+</span><span style="color:#e45649;">networks</span><span>:
+</span><span>  </span><span style="color:#e45649;">fullstack</span><span>:
+</span><span>    </span><span style="color:#e45649;">driver</span><span>: </span><span style="color:#50a14f;">bridge
+</span></code></pre>
+<p>The YAML file defines two services: <code>my-postgres</code> which is the database container instance and the <code>web</code> service, which is your Go application before configuring their environment variables, ports, and dependencies.</p>
+<p>Now, you can proceed to build the images with the <code>docker-compose build</code> command.</p>
+<pre data-lang="yaml" style="background-color:#fafafa;color:#383a42;" class="language-yaml "><code class="language-yaml" data-lang="yaml"><span style="color:#50a14f;">docker-compose build
+</span></code></pre>
+<p>Your output should be similar to this:</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s8a62hvua6ktvmkdzxxh.png" alt="Docker Process" /></p>
+<p>Finally, you can run your containers with the <code>docker-compose up</code> command.</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">docker-compose</span><span> up</span><span style="color:#e45649;"> -d
+</span></code></pre>
+<p>The <code>-d</code> flag runs the containers in detached mode which makes it agnostic of the terminal session.</p>
+<p>Here’s the result of running the command:</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kovme6iafg7eynri1vh0.png" alt="Server with Docker Up " /></p>
+<p>You can close your terminal, and the container should continue running.</p>
+<p>You can run the CURL requests to test your API once the containers are up:</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#a0a1a7;"># Create a new user
+</span><span style="color:#a0a1a7;"># POST /api/v1/user/create
+</span><span style="color:#e45649;">curl -X</span><span> POST \
+</span><span style="color:#e45649;">     -H </span><span style="color:#50a14f;">&quot;Content-Type: application/json&quot; </span><span>\
+</span><span style="color:#e45649;">     -d </span><span style="color:#50a14f;">&#39;{&quot;username&quot;: &quot;alice_smith&quot;, &quot;email&quot;: &quot;alice.smith@mydomain.com&quot;, &quot;is_active&quot;: true}&#39; </span><span>\
+</span><span>     http://localhost:8080/api/v1/user/create
+</span><span>
+</span><span style="color:#a0a1a7;"># Get user by ID
+</span><span style="color:#a0a1a7;"># Assuming the user ID of Alice Smith is 2
+</span><span style="color:#a0a1a7;"># GET /api/v1/users/{id}
+</span><span style="color:#e45649;">curl -X</span><span> GET http://localhost:8080/api/v1/users/1
+</span><span>
+</span><span style="color:#a0a1a7;"># Update user by ID
+</span><span style="color:#a0a1a7;"># Let&#39;s update Alice Smith&#39;s username and email address
+</span><span style="color:#a0a1a7;"># PUT /api/v1/users/{id}
+</span><span style="color:#e45649;">curl -X</span><span> PUT \
+</span><span style="color:#e45649;">     -H </span><span style="color:#50a14f;">&quot;Content-Type: application/json&quot; </span><span>\
+</span><span style="color:#e45649;">     -d </span><span style="color:#50a14f;">&#39;{&quot;username&quot;: &quot;alice_wonder&quot;, &quot;email&quot;: &quot;alice.wonder@wonderland.com&quot;, &quot;is_active&quot;: true}&#39; </span><span>\
+</span><span>     http://localhost:8080/api/v1/users/1
+</span><span>
+</span><span style="color:#a0a1a7;"># Delete user by ID
+</span><span style="color:#a0a1a7;"># DELETE /api/v1/users/{id}
+</span><span style="color:#e45649;">curl -X</span><span> DELETE http://localhost:8080/api/v1/users/1
+</span></code></pre>
+<p>Congratulations, you’ve successfully deployed and run a working Go app with Docker and Docker Compose.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>You’ve learned how to build and simplify your Go app’s deployment with Docker and Docker Compose. As you continue on your development journey, the skills and understanding you've gained here will prove to be essential assets in ensuring smooth deployments and operational excellence.</p>
+<p>Consider exploring advanced Docker features like optimizing Dockerfile builds or implementing Docker Swarm for larger applications.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/golang/>Golang</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/development/>development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/go/>Go</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/api/>API</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/backend/>Backend</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/postgres/>Postgres</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/docker/>Docker</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/devops/>DevOps</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

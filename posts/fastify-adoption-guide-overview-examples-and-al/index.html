@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Fastify Adoption Guide
+            
+        </title>
+
+        
+            <meta property="og:title" content="Fastify Adoption Guide" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="In this adoption guide, we’ll discuss some reasons to choose Fastify, key features, compare Fastify to some popular alternatives, and more" />
+        
+    
+
+    
+        
+            <meta name="description" content="In this adoption guide, we’ll discuss some reasons to choose Fastify, key features, compare Fastify to some popular alternatives, and more" />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Fastify Adoption Guide</h1>
+            <div class="meta">
+                
+                on  2024-08-06
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><em><strong><a href="//goodylili.github.io/posts/fastify-adoption-guide-overview-examples-and-al/logrocket.com">LogRocket</a> made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.</strong></em></p>
+<h1 id="fastify-adoption-guide-overview-examples-and-alternatives">Fastify Adoption Guide: Overview, Examples, and Alternatives</h1>
+<p>As your frontend applications receive increasing demand, they require fast and responsive backends to deliver the
+optimal user experiences. You’ll need a framework that plays nicely with the frontend tooling and frameworks you’re
+building with.</p>
+<p>There are many backend frameworks to choose from across the various server-side languages. If you’re looking to use
+JavaScript, especially on your app’s frontend, you can consider using Fastify.</p>
+<p>In this adoption guide, we’ll discuss some of the reasons you should (or shouldn’t) choose Fastify, key features you
+should know, and more. We’ll also compare Fastify to some popular alternatives to equip you to make an informed decision
+for your project.</p>
+<h2 id="what-is-fastify">What is Fastify?</h2>
+<p><a href="https://fastify.dev/">Fastify</a> is a performant, open source Node.js framework for building efficient and fast web
+applications. Its modular architecture is based on a rich, easy-to-integrate plugin system.</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_6AE55FF9FC0A98BCF75595E793430DD1FE445567DC6E29681C604770A8067B17_1719335648997_Untitled+10.png" alt="" /></p>
+<p>Fastify also plays nicely with popular modern frontend frameworks and libraries like React, Vue, and Angular. It
+provides great DX via schema-based validation, detailed documentation, and full TypeScript support, making it a popular
+choice for developers in the JavaScript ecosystem who need to spin up fast, reliable backend services.</p>
+<p>The project contributors built Fastify to create a framework with high throughput and low latency that was secure with a
+minimal footprint. Since its inception, Fastify has undergone several iterations that added new features and improved
+its performance to stay updated with the trend in server-side app development.</p>
+<p>Fastify leverages plugins to extend its core functionality. You build your application by registering plugins that
+provide specific functionalities. These plugins can define routes, handle server decorations, or add custom logic.</p>
+<h2 id="why-you-should-choose-fastify">Why you should choose Fastify</h2>
+<p>As usual, there are multiple factors you should consider when choosing a server-side framework for your application.
+Here's an overview of the factors that make Fastify a great tool to use:</p>
+<ul>
+<li><strong>Performance</strong> — Fastify has a reputation for high performance, and it can handle thousands of requests per second.
+It’s also efficient when it comes to server resources. You should consider Fastify if you’re looking to lower
+infrastructure costs and improve responsiveness under load</li>
+<li><strong>Security —</strong> Fastify supports JSON schemas for validating routes and serializing outputs for data integrity. It also
+uses Pino, a low-overhead logger, to minimize logging costs</li>
+<li><strong>Ease of use/DX</strong> — Fastify is quite expressive in contrast to other server-side frameworks in the market. It’s
+designed to be expressive for devs without compromising performance and security. Also, Fastify has an intuitive API
+design that’s easy to grasp, so you can spend more time on what matters: building!</li>
+<li><strong>Bundle size</strong> — Fastify’s focus on minimalism and efficiency suggests a leaner package compared to other server-side
+frameworks</li>
+<li><strong>Community &amp; ecosystem</strong> — Thanks to Fastify’s large community of developers, it has a super-rich plugin system that
+covers multiple functionalities from caching to authentication and database integration. You can tailor these plugins
+to build apps that match your project’s specifications</li>
+<li><strong>Learning curve</strong> — Just like JavaScript itself, Fastify is easy to learn and adopt. Its intuitive design also makes
+it easy for developers from another ecosystem to easily adopt it.</li>
+<li><strong>Documentation</strong> — Fastify is well documented on <a href="http://Fastify.dev">Fastify.dev</a> and GitHub. An active community of
+developers uses, supports, and maintains the Fastify codebase and documentation</li>
+<li><strong>Integrations/plugins</strong> — Through its rich plugin ecosystem, Fastify provides many integrations and support for
+multiple platforms and technologies, including Platformatic, tRPC, Clerk, WebSockets, Prisma, and more</li>
+</ul>
+<p>Of course, Fastify isn’t perfect. Depending on your use case, you may find other frameworks better suited for your
+project. Check out the comparison table between Fastify and other popular frameworks below to learn more.</p>
+<h2 id="getting-started-with-fastify">Getting started with Fastify</h2>
+<p>Here's a quickstart guide to get you started with Fastify, including installing, building a route, and creating a
+server.</p>
+<p>First, ensure you have Node.js installed. You can install Fastify using npm or Yarn:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    # </span><span style="color:#e45649;">NPM
+</span><span>    </span><span style="color:#e45649;">npm init </span><span style="color:#a626a4;">-</span><span style="color:#e45649;">y
+</span><span>    </span><span style="color:#e45649;">npm install fastify
+</span><span>    
+</span><span>    # </span><span style="color:#e45649;">YARN
+</span><span>    </span><span style="color:#e45649;">yarn init </span><span style="color:#a626a4;">-</span><span style="color:#e45649;">y
+</span><span>    </span><span style="color:#e45649;">yarn add fastify
+</span></code></pre>
+<p>To create a server with Fastify, create a new file named <code>server.js</code> and add this import for the Fastify library:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Import the Fastify library
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">fastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;fastify&#39;</span><span>)({ logger: </span><span style="color:#c18401;">true </span><span>});
+</span></code></pre>
+<p>Next, define a simple route at the root directory to which you can send requests:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">get</span><span>(</span><span style="color:#50a14f;">&#39;/&#39;</span><span>, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>      </span><span style="color:#a626a4;">return </span><span>{ hello: </span><span style="color:#50a14f;">&#39;world&#39; </span><span>};
+</span><span>    });
+</span></code></pre>
+<p>The route returns a JSON with <code>{"hello":"world"}</code> when you visit the root URL with the server running locally on
+port <code>3000</code>.</p>
+<p>Here’s a function definition that starts the server on port <code>3000</code> with error handling to catch any errors while running
+the server:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Run the server
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#0184bc;">start </span><span style="color:#a626a4;">= async </span><span>() </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>      </span><span style="color:#a626a4;">try </span><span>{
+</span><span>        </span><span style="color:#a626a4;">await </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">listen</span><span>(</span><span style="color:#c18401;">3000</span><span>);
+</span><span>        </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#0184bc;">info</span><span>(</span><span style="color:#50a14f;">`Server listening on ${</span><span style="color:#e45649;">fastify</span><span style="color:#50a14f;">.</span><span style="color:#e45649;">server</span><span style="color:#50a14f;">.</span><span style="color:#0184bc;">address</span><span style="color:#50a14f;">().port}`</span><span>);
+</span><span>      } </span><span style="color:#a626a4;">catch </span><span>(</span><span style="color:#e45649;">err</span><span>) {
+</span><span>        </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#0184bc;">error</span><span>(</span><span style="color:#e45649;">err</span><span>);
+</span><span>        process.</span><span style="color:#0184bc;">exit</span><span>(</span><span style="color:#c18401;">1</span><span>);
+</span><span>      }
+</span><span>    };
+</span></code></pre>
+<p>Finally, call the <code>start</code> function at the bottom of the file:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#0184bc;">start</span><span>();
+</span></code></pre>
+<p>If you’re using Node like me, you can run the server with this command:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#e45649;">node server</span><span>.</span><span style="color:#e45649;">js
+</span></code></pre>
+<p>Request the server or open the endpoint on your browser. Here's the output you should see:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_6AE55FF9FC0A98BCF75595E793430DD1FE445567DC6E29681C604770A8067B17_1719335747497_Untitled+11.png" alt="" /></p>
+<p>You can add more routes by defining additional handlers. Here's an example POST route:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a0a1a7;">// Define a POST route
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">post</span><span>(</span><span style="color:#50a14f;">&#39;/data&#39;</span><span>, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>      </span><span style="color:#a626a4;">const </span><span>{ </span><span style="color:#e45649;">name </span><span>} </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">request</span><span>.body;
+</span><span>      </span><span style="color:#a626a4;">return </span><span>{ hello: </span><span style="color:#e45649;">name </span><span>};
+</span><span>    });
+</span></code></pre>
+<p>For the POST route, you’re using the <code>post</code> function. The POST route returns the body of the request with <code>request.body</code>
+function.</p>
+<h2 id="key-fastify-features-to-know">Key Fastify features to know</h2>
+<p>Fastify is a supercharged backend framework that can probably take whatever you throw.
+Let’s go over some important operations you’d explore with Fastify if you adopt it as your app's backend framework.</p>
+<H3>Fastify plugins
+<p>Plugins are how you get to extend Fastify’s functionality. There are many plugins out there that you can try out for
+what you’re building. Explore the <a href="https://fastify.dev/ecosystem/">Ecosystem page</a> and check out the 296+ plugins
+available to use. If you can’t find a plugin, <a href="https://fastify.dev/docs/latest/Reference/Plugins/">writing one</a> for your
+use case is very easy.</p>
+<p>Here’s how easy and intuitive it is to use Fastify plugins:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">fastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;fastify&#39;</span><span>)();
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">cors_plugin </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;@fastify/cors&#39;</span><span>)
+</span><span>    
+</span><span>    </span><span style="color:#a0a1a7;">// Example: Registering a CORS plugin
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">register</span><span>(</span><span style="color:#e45649;">cors_plugin</span><span>, {
+</span><span>        origin: </span><span style="color:#50a14f;">&#39;*&#39;
+</span><span>    });
+</span></code></pre>
+<p>The <code>@fastify/cors</code> plugin helps you use CORS easily in your Fastify app. You’ll have to register plugins
+with <code>fastify.register</code> to use them.</p>
+<H3>Auth
+<p>You can achieve various forms of authentication and authorization with Fastify. Here’s an example use of a JWT plugin
+for authentication with Fastify:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">fastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;fastify&#39;</span><span>)();
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">register</span><span>(</span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;@fastify/jwt&#39;</span><span>), {
+</span><span>        secret: </span><span style="color:#50a14f;">&#39;supersecret&#39;
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#a0a1a7;">// JWT authentication hook
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">addHook</span><span>(</span><span style="color:#50a14f;">&#39;onRequest&#39;</span><span>, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#a626a4;">try </span><span>{
+</span><span>            </span><span style="color:#a626a4;">await </span><span style="color:#e45649;">request</span><span>.</span><span style="color:#0184bc;">jwtVerify</span><span>();
+</span><span>        } </span><span style="color:#a626a4;">catch </span><span>(</span><span style="color:#e45649;">err</span><span>) {
+</span><span>            </span><span style="color:#e45649;">reply</span><span>.</span><span style="color:#0184bc;">send</span><span>(</span><span style="color:#e45649;">err</span><span>);
+</span><span>        }
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">post</span><span>(</span><span style="color:#50a14f;">&#39;/login&#39;</span><span>, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">token </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#e45649;">jwt</span><span>.</span><span style="color:#0184bc;">sign</span><span>({ user: </span><span style="color:#50a14f;">&#39;example&#39; </span><span>});
+</span><span>        </span><span style="color:#a626a4;">return </span><span>{ </span><span style="color:#e45649;">token </span><span>};
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">listen</span><span>({ port: </span><span style="color:#c18401;">3000</span><span>, host: </span><span style="color:#50a14f;">&#39;0.0.0.0&#39; </span><span>});
+</span></code></pre>
+<p>After registering the plugin, the program adds a JWT authentication hook to verify JWTs. On visiting the <code>/login</code> route,
+the endpoint should be authenticated.</p>
+<H3>Validation
+<p>You can validate incoming data from requests with a schema where you’d specify required values. Here’s how:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">fastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;fastify&#39;</span><span>)();
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">post</span><span>(</span><span style="color:#50a14f;">&#39;/data&#39;</span><span>, {
+</span><span>        schema: {
+</span><span>            body: {
+</span><span>                type: </span><span style="color:#50a14f;">&#39;object&#39;</span><span>,
+</span><span>                properties: {
+</span><span>                    name: { type: </span><span style="color:#50a14f;">&#39;string&#39; </span><span>},
+</span><span>                    age: { type: </span><span style="color:#50a14f;">&#39;integer&#39; </span><span>}
+</span><span>                },
+</span><span>                required: [</span><span style="color:#50a14f;">&#39;name&#39;</span><span>, </span><span style="color:#50a14f;">&#39;age&#39;</span><span>]
+</span><span>            }
+</span><span>        }
+</span><span>    }, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#a626a4;">return </span><span>{ status: </span><span style="color:#50a14f;">&#39;Data is valid&#39; </span><span>};
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">listen</span><span>({ port: </span><span style="color:#c18401;">3000</span><span>, host: </span><span style="color:#50a14f;">&#39;0.0.0.0&#39; </span><span>});
+</span></code></pre>
+<p>The program ensures that POST requests to <code>/data</code> have a JSON object with two properties: a <code>name</code> of type <code>string</code> and
+an <code>age</code> of type <code>integer</code>. On receiving valid data, the server responds with a success message.</p>
+<H3>Serialization
+<p>Serialization is an operation you’d be doing a lot if you’re using Fastify to build APIs. Here’s how you can serialize
+data with Fastify:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">fastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;fastify&#39;</span><span>)();
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">get</span><span>(</span><span style="color:#50a14f;">&#39;/user&#39;</span><span>, {
+</span><span>        schema: {
+</span><span>            response: {
+</span><span>                </span><span style="color:#c18401;">200</span><span>: {
+</span><span>                    type: </span><span style="color:#50a14f;">&#39;object&#39;</span><span>,
+</span><span>                    properties: {
+</span><span>                        id: { type: </span><span style="color:#50a14f;">&#39;integer&#39; </span><span>},
+</span><span>                        name: { type: </span><span style="color:#50a14f;">&#39;string&#39; </span><span>}
+</span><span>                    }
+</span><span>                }
+</span><span>            }
+</span><span>        }
+</span><span>    }, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#a626a4;">return </span><span>{ id: </span><span style="color:#c18401;">1</span><span>, name: </span><span style="color:#50a14f;">&#39;John Doe&#39; </span><span>};
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">listen</span><span>({ port: </span><span style="color:#c18401;">3000</span><span>, host: </span><span style="color:#50a14f;">&#39;0.0.0.0&#39; </span><span>});}
+</span></code></pre>
+<p>The program defines a route that responds to GET requests on the <code>/user</code> endpoint. When clients make GET requests to the
+endpoint, the server validates the response and ensures the response has the expected structure with the <code>id</code> (integer)
+and <code>name</code> (string) properties.</p>
+<H3>Logging
+<p>Fastify also has built in functions for logging in different levels:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">fastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;fastify&#39;</span><span>)({ logger: </span><span style="color:#c18401;">true </span><span>});
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">get</span><span>(</span><span style="color:#50a14f;">&#39;/&#39;</span><span>, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#e45649;">request</span><span>.</span><span style="color:#e45649;">log</span><span>.</span><span style="color:#0184bc;">info</span><span>(</span><span style="color:#50a14f;">&#39;Hello world route called&#39;</span><span>);
+</span><span>        </span><span style="color:#a626a4;">return </span><span>{ hello: </span><span style="color:#50a14f;">&#39;world&#39; </span><span>};
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">listen</span><span>({ port: </span><span style="color:#c18401;">3000</span><span>, host: </span><span style="color:#50a14f;">&#39;0.0.0.0&#39; </span><span>});
+</span></code></pre>
+<p>The program defines a simple web server that responds to GET requests on the root path with the message <code>hello world</code>
+after logging the message <code>Hello world route called</code> to the specified output.</p>
+<H3>Adapter
+<p>Adapters make it easy to use Fastify to work with different server environments:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">fastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;fastify&#39;</span><span>)();
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">awsLambdaFastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;aws-lambda-fastify&#39;</span><span>);
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">get</span><span>(</span><span style="color:#50a14f;">&#39;/&#39;</span><span>, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#a626a4;">return </span><span>{ hello: </span><span style="color:#50a14f;">&#39;world&#39; </span><span>};
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#a626a4;">const </span><span style="color:#e45649;">proxy </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">awsLambdaFastify</span><span>(</span><span style="color:#e45649;">fastify</span><span>);
+</span><span>    exports.</span><span style="color:#e45649;">handler </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">proxy</span><span>;
+</span><span>    
+</span></code></pre>
+<p>The example program above acts as an adapter for a Fastify app that runs within AWS Lambda. The <code>aws-lambda-fastify</code>
+bridges wrap the Fastify app to make it compatible with the Lambda execution model.</p>
+<H3>Error handling
+<p>You can handle request-related errors with Fastify and error handlers. Here’s how:</p>
+<pre data-lang="javascript" style="background-color:#fafafa;color:#383a42;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span>
+</span><span style="color:#a626a4;">const </span><span style="color:#e45649;">fastify </span><span style="color:#a626a4;">= </span><span style="color:#0184bc;">require</span><span>(</span><span style="color:#50a14f;">&#39;fastify&#39;</span><span>)();
+</span><span>
+</span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">setErrorHandler</span><span>((</span><span style="color:#e45649;">error</span><span>, </span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#e45649;">reply</span><span>.</span><span style="color:#0184bc;">status</span><span>(</span><span style="color:#c18401;">500</span><span>).</span><span style="color:#0184bc;">send</span><span>({ error: </span><span style="color:#50a14f;">&#39;Something went wrong!&#39; </span><span>});
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">get</span><span>(</span><span style="color:#50a14f;">&#39;/&#39;</span><span>, </span><span style="color:#a626a4;">async </span><span>(</span><span style="color:#e45649;">request</span><span>, </span><span style="color:#e45649;">reply</span><span>) </span><span style="color:#a626a4;">=&gt; </span><span>{
+</span><span>        </span><span style="color:#a626a4;">throw new </span><span>Error(</span><span style="color:#50a14f;">&#39;Oops!&#39;</span><span>);
+</span><span>    });
+</span><span>    
+</span><span>    </span><span style="color:#e45649;">fastify</span><span>.</span><span style="color:#0184bc;">listen</span><span>({ port: </span><span style="color:#c18401;">3000</span><span>, host: </span><span style="color:#50a14f;">&#39;0.0.0.0&#39; </span><span>});
+</span></code></pre>
+<p>Here, we’re created custom error handlers for the Fastify app. All uncaught errors, like the ones from the GET requests
+to the root path, trigger the handler.</p>
+<p>The handler sends a generic error message with a 500 status code to the client, but in a real application, you'd likely
+provide more specific error responses.</p>
+<h2 id="use-cases-for-fastify">Use cases for Fastify</h2>
+<p>You can use Fastify for most of the use cases you would use a backend framework for, from building web backends to APIs
+and real-time apps. Let’s dive into some of Fastify’s popular use cases for you to gain insights into what you can use
+Fastify for:</p>
+<ol>
+<li><strong>Building high-performance web APIs and microservices</strong> — Fastify's low overhead and optimized request/response
+handling are great for building efficient, scalable APIs and microservices that handle high amounts of requests</li>
+<li><strong>Developing real-time applications using WebSockets</strong> — You can build chat apps, games, and collaborative tools with
+Fastify since there’s built-in support for WebSockets</li>
+<li><strong>Building server-side rendered web apps</strong> — You can use Fastify to create server-side rendered web applications and
+deliver content to your audience fast</li>
+<li><strong>Handling high traffic loads efficiently</strong> — Fastify handles loads nicely and is really resource-efficient. It’s
+great for building concurrent apps if you expect high backend traffic</li>
+<li><strong>Business/practical use cases —</strong> Fastify‘s speed and low latency make it a great choice for building
+high-performance API, microservices, and real-time apps. It can also handle data-intensive applications, efficiently
+processing data from IoT devices and ensuring fast response times for high-traffic ecommerce platforms. Fastify makes
+it easy to build prototypes and focus on business logic in development. You can also use it to serve static content
+and build serverless functions</li>
+</ol>
+<p>You can check out the Fastify website and forums to learn how the community is using Fastify to power various use cases.
+There are also multiple popular organizations already using Fastify across multiple projects for different use cases.
+You can check out <a href="https://fastify.dev/organisations/">this page</a> for a comprehensive overview of organizations using
+Fastify.</p>
+<h2 id="deploying-your-fastify-project">Deploying your Fastify Project</h2>
+<p>Using various methods, you can deploy your Fastify projects locally or to cloud providers. Deployment options for your
+Fastify project include:</p>
+<ul>
+<li><strong>Cloud Platforms (PaaS)</strong> — You can deploy your Fastify apps on Heroku, AWS, Google Cloud and many other platforms.
+These platforms offer easy deployment with little to no configurations</li>
+<li><strong>Containerization:</strong> You can use containerization tools like Docker and Kubernetes to containerize your app for
+consistency across environments and cloud providers</li>
+<li><strong>Virtual private servers (VPS)</strong> — VPS providers offer more control over the server environment. You'll need to
+manage the server infrastructure yourself, but you’ll gain more flexibility</li>
+<li><strong>Serverless functions (AWS Lambda, Google Cloud Functions)</strong> — You can use serverless functions for event-driven
+microservices architectures and pay-per-execution, making it cost-effective for applications with variable traffic</li>
+</ul>
+<p>There are also some best practices you should follow for deploying your Fastify project, such as:</p>
+<ul>
+<li>Use environment variables to store sensitive configuration data like API keys and database credentials to keep them
+away from third parties and unauthorized access</li>
+<li>Use process managers to keep your apps running smoothly so they can handle restarts, logs and scaling without breaking</li>
+<li>Set up monitoring and logging tools to track your app’s health and performance metrics. Implement proper logging to
+easily diagnose issues</li>
+<li>Follow best security practices like input validation and sanitization, user authentication and authorization to
+protect your account from vunerabilities</li>
+<li>Use version control systems like Git actively to maintain a deployment history that’s easy to roll back to</li>
+<li>Depending on the complexity of your application, you can explore using CICD pipelines to automate testing and
+deployment processes for consistency</li>
+</ul>
+<p>Following these practices while using these deployment options sets your project up for success.</p>
+<h2 id="fastify-vs-express-js-vs-koa-vs-hapi">Fastify vs. Express.js vs. Koa vs. Hapi</h2>
+<p>Fastify isn’t the only popular backend framework in the JS/TS ecosystem. There are more, like Express, Hapi, and Koa.
+Here’s a comparison table that overviews how Fastify compares to these other frameworks:</p>
+<table><thead><tr><th>Aspect</th><th>Fastify</th><th>Express.js</th><th>Koa</th><th>Hapi</th></tr></thead><tbody>
+<tr><td>Features</td><td>Built-in plugins, schema validation, automatic JSON parsing, HTTP/2 support, TypeScript support</td><td>Middleware system (large ecosystem), routing, templating</td><td>Lighter, more modular middleware system</td><td>Extensive built-in features (routing, validation, auth), plugins</td></tr>
+<tr><td>Performance</td><td>Fastest (fewer callbacks, less boilerplate)</td><td>Good (may require optimization, callback-heavy)</td><td>Competitive (requires optimization)</td><td>Good (mature framework, optimized code)</td></tr>
+<tr><td>Community</td><td>Growing, active development</td><td>Large, established</td><td>Moderate, growing</td><td>Established, active</td></tr>
+<tr><td>Resource/Docs</td><td>Excellent documentation, active GitHub, tutorials</td><td>Extensive documentation, community support, tutorials</td><td>Good documentation, active community</td><td>Comprehensive documentation: plugins often have separate docs</td></tr>
+<tr><td>Philosophy</td><td>Performant, modern, built-in features</td><td>Flexible, large ecosystem</td><td>Lightweight, modular, control over requests</td><td>Enterprise-grade, extensive features, plugins</td></tr>
+</tbody></table>
+<p>It’s safe to conclude that Fastify is ideal for high-performance APIs, whereas Express.js has a greater community with
+more middleware, and Koa is an alternative to Express for small projects that need a custom setup, and Hapi is great for
+enterprise-grade applications.</p>
+<p>Now, you can make a choice for your project based on this table and bring your project to life.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this guide, you’ve learned about Fastify, and hopefully, you’ve had your doubts cleared or have reasons to adopt
+Fastify for your projects.</p>
+<p>You always have the Fastify community of developers if you get stuck. Also, there are many Fastify resources on the
+LogRocket blog that you can use to build your projects. Explore and enjoy!</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/javascript/>JavaScript</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/web-development/>Web development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/framework/>Framework</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/technical/>Technical</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/apis/>APIs</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

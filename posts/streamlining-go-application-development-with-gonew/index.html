@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Using gonew to streamline Go  application  development
+            
+        </title>
+
+        
+            <meta property="og:title" content="Using gonew to streamline Go  application  development" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="Initialization tools like gonew shine during rapid development cycles by streamlining setup so you can spend more time coding." />
+        
+    
+
+    
+        
+            <meta name="description" content="Initialization tools like gonew shine during rapid development cycles by streamlining setup so you can spend more time coding." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Using gonew to streamline Go  application  development</h1>
+            <div class="meta">
+                
+                on  2023-10-04
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><em><strong><a href="//goodylili.github.io/posts/streamlining-go-application-development-with-gonew/logrocket.com">LogRocket</a> made this piece possible. They provide AI-first session replay and analytics that shows
+you what's wrong.</strong></em></p>
+<h1 id="streamlining-go-application-development-with-gonew">Streamlining Go Application Development With Gonew</h1>
+<p>In a dynamic industry like software development, there is a constant demand for tools that increase development efficiency. Initialization tools like <code>gonew</code> shine during rapid development cycles since they promise a smooth ride through project initialization and setup.</p>
+<p>Initialization tools guide developers by establishing ground rules through predefined structures that save time and infuse best practices in the early stages of a project. As languages and tools evolve, tools like <code>gonew</code> can help encapsulate these benefits for language-specific nuances.</p>
+<p><code>gonew</code> ensures you spend less time on boilerplate setup and more on what truly matters: developing outstanding Go applications. In this article, we will explore <code>gonew</code> and its features to understand how we can use this tool to streamline Go application development.</p>
+<p>Jump ahead:</p>
+<ul>
+<li>What is <code>gonew</code>?</li>
+<li>Exploring <code>gonew</code> features
+<ul>
+<li>Simplified project initialization</li>
+<li>Tailored templates</li>
+<li>Integrated dependency management</li>
+</ul>
+</li>
+<li>Benefits of using <code>gonew</code></li>
+<li>Typical use cases for <code>gonew</code></li>
+<li>Limitations of and potential improvements for <code>gonew</code></li>
+</ul>
+<h2 id="what-is-gonew">What is <code>gonew</code>?</h2>
+<p><code>[gonew](https://go.dev/blog/gonew)</code> <a href="https://go.dev/blog/gonew">is a command-line tool</a> designed by the official Go team to streamline project initialization. Using <code>gonew</code>, you can efficiently set up standardized project structures, minimize manual setup, and ensure that your project aligns with best practices throughout your development process.</p>
+<p>Imagine the early stages of Go project setup. Typically, you’d have to create folders manually, initialize modules, or set up essential test files. <code>gonew</code> simplifies these steps, allowing you to set up with a single command.</p>
+<h2 id="how-to-initialize-a-go-project-and-install-gonew">How to initialize a Go project and install <code>gonew</code></h2>
+<p>To use <code>gonew</code>, you’ll need Go installed on your device. After installing Go, you can initialize your project like so:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span>    </span><span style="color:#a626a4;">go </span><span style="color:#e45649;">mod init
+</span></code></pre>
+<p>You’ll need to set your <code>$GOPATH</code> environment variable, which Go uses to identify the desired path to your workspace.  Here’s how you can set your <code>$``GOPATH</code> on UNIX-based systems:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#e45649;">export GOPATH</span><span style="color:#a626a4;">=</span><span>$</span><span style="color:#e45649;">HOME</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">path_to_your_workspace
+</span></code></pre>
+<p>Then, you can install <code>gonew</code> with a simple <code>go install</code> command. Run this command to install the <code>gonew</code> command line tool:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">go </span><span style="color:#e45649;">install golang</span><span>.</span><span style="color:#e45649;">org</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">x</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">tools</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">cmd</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">gonew</span><span>@</span><span style="color:#e45649;">latest
+</span></code></pre>
+<h2 id="getting-started-with-gonew">Getting started with <code>gonew</code></h2>
+<p>After installing <code>gonew</code>, you can use and access the <code>gonew</code> command. You can use this command to create a new module like so:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#e45649;">gonew </span><span>[</span><span style="color:#e45649;">options</span><span>] </span><span style="color:#a626a4;">srcmod </span><span style="color:#e45649;">dstmod
+</span></code></pre>
+<p>The <code>srcmod</code> argument specifies the path to the template module you want to copy. The <code>dstmod</code> argument is the path of the new module you’re creating.</p>
+<p>For example, you can use the <code>gonew</code> command to create a new module named <code>myproject</code> by copying the template module <code>golang.org/x/example/helloserver</code>:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span> </span><span style="color:#e45649;">gonew golang</span><span>.</span><span style="color:#e45649;">org</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">x</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">example</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">helloserver myproject
+</span></code></pre>
+<p><code>gonew</code> supports additional options that you can use to customize processes. These include:</p>
+<ul>
+<li><code>dir</code> specifies the directory where the new module will be created. If this option is not specified, the new module will be created in the current directory</li>
+<li><code>v</code> is the verbose output. This option will print more information about creating the new module</li>
+</ul>
+<p>See an example of these in action below:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#e45649;">gonew </span><span style="color:#a626a4;">-</span><span style="color:#e45649;">dir </span><span style="color:#a626a4;">/</span><span style="color:#e45649;">my</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">projects</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">dir </span><span style="color:#a626a4;">-</span><span style="color:#e45649;">v golang</span><span>.</span><span style="color:#e45649;">org</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">x</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">example</span><span style="color:#a626a4;">/</span><span style="color:#e45649;">helloserver myproject
+</span></code></pre>
+<p>This updated command will create a new Go module named <code>myproject</code> in the directory <code>/my/projects/dir</code>. The <code>-v</code> option will print more information about creating the new module.</p>
+<p>In the example below, you can see the result of my attempt to use the project structure of the popular <code>google/uuid</code> package:</p>
+<p><img src="https://paper-attachments.dropboxusercontent.com/s_C7AF7B075AAAA8A43C76C2F950B954811D7A32F4E088A11D1508A677FF85684F_1694717362424_Untitled.png" alt="" /></p>
+<p>As you can see, <code>gonew</code> has set the directory structure of the <code>google/uuid</code> package for use in the specified project directory.</p>
+<h2 id="exploring-gonew-features">Exploring <code>gonew</code> features</h2>
+<p>Although <code>gonew</code> is simple to set up and use, this simplicity doesn’t compromise its feature set and core functionality. <code>gonew</code> can simplify project initialization, use tailored templates for different project types and workflows, and improve your dependency management integration.</p>
+<h2 id="h3-simplifed-project-initialization">[H3] Simplifed project initialization</h2>
+<p><code>gonew</code> isn’t just a tool — it's like having a personal assistant for starting Go projects. With a single command, you can initialize new modules, create a directory structure that adheres to good practices, and add default configuration files and dependencies.</p>
+<h2 id="h3-tailored-templates">[H3] Tailored templates</h2>
+<p>Maintaining a consistent file structure and naming convention across projects can have many benefits, whether you’re doing so for personal preferences or as a best practice in a team setting.</p>
+<p>When it comes to recreating the same structures or files across different Go projects, <code>gonew</code> has you covered. With the <code>gonew</code> templating feature, you can use predefined templates for various project types, including web apps, CLIs, and more.</p>
+<p>You can even customize <code>gonew</code> templates to match your workflow. These templates are easy to share across teams, ensuring consistency and efficiency during the development process.</p>
+<h2 id="h3-integrated-dependency-management">[H3] Integrated dependency management</h2>
+<p>Go has built-in functionality for dependency management. However, <code>gonew</code> takes this a step further by suggesting popular packages based on your project type. It also offers insights into dependency stats to help you choose the right dependencies for your needs.</p>
+<h2 id="benefits-of-using-gonew">Benefits of using <code>gonew</code></h2>
+<p>There are many benefits of using <code>gonew</code> to streamline Go application development. For example, you can use <code>gonew</code> to:</p>
+<ul>
+<li><strong>Save time</strong>: Creating a new Go project from scratch can be time-consuming, especially if you must manually create all the necessary files and directories. <code>gonew</code> can automate this process so that you can get started on your code faster</li>
+<li><strong>Create a consistent project structure</strong>: <code>gonew</code> creates projects with a consistent structure. This can make your code easier to maintain and understand, especially for large or complex projects</li>
+<li><strong>Provide a starting point for custom code and features:</strong> <code>gonew</code> creates projects with empty files, which means you can add your code and features without worrying about overwriting existing code. This gives you a blank slate that you can customize further as needed</li>
+</ul>
+<p>Automating these aspects of Go project setup with <code>gonew</code> allows you to focus less on configuration and more on coding. This can enhance productivity while still ensuring your project follows best practices from the very beginning.</p>
+<h2 id="typical-use-cases-for-gonew">Typical use cases for <code>gonew</code></h2>
+<p><code>gonew</code> is handy for both new and experienced Go developers.</p>
+<p><a href="https://blog.logrocket.com/getting-started-with-go-for-frontend-developers/">Frontend developers just getting started with Go</a> can enjoy a simplified setup process that saves time by automating the creation of necessary files and structures. This also provides a great way to learn about structuring Go projects.</p>
+<p>Meanwhile, <code>gonew</code> can help advanced Go developers start projects quickly and ensure consistency in project structure, which is particularly crucial in a professional or team environment.</p>
+<p>For more complex projects, features like tailored templates and integrated dependency management can provide better organization, easier maintenance, and a more streamlined, efficient workflow.</p>
+<p>Some typical use cases for <code>gonew</code> include:</p>
+<ul>
+<li><strong>Command-line apps</strong>: <a href="https://blog.logrocket.com/using-cobra-build-cli-accounting-app/">C</a><a href="https://blog.logrocket.com/using-cobra-build-cli-accounting-app/">reat</a><a href="https://blog.logrocket.com/using-cobra-build-cli-accounting-app/">ing a</a> <a href="https://blog.logrocket.com/using-cobra-build-cli-accounting-app/">command-line application</a> is a great way to get started with Go development</li>
+<li><strong>Web apps</strong>: You can use <code>gonew</code> to <a href="https://blog.logrocket.com/build-web-app-go-copper/">create a simple web application</a> quickly</li>
+<li><strong>New libraries</strong>: Using <code>gonew</code> to create new libraries for other Go apps is a great way to interoperate your code with other necessary functionalities</li>
+<li><strong>Test suites</strong>: You can use <code>gonew</code> to <a href="https://blog.logrocket.com/a-deep-dive-into-unit-testing-in-go/">create test suites for your application</a> to ensure your code's quality</li>
+</ul>
+<p>No matter what kind of Go application you want to develop, Go can help you establish a well-organized foundation and write quality code throughout your whole project.</p>
+<h2 id="potential-improvements">Potential improvements</h2>
+<p><code>gonew</code> is highly experimental and subject to change as newer versions of Go and the package itself roll out. Although it’s already a useful tool, there is still room for improvement.</p>
+<p>Here’s a list of potential improvements that could benefit Go developers using <code>gonew</code>:</p>
+<ul>
+<li><strong>Allow custom project structures:</strong> Currently, <code>gonew</code> creates projects with a fixed structure. This limitation can impede users who want to customize the structure to their project specifications</li>
+<li><strong>Support more features:</strong> Gonew only supports a few sets of features. It would be helpful if <code>gonew</code> supported more features, such as unit testing, continuous integration, and deployment</li>
+</ul>
+<p>You can contribute to <code>gonew</code> by proposing your ideas for functionalities you want to see and use.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The software industry is constantly evolving, which makes it critical for developers to have efficient tools that help enhance their workflow. <code>gonew</code> is a standout tool in this regard, especially for Go developers.</p>
+<p><code>gonew</code> can be the difference between a good and great start in developing Go projects. It can provide a head start in creating standardized, efficient, and scalable applications.</p>
+<p>It's also important to keep in mind that <code>gonew</code> is still evolving as well. Make sure you stay adaptable should the tool undergo major changes in the future, such as the potential improvements suggested above.</p>
+<p>In essence, <code>gonew</code> is not just a tool but a companion for Go developers, making the development journey smoother and more efficient from the get-go. If you're a Go developer looking to streamline project initialization and adhere to best practices, <code>gonew</code> is a tool worth considering.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/go/>Go</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/development/>development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/tools/>Tools</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/technical/>Technical</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/best-practices/>best-practices</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

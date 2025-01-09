@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Beginner&#x27;s Guide to Managing Files in Amazon S3 with Go
+            
+        </title>
+
+        
+            <meta property="og:title" content="Beginner&#x27;s Guide to Managing Files in Amazon S3 with Go" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="This article assumes that you’re an AWS beginner and walks you through the processes of using S3 for storage from your Go apps." />
+        
+    
+
+    
+        
+            <meta name="description" content="This article assumes that you’re an AWS beginner and walks you through the processes of using S3 for storage from your Go apps." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Beginner&#x27;s Guide to Managing Files in Amazon S3 with Go</h1>
+            <div class="meta">
+                
+                on  2024-11-04
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p>Amazon Simple Storage Service (S3) has become the industry standard for web-based file storage. It is designed for up to
+99.999999999% durability and security. It also has flexible storage classes, data management, and analytics features.</p>
+<p>Are you building the server-side app for your project in Go and need a storage option? This article assumes that you’re
+an AWS beginner and walks you through the processes of using S3 for storage from your Go apps.</p>
+<h2 id="getting-started-with-aws-and-go">Getting Started with AWS and Go</h2>
+<p>Setting up an AWS S3 bucket with the right permissions and parameters can be daunting. You’ll have to create a bucket,
+create an IAM user, issue permissions to the IAM user to execute operations on the bucket, and set up the access keys in
+your environment.</p>
+<p>First, create an Amazon AWS account and sign in if you don’t have one yet. Then, search for S3 like this.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/846nlq6n6twslc7gdb8o.png" alt="S3" /></p>
+<p>Now, Click on “Create a bucket.” You’ll be prompted to configure the bucket according to your project’s specifications.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dubsmbm8v76530l95llz.png" alt="Create Bucket" /></p>
+<p>Now that you’ve created a bucket, the next step is to set up an IAM user to whom you’ll issue permission to access the
+S3 bucket.</p>
+<p>Head to the security credentials section of your profile and create a user.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bedgpv9e7agdvmmvea18.png" alt="Create User" /></p>
+<p>Then, create an access key for the user and retrieve the access and secret keys.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k2objf4thev9p9mt1j2b.png" alt="CloudBox IAM" /></p>
+<p>On your computer, in the root directory, create a <code>.aws</code> folder and a file named <code>credentials</code> with no extension; then
+add the keys like this:</p>
+<pre data-lang="toml" style="background-color:#fafafa;color:#383a42;" class="language-toml "><code class="language-toml" data-lang="toml"><span>[default]
+</span><span style="color:#e45649;">aws_access_key_id </span><span>= </span><span style="background-color:#e06c75;color:#fafafa;">&lt;aws_access_key_id here&gt;</span><span>
+</span><span style="color:#e45649;">aws_secret_access_key </span><span>= </span><span style="background-color:#e06c75;color:#fafafa;">&lt;aws_secret_access_key here&gt;</span><span>
+</span></code></pre>
+<p>Now, Issue these permissions to the user to allow S3 uploads.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0epj35zjai6qwlarnepk.png" alt="Permission Policies" /></p>
+<p>Finally, initialize a Go project and install the AWS Go SDK.</p>
+<pre data-lang="bash" style="background-color:#fafafa;color:#383a42;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#e45649;">go</span><span> mod tidy
+</span><span style="color:#e45649;">go</span><span> get github.com/aws/aws-sdk-go
+</span></code></pre>
+<p>You’re all set up, and now, you can start uploading, downloading and managing files with AWS S3 Buckets.</p>
+<h2 id="uploading-files-to-an-s3-bucket">Uploading Files to an S3 Bucket</h2>
+<p>First, you must import the necessary packages from the AWS SDK package.</p>
+<p>Add these modules to the top of your <code>main.go</code> file or whichever file you’re using:</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">package </span><span style="color:#e45649;">main
+</span><span>
+</span><span style="color:#a626a4;">import </span><span>(
+</span><span>	</span><span style="color:#50a14f;">&quot;bytes&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;fmt&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;io&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;os&quot;
+</span><span>
+</span><span>	</span><span style="color:#50a14f;">&quot;github.com/aws/aws-sdk-go/aws&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;github.com/aws/aws-sdk-go/aws/session&quot;
+</span><span>	</span><span style="color:#50a14f;">&quot;github.com/aws/aws-sdk-go/service/s3&quot;
+</span><span>)
+</span></code></pre>
+<p>To upload a file, you must create a new session, open a file, and use the session instance to upload the file.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">UploadFile</span><span>(</span><span style="color:#e45649;">bucket</span><span>, </span><span style="color:#e45649;">region</span><span>, </span><span style="color:#e45649;">filePath</span><span>, </span><span style="color:#e45649;">key</span><span>, </span><span style="color:#e45649;">acl </span><span style="color:#a626a4;">string</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#e45649;">sess</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">session</span><span>.</span><span style="color:#e45649;">NewSession</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">Config</span><span>{
+</span><span>		</span><span style="color:#e45649;">Region</span><span>: </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">region</span><span>),
+</span><span>	})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error creating session: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#e45649;">file</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">os</span><span>.</span><span style="color:#e45649;">Open</span><span>(</span><span style="color:#e45649;">filePath</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error opening file: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">defer </span><span style="color:#e45649;">file</span><span>.</span><span style="color:#e45649;">Close</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">var </span><span style="color:#e45649;">buf bytes</span><span>.</span><span style="color:#a626a4;">Buffer
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">_</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">io</span><span>.</span><span style="color:#e45649;">Copy</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">buf</span><span>, </span><span style="color:#e45649;">file</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error reading file: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">_</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">s3</span><span>.</span><span style="color:#e45649;">New</span><span>(</span><span style="color:#e45649;">sess</span><span>).</span><span style="color:#e45649;">PutObject</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">s3</span><span>.</span><span style="color:#e45649;">PutObjectInput</span><span>{
+</span><span>		</span><span style="color:#e45649;">Bucket</span><span>: </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">bucket</span><span>), 
+</span><span>		</span><span style="color:#e45649;">Key</span><span>:    </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">key</span><span>),          
+</span><span>		</span><span style="color:#e45649;">Body</span><span>:   </span><span style="color:#e45649;">bytes</span><span>.</span><span style="color:#e45649;">NewReader</span><span>(</span><span style="color:#e45649;">buf</span><span>.</span><span style="color:#e45649;">Bytes</span><span>()), 
+</span><span>		</span><span style="color:#e45649;">ACL</span><span>: </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">acl</span><span>),     
+</span><span>	})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error uploading file: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;File uploaded successfully:&quot;</span><span>, </span><span style="color:#e45649;">filePath</span><span>, </span><span style="color:#50a14f;">&quot;to key:&quot;</span><span>, </span><span style="color:#e45649;">key</span><span>)
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>The <code>UploadFile</code> function takes in the bucket name, AWS region, the file key and ACL (access controls list) and uploads
+the specified file to S3 with the specified key.</p>
+<p>The <code>session.NewSession</code> function creates a new AWS session and <a href="http://s3.New"><code>s3.New</code></a> creates a new S3 session. The
+<code>PutObject</code> function takes in a reference to the <code>PutObjectInput</code> with the file Bucket, Key, file body, and ACL.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>	</span><span style="color:#e45649;">bucket </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;cloudboxbucket&quot;  
+</span><span>	</span><span style="color:#e45649;">region </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;eu-north-1&quot;      
+</span><span>	</span><span style="color:#e45649;">filePath </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;Makefile&quot;     
+</span><span>	</span><span style="color:#e45649;">key </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;Makefile&quot;           
+</span><span>	</span><span style="color:#e45649;">acl </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;private&quot;         
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">UploadFile</span><span>(</span><span style="color:#e45649;">bucket</span><span>, </span><span style="color:#e45649;">region</span><span>, </span><span style="color:#e45649;">filePath</span><span>, </span><span style="color:#e45649;">key</span><span>, </span><span style="color:#e45649;">acl</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Error uploading file:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>}
+</span></code></pre>
+<p>When I called the <code>UploadFile</code> function with the parameters, here’s proof that the file was uploaded to my S3 bucket.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kpfr306qoz245b62l4fg.png" alt="Upload Files" /></p>
+<p>You can always browse more details of files by clicking the file name on the AWS S3 console.</p>
+<h2 id="downloading-files-from-an-s3-bucket">Downloading Files from an S3 Bucket</h2>
+<p>Now, you can attempt to retrieve the file with the key you’ve specified.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">DownloadFile</span><span>(</span><span style="color:#e45649;">bucket</span><span>, </span><span style="color:#e45649;">region</span><span>, </span><span style="color:#e45649;">key</span><span>, </span><span style="color:#e45649;">destPath </span><span style="color:#a626a4;">string</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#e45649;">sess</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">session</span><span>.</span><span style="color:#e45649;">NewSession</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">Config</span><span>{
+</span><span>		</span><span style="color:#e45649;">Region</span><span>: </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">region</span><span>),
+</span><span>	})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error creating session: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">s3Client </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">s3</span><span>.</span><span style="color:#e45649;">New</span><span>(</span><span style="color:#e45649;">sess</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#e45649;">output</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">s3Client</span><span>.</span><span style="color:#e45649;">GetObject</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">s3</span><span>.</span><span style="color:#e45649;">GetObjectInput</span><span>{
+</span><span>		</span><span style="color:#e45649;">Bucket</span><span>: </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">bucket</span><span>),
+</span><span>		</span><span style="color:#e45649;">Key</span><span>:    </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">key</span><span>),
+</span><span>	})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error downloading file: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">defer </span><span style="color:#e45649;">output</span><span>.</span><span style="color:#e45649;">Body</span><span>.</span><span style="color:#e45649;">Close</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#e45649;">destFile</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">os</span><span>.</span><span style="color:#e45649;">Create</span><span>(</span><span style="color:#e45649;">destPath</span><span>)
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error creating destination file: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>	</span><span style="color:#a626a4;">defer </span><span style="color:#e45649;">destFile</span><span>.</span><span style="color:#e45649;">Close</span><span>()
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">_</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">io</span><span>.</span><span style="color:#e45649;">Copy</span><span>(</span><span style="color:#e45649;">destFile</span><span>, </span><span style="color:#e45649;">output</span><span>.</span><span style="color:#e45649;">Body</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error saving file: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;File downloaded successfully:&quot;</span><span>, </span><span style="color:#e45649;">key</span><span>, </span><span style="color:#50a14f;">&quot;to&quot;</span><span>, </span><span style="color:#e45649;">destPath</span><span>)
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>After creating the client instance, the <code>GetObject</code> function receives the file parameters in the <code>&amp;s3.GetObjectInput</code>
+instance. You can now copy the file stream to your preferred destination with <code>io.Copy</code> function.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>	</span><span style="color:#e45649;">bucket </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;cloudboxbucket&quot;  
+</span><span>	</span><span style="color:#e45649;">region </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;eu-north-1&quot;      
+</span><span>	</span><span style="color:#e45649;">key </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;Makefile&quot;          
+</span><span>	</span><span style="color:#e45649;">destPath </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;internal/database/DownloadedMakefile&quot;
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">DownloadFile</span><span>(</span><span style="color:#e45649;">bucket</span><span>, </span><span style="color:#e45649;">region</span><span>, </span><span style="color:#e45649;">key</span><span>, </span><span style="color:#e45649;">destPath</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Error downloading file:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>}
+</span></code></pre>
+<p>The file should be downloaded to your specified destination path when executing a program with the <code>DownloadFile</code>
+function.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/anmg596kmx47tlsd0a3e.png" alt="Download File" /></p>
+<p>You’ll need to specify the key in the key in the destination path as well.</p>
+<h2 id="deleting-files-from-s3-buckets">Deleting Files from S3 Buckets</h2>
+<p>To delete a file from an S3 bucket, you’ll use the AWS SDK’s <code>DeleteObject</code> function to remove the file. You must
+specify the S3 bucket name and the file key you want to delete.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">DeleteFile</span><span>(</span><span style="color:#e45649;">bucket</span><span>, </span><span style="color:#e45649;">region</span><span>, </span><span style="color:#e45649;">key </span><span style="color:#a626a4;">string</span><span>) </span><span style="color:#a626a4;">error </span><span>{
+</span><span>	</span><span style="color:#e45649;">sess</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">session</span><span>.</span><span style="color:#e45649;">NewSession</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">Config</span><span>{
+</span><span>		</span><span style="color:#e45649;">Region</span><span>: </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">region</span><span>),
+</span><span>	})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error creating session: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">s3Client </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">s3</span><span>.</span><span style="color:#e45649;">New</span><span>(</span><span style="color:#e45649;">sess</span><span>)
+</span><span>
+</span><span>	</span><span style="color:#e45649;">_</span><span>, </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">s3Client</span><span>.</span><span style="color:#e45649;">DeleteObject</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">s3</span><span>.</span><span style="color:#e45649;">DeleteObjectInput</span><span>{
+</span><span>		</span><span style="color:#e45649;">Bucket</span><span>: </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">bucket</span><span>),
+</span><span>		</span><span style="color:#e45649;">Key</span><span>:    </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">key</span><span>),
+</span><span>	})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error deleting file: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">err </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">s3Client</span><span>.</span><span style="color:#e45649;">WaitUntilObjectNotExists</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">s3</span><span>.</span><span style="color:#e45649;">HeadObjectInput</span><span>{
+</span><span>		</span><span style="color:#e45649;">Bucket</span><span>: </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">bucket</span><span>),
+</span><span>		</span><span style="color:#e45649;">Key</span><span>:    </span><span style="color:#e45649;">aws</span><span>.</span><span style="color:#e45649;">String</span><span>(</span><span style="color:#e45649;">key</span><span>),
+</span><span>	})
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#a626a4;">return </span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Errorf</span><span>(</span><span style="color:#50a14f;">&quot;error waiting for file deletion: </span><span style="color:#c18401;">%w</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>
+</span><span>	</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;File deleted successfully:&quot;</span><span>, </span><span style="color:#e45649;">key</span><span>)
+</span><span>	</span><span style="color:#a626a4;">return </span><span style="color:#c18401;">nil
+</span><span>}
+</span></code></pre>
+<p>The <code>DeleteFile</code> function starts by creating a session, like in the upload and download examples. The
+<code>s3Client.DeleteObject</code> is called with a <code>DeleteObjectInput</code> struct, where you’ll specify the Bucket and Key parameters.</p>
+<p>You can use the <code>WaitUntilObjectNotExists</code> function to confirm that the file doesn’t exist.</p>
+<pre data-lang="go" style="background-color:#fafafa;color:#383a42;" class="language-go "><code class="language-go" data-lang="go"><span style="color:#a626a4;">func </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>	</span><span style="color:#e45649;">bucket </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;cloudboxbucket&quot;   
+</span><span>	</span><span style="color:#e45649;">region </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;eu-north-1&quot;       
+</span><span>	</span><span style="color:#e45649;">key </span><span style="color:#a626a4;">:= </span><span style="color:#50a14f;">&quot;Makefile&quot;           
+</span><span>
+</span><span>	</span><span style="color:#a626a4;">if </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">:= </span><span style="color:#e45649;">DeleteFile</span><span>(</span><span style="color:#e45649;">bucket</span><span>, </span><span style="color:#e45649;">region</span><span>, </span><span style="color:#e45649;">key</span><span>); </span><span style="color:#e45649;">err </span><span style="color:#a626a4;">!= </span><span style="color:#c18401;">nil </span><span>{
+</span><span>		</span><span style="color:#e45649;">fmt</span><span>.</span><span style="color:#e45649;">Println</span><span>(</span><span style="color:#50a14f;">&quot;Error deleting file:&quot;</span><span>, </span><span style="color:#e45649;">err</span><span>)
+</span><span>	}
+</span><span>}
+</span></code></pre>
+<p>When executing the <code>DeleteFile</code> function, you can see that the Makefile no longer exists in my S3 bucket.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dy7vxstdammklnjj89mz.png" alt="Delete File" /></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>You’ve learned how to set up an S3 bucket for an IAM user (it also works for root) and upload, download, and delete
+files from S3 buckets.</p>
+<p>There’s so much more functionality you can do with AWS S3 Buckets. I hope this article has provided the foundation for
+you to go further, depending on your project’s use case.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/golang/>Golang</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/development/>Development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/go/>Go</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/aws/>AWS</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/backend/>Backend</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/devops/>DevOps</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/cloud/>Cloud</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    
+        <title>
+             Handling Memory Leaks in Rust
+            
+        </title>
+
+        
+            <meta property="og:title" content="Handling Memory Leaks in Rust" />
+        
+    
+
+    
+        
+            <meta property="og:description" content="Learn how to manage memory leaks in Rust, avoid unsafe behavior, and use tools like weak references to ensure efficient programs." />
+        
+    
+
+    
+        
+            <meta name="description" content="Learn how to manage memory leaks in Rust, avoid unsafe behavior, and use tools like weak references to ensure efficient programs." />
+        
+    
+
+    
+         <link rel="icon" type="image/png" href=&#x2F;icon&#x2F;favicon.png />
+    
+
+    
+
+    
+
+    
+    
+        <script src=//goodylili.github.io/js/feather.min.js></script>
+    
+
+
+    
+        <link href=//goodylili.github.io/css/fonts.css rel="stylesheet" />
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=//goodylili.github.io/css/main.css />
+
+    
+        <link
+            rel="stylesheet"
+            id="darkModeStyle"
+            type="text/css"
+            href=//goodylili.github.io/css/dark.css
+            
+            
+                disabled
+            
+        />
+    
+
+
+    
+
+
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main" id="main_title">
+        <a href=&#x2F;&#x2F;goodylili.github.io&#x2F;>Ukeje C Goodness</a>
+    </div>
+
+    <nav>
+        
+            <a href=&#x2F;>Home</a>
+        
+            <a href=&#x2F;posts>All posts</a>
+        
+            <a href=&#x2F;about>About</a>
+        
+            <a href=&#x2F;tags>Tags</a>
+        
+
+        
+            |
+
+            
+                <a href=&#x2F;>en</a>
+            
+        
+
+        
+            | <a id="dark-mode-toggle" onclick="toggleTheme()" href=""></a>
+            <script src=//goodylili.github.io/js/themetoggle.js></script>
+        
+
+    <! -- GoadCounter analytics script -->
+        <script data-goatcounter="https://ghostmac.goatcounter.com/count"
+                async src="//gc.zgo.at/count.js"></script>
+    </nav>
+</header>
+
+
+        
+    
+<main>
+    <article>
+        <div class="title">
+            <h1 class="title">Handling Memory Leaks in Rust</h1>
+            <div class="meta">
+                
+                on  2024-12-15
+
+                
+            </div>
+        </div>
+
+        
+
+        <section class="body">
+            <hr />
+<p><img src="/screenshot/leaks.png" alt="leaks.png" /></p>
+<p>Rust’s low-level nature gives you access to resources and memory, so many developers choose Rust for their projects across various tech sectors. Ownership and borrowing are among the first concepts you’ll learn when dealing with Rust, as they form the primitives for how Rust handles memory.</p>
+<p>Once in a while, you may experience memory leaks in your Rust projects due to many factors, from unsafe code to shared references, etc. Ideally, you’ll want to fix these memory leaks and ensure your programs are efficient, which may lead to performance gains and resource safety.</p>
+<h2 id="memory-leaks-and-unsafe-behaviour">Memory Leaks and Unsafe Behaviour</h2>
+<p>Rust’s built-in ownership model and compile-time checks reduce the possibility and risks you’ll encounter with memory leaks, but they’re still quite possible.</p>
+<p>Memory leaks don’t violate the ownership rules, so the borrow checker lets them slide at compile time. Leaking memory is inefficient and generally not a great idea, especially if you have resource constraints.</p>
+<p>On the other hand, unsafe behaviour can also slide if you embed it in an <code>unsafe</code> block. In this case, memory safety is your responsibility regardless of the operation, e.g. (pointer dereferencing, manual memory allocation, or concurrency issues).</p>
+<h2 id="memory-leaks-via-ownership-and-borrowing">Memory Leaks via Ownership and Borrowing</h2>
+<p>Rust does not use a garbage collector. Instead, I<a href="https://blog.logrocket.com/understanding-ownership-in-rust/">t uses ownership and borrowing (the borrow checker enforces the ownership model)</a>, which form the core principles for memory handling in Rust programs.</p>
+<p>The borrow checker prevents dangling references, use-after-free errors, and data races at compile time before the compiler executes the program. Still, memory leaks can occur when memory is allocated without dropping it throughout the execution time. It’s safe to say it’s safe; sometimes, there may be no issues.</p>
+<p>Here’s an example of how I implement a doubly linked list. The program would run successfully, but there would be a memory leak issue.</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">use </span><span>std::rc::Rc;
+</span><span style="color:#a626a4;">use </span><span>std::cell::RefCell;
+</span><span>
+</span><span style="color:#a626a4;">struct </span><span>Node {
+</span><span>    </span><span style="color:#e45649;">value</span><span>: </span><span style="color:#a626a4;">i32</span><span>,
+</span><span>    </span><span style="color:#e45649;">next</span><span>: Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;,
+</span><span>    </span><span style="color:#e45649;">prev</span><span>: Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> first </span><span style="color:#a626a4;">= </span><span>Rc::new(RefCell::new(Node {
+</span><span>        value: </span><span style="color:#c18401;">1</span><span>,
+</span><span>        next: None,
+</span><span>        prev: None,
+</span><span>    }));
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">let</span><span> second </span><span style="color:#a626a4;">= </span><span>Rc::new(RefCell::new(Node {
+</span><span>        value: </span><span style="color:#c18401;">2</span><span>,
+</span><span>        next: Some(Rc::clone(</span><span style="color:#a626a4;">&amp;</span><span>first)),
+</span><span>        prev: Some(Rc::clone(</span><span style="color:#a626a4;">&amp;</span><span>first)),
+</span><span>    }));
+</span><span>
+</span><span>    first.</span><span style="color:#0184bc;">borrow_mut</span><span>().next </span><span style="color:#a626a4;">= </span><span>Some(Rc::clone(</span><span style="color:#a626a4;">&amp;</span><span>second));
+</span><span>    first.</span><span style="color:#0184bc;">borrow_mut</span><span>().prev </span><span style="color:#a626a4;">= </span><span>Some(Rc::clone(</span><span style="color:#a626a4;">&amp;</span><span>second));
+</span><span>
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Reference count of first: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, Rc::strong_count(</span><span style="color:#a626a4;">&amp;</span><span>first)); 
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Reference count of second: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, Rc::strong_count(</span><span style="color:#a626a4;">&amp;</span><span>second)); 
+</span><span>
+</span><span>}
+</span></code></pre>
+<p>The problem with this program occurs with the circular reference between two nodes, resulting in a memory leak. Since <code>RC</code> smart pointers don’t handle cyclic references by default, each node holds a strong reference to the other, creating a cycle.</p>
+<p>After the <code>main</code> function is executed, the reference count for the <code>second</code> and <code>first</code> variables will equal the first value, although it’s no longer accessible. This results in a memory leak since none of the nodes are deallocated.</p>
+<p><img src="/screenshot/leaks-result.png" alt="leaks-result.png" /></p>
+<p>You can fix cases like this by:</p>
+<ul>
+<li>Using weak references (Weak<T>) for one link direction.</li>
+<li>Manually breaking the cycle before the end of the function.</li>
+</ul>
+<p>Here’s an example where I address the reference problem with Weak pointers on the <code>prev</code> field.</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">use </span><span>std::rc::{Rc, Weak};
+</span><span style="color:#a626a4;">use </span><span>std::cell::RefCell;
+</span><span>
+</span><span style="color:#a626a4;">struct </span><span>Node {
+</span><span>    </span><span style="color:#e45649;">value</span><span>: </span><span style="color:#a626a4;">i32</span><span>,
+</span><span>    </span><span style="color:#e45649;">next</span><span>: Option&lt;Rc&lt;RefCell&lt;Node&gt;&gt;&gt;,
+</span><span>    </span><span style="color:#e45649;">prev</span><span>: Option&lt;Weak&lt;RefCell&lt;Node&gt;&gt;&gt;,
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> first </span><span style="color:#a626a4;">= </span><span>Rc::new(RefCell::new(Node {
+</span><span>        value: </span><span style="color:#c18401;">1</span><span>,
+</span><span>        next: None,
+</span><span>        prev: None,
+</span><span>    }));
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">let</span><span> second </span><span style="color:#a626a4;">= </span><span>Rc::new(RefCell::new(Node {
+</span><span>        value: </span><span style="color:#c18401;">2</span><span>,
+</span><span>        next: Some(Rc::clone(</span><span style="color:#a626a4;">&amp;</span><span>first)),
+</span><span>        prev: Some(Rc::downgrade(</span><span style="color:#a626a4;">&amp;</span><span>first)),
+</span><span>    }));
+</span><span>
+</span><span>    first.</span><span style="color:#0184bc;">borrow_mut</span><span>().next </span><span style="color:#a626a4;">= </span><span>Some(Rc::clone(</span><span style="color:#a626a4;">&amp;</span><span>second));
+</span><span>    first.</span><span style="color:#0184bc;">borrow_mut</span><span>().prev </span><span style="color:#a626a4;">= </span><span>Some(Rc::downgrade(</span><span style="color:#a626a4;">&amp;</span><span>second));
+</span><span>
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Reference count of first: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, Rc::strong_count(</span><span style="color:#a626a4;">&amp;</span><span>first)); 
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Reference count of second: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, Rc::strong_count(</span><span style="color:#a626a4;">&amp;</span><span>second)); 
+</span><span>
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;First value: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, first.</span><span style="color:#0184bc;">borrow</span><span>().value);
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Second value: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, second.</span><span style="color:#0184bc;">borrow</span><span>().value);
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">let</span><span> next_of_first </span><span style="color:#a626a4;">=</span><span> first.</span><span style="color:#0184bc;">borrow</span><span>().next.</span><span style="color:#0184bc;">as_ref</span><span>().</span><span style="color:#0184bc;">map</span><span>(|</span><span style="color:#e45649;">r</span><span>| r.</span><span style="color:#0184bc;">borrow</span><span>().value);
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Next of first: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, next_of_first.</span><span style="color:#0184bc;">unwrap</span><span>());
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">let</span><span> prev_of_second </span><span style="color:#a626a4;">=</span><span> second.</span><span style="color:#0184bc;">borrow</span><span>().prev.</span><span style="color:#0184bc;">as_ref</span><span>().</span><span style="color:#0184bc;">unwrap</span><span>().</span><span style="color:#0184bc;">upgrade</span><span>().</span><span style="color:#0184bc;">unwrap</span><span>();
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Prev of second: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, prev_of_second.</span><span style="color:#0184bc;">borrow</span><span>().value);
+</span><span>}
+</span></code></pre>
+<p>You can use <code>&lt;Weak&lt;RefCell&lt;Node&gt;&gt;&gt;</code> to prevent the memory leak since the <code>Weak</code> reference doesn’t increase the strong reference count, and the nodes can be deallocated.</p>
+<h2 id="the-std-mem-forget-function"><strong>The <code>std::mem::forget</code> Function</strong></h2>
+<p>You can intentionally use the <code>std::mem::forget</code> function to leak memory in your Rust project when necessary. Rust includes the function for this behaviour, so the compiler considers it safe.</p>
+<p>Even if the memory isn’t reclaimed, there’ll be no unsafe access or memory issues.</p>
+<p>The <code>std::mem::forget</code> takes ownership of a value and forgets it without running the destructor, and since resources held by aren’t released, there would be a memory leak.</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">use </span><span>std::mem;
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> data </span><span style="color:#a626a4;">= </span><span>Box::new(</span><span style="color:#c18401;">42</span><span>);
+</span><span>    mem::forget(data);
+</span><span>    
+</span><span>}
+</span></code></pre>
+<p>At runtime, Rust skips the usual cleanup process, the <code>data</code> variable’s value is not dropped, and the memory allocated for <code>data</code> is leaked after the function is executed.</p>
+<h2 id="leaking-memory-with-unsafe-blocks">Leaking Memory With Unsafe Blocks</h2>
+<p>Using raw pointers gives you the responsibility to manage memory. Here’s how using raw pointers in an <code>unsafe</code> block may lead to a memory leak.</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> x </span><span style="color:#a626a4;">= </span><span>Box::new(</span><span style="color:#c18401;">42</span><span>);
+</span><span>    </span><span style="color:#a626a4;">let</span><span> raw </span><span style="color:#a626a4;">= </span><span>Box::into_raw(x); 
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">unsafe </span><span>{
+</span><span>        println!(</span><span style="color:#50a14f;">&quot;Memory is now leaked: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, </span><span style="color:#a626a4;">*</span><span>raw);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>In this case, the memory isn’t freed explicitly, and there’d be a memory leak at runtime. After the program’s execution, the memory will be deallocated, so this isn’t the most critical case, but it’s not memory efficient.</p>
+<h2 id="deliberately-leaking-memory-with-box-leak">Deliberately Leaking Memory with <code>Box::leak</code></h2>
+<p>The <code>Box::leak</code> function allows you to leak memory deliberately. This function is proper when you need to use a value throughout runtime.</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> x </span><span style="color:#a626a4;">= </span><span>Box::new(String::from(</span><span style="color:#50a14f;">&quot;Hello, world!&quot;</span><span>));
+</span><span>    </span><span style="color:#a626a4;">let</span><span> leaked_str: </span><span style="color:#a626a4;">&amp;&#39;static str = </span><span>Box::leak(x);
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;Leaked string: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, leaked_str);
+</span><span>    
+</span><span>}
+</span></code></pre>
+<p>Don’t abuse this; <code>leak</code> is helpful if you need a <code>'static</code> reference to meet specific API requirements.</p>
+<h2 id="fixing-memory-leaks-in-rust">Fixing Memory Leaks in Rust</h2>
+<p>The golden rule for fixing memory leaks is avoiding them in the first place, except if your use case requires you to. Following the ownership rules is always a great idea. In fact, with the borrow checker, Rust is enforcing great memory management practices, and that’s great.</p>
+<ol>
+<li>Use references when you need to borrow values without transferring the ownership.</li>
+<li>You can try out <a href="https://github.com/rust-lang/miri">Miri</a> to detect undefined behaviour and catch memory-leak-related bugs.</li>
+<li>Implement the <code>Drop</code> trait on custom types for cleanups.</li>
+<li>Don’t use <code>std::mem::forget</code> unnecessarily. Checkout <code>Box&lt;T&gt;</code> for automatic cleanups on heap allocations when a value is off the scope.</li>
+<li>Don’t throw <code>unsafe</code> blocks everywhere without reason.</li>
+<li>Use <code>Rc&lt;T&gt;</code> or <code>Arc&lt;T&gt;</code> for shared ownership of variables.</li>
+<li>Cautiously <code>RefCell&lt;T&gt;</code> or <code>Mutex&lt;T&gt;</code> for interior mutability. They’re helpful if you need to ensure safe concurrent access.</li>
+</ol>
+<p>Following these tips, exploring building more Rust programs on a lower level in terms of memory should be everything you need to handle memory leaks in your Rust programs.</p>
+<h1 id="conclusion"><strong>Conclusion</strong></h1>
+<p>You’ve learned how memory leaks can happen in your Rust programs and how you can simulate them in necessary cases for different purposes, like having a persistent variable in a memory location at runtime.</p>
+<p>Understanding the fundamentals of ownership, borrowing, and unsafe Rust would help manage memory and reduce memory leaks.</p>
+
+        </section>
+
+        
+            <div class="post-tags">
+                <nav class="nav tags">
+                    <ul class="tags">
+                        
+                            <li><a href=//goodylili.github.io/tags/development/>development</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/memory/>memory</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/rust/>Rust</a></li>
+                        
+                            <li><a href=//goodylili.github.io/tags/best-practices/>best practices</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        
+
+    </article>
+</main>
+
+
+
+        <footer>
+    <div style="display:flex">
+        
+        <a class="soc" href=https:&#x2F;&#x2F;github.com&#x2F;goodylili&#x2F; title=GitHub>
+            <i data-feather=GitHub></i>
+        </a>
+        
+        <a class="soc" href=https:&#x2F;&#x2F;twitter.com&#x2F;goodylili title=Twitter>
+            <i data-feather=twitter></i>
+        </a>
+        
+        <a class="soc" href=ukejegoodness599@gmail.com title=mail>
+            <i data-feather=mail></i>
+        </a>
+        
+    </div>
+    <div class="footer-info">
+        2025 © goodylili 👻 |
+        <a href="https://docs.google.com/document/d/1eRrR-blUADxdC7brWlGTye8yd_NQDl2Eac8TB1l5N1o/edit?usp=sharing">My CV</a>
+    </div>
+</footer>
+
+
+<script>
+    feather.replace();
+</script>
+
+    </div>
+</body>
+
+</html>
